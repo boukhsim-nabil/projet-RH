@@ -1,0 +1,243 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "New Employee";
+    ViewData["active"] = "NE";
+}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">New Employee</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
+                <li class="breadcrumb-item active">New Employee</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Registration Form</h4>
+            </div>
+            <div class="card-body">
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+                    <h4 class="card-title">Employee Information</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                            <div class="input-block mb-3">                                
+                                <label class="col-form-label">Email</label>
+                                <input asp-for="Input.Email" class="form-control"/>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Password</label>
+                                <input asp-for="Input.Password" class="form-control"  />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Confirm Password</label>
+                                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Employee Name</label>
+                                <input asp-for="Input.name" class="form-control" />
+                                <span asp-validation-for="Input.name" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Bank Name</label>
+                                <input asp-for="Input.bank" class="form-control" />
+                                <span asp-validation-for="Input.bank" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Bank Account #</label>
+                                <input asp-for="Input.account" class="form-control" />
+                                <span asp-validation-for="Input.account" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Father Name/ Spouse Name</label>
+                                <input asp-for="Input.f_name" class="form-control" />
+                                <span asp-validation-for="Input.f_name" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">CNIC</label>
+                                <input asp-for="Input.cnic" class="form-control" />
+                                <span asp-validation-for="Input.cnic" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Date Of Birth</label>
+                                <input type="date" asp-for="Input.cnic_issue" class="form-control" />
+                                <span asp-validation-for="Input.cnic_issue" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">CINC Expiry</label>
+                                <input type="date" asp-for="Input.cnic_expiry" class="form-control"  />
+                                <span asp-validation-for="Input.cnic_expiry" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">PassPort #</label>
+                                <input asp-for="Input.passport" class="form-control"  />
+                                <span asp-validation-for="Input.passport" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Current Address</label>
+                                <input asp-for="Input.curr_address" class="form-control" />
+                                <span asp-validation-for="Input.curr_address" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Permanent Address</label>
+                                <input asp-for="Input.permanent_address" class="form-control"/>
+                                <span asp-validation-for="Input.permanent_address" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Role</label>
+                                <select asp-for="Input.roleId" class="form-control" >
+                                    @foreach (var role in Model.roles)
+                                    {
+                                        <option value="@role.Id">@role.NormalizedName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Input.roleId" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Device Id</label>
+                                <input asp-for="Input.machineId" class="form-control"/>
+                                <span asp-validation-for="Input.machineId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Marital Status</label>
+                                <select asp-for="Input.marital_status" class="form-control">
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Divorced">Divorced</option>
+                                    <option value="Widowed">Widowed</option>
+                                </select>
+                                <span asp-validation-for="Input.marital_status" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Status</label>
+                                <select asp-for="Input.status" class="form-control">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                                <span asp-validation-for="Input.status" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Contact #</label>
+                                <input asp-for="Input.contact" class="form-control" />
+                                <span asp-validation-for="Input.contact" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Emergency Contact #</label>
+                                <input asp-for="Input.emergency_contact" class="form-control" />
+                                <span asp-validation-for="Input.emergency_contact" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Joining Date</label>
+                                <input asp-for="Input.joining_date" class="form-control" required  />
+                                <span asp-validation-for="Input.joining_date" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Resignation Date</label>
+                                <input asp-for="Input.resignation_date" class="form-control" />
+                                <span asp-validation-for="Input.resignation_date" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Employee Type</label>
+                                <select asp-for="Input.emp_type" class="form-control" >
+                                    <option value="Probation">Probation</option>
+                                    <option value="Contractual">Contractual</option>
+                                    <option value="Permanent">Permanent</option>
+                                </select>
+                                <span asp-validation-for="Input.emp_type" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Salary</label>
+                                <input asp-for="Input.salary" class="form-control"/>
+                                <span asp-validation-for="Input.salary" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Company</label>
+                                <select asp-for="Input.companyId" class="form-control">
+                                    @foreach (var company in Model.Companys)
+                                    {
+                                        <option value="@company.Id">@company.name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Input.companyId" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Department</label>
+                                <select asp-for="Input.departId" class="form-control" >
+                                    @foreach (var department in Model.departments)
+                                    {
+                                        <option value="@department.Id">@department.name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Input.departId" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Designation</label>
+                                <select asp-for="Input.designationId" class="form-control">
+                                    @foreach (var designation in Model.designations)
+                                    {
+                                        <option value="@designation.Id">@designation.name</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Input.designationId" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Shift</label>
+                                <select asp-for="Input.shiftId" class="form-control">
+                                    @foreach (var shift in Model.shifts)
+                                    {
+                                        <option value="@shift.Id">@shift.from - @shift.to</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Input.shiftId" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Employee Documents</label>
+                                <input asp-for="Input.filepath" class="form-control" multiple />
+                                <span asp-validation-for="Input.filepath" class="text-danger"></span>
+                            </div>
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">Attendance Type</label>
+                                <select asp-for="Input.attend_type" class="form-control" >
+                                    <option value="Auto">Auto</option>
+                                    <option value="Manual">Manual</option>
+                                </select>
+                                <span asp-validation-for="Input.attend_type" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="container">
+                                <div class="picture-container">
+                                    <div class="picture">
+                                        <img src="~/assets/img/empty_profile.png" class="picture-src" id="wizardPicturePreview" title="">
+                                        <input asp-for="Input.profile_pic" type="file" id="wizard-picture" class="">
+                                    </div>
+                                    <h4 class="mt-2 mt-3">Employee Picture</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-end">
+                        <button id="registerSubmit" type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

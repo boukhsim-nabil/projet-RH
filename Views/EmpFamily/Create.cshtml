@@ -1,0 +1,388 @@
+﻿@model itgsgroup.Models.hrms.empFamilyViewModel
+
+@{
+    ViewData["Title"] = "Employee Family";
+}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.addEventListener("click", function (event) {
+            if (event.target.id.startsWith("deleteButton-")) { // Add a closing parenthesis here
+                var itemId = event.target.getAttribute("data-item-id");
+                var item_id = document.getElementById("confirmDelete");
+                item_id.value = itemId;
+                var itemempid = event.target.getAttribute("data-item-empid");
+                var item_empid = document.getElementById("empid");
+                item_empid.value = itemempid;
+
+            }
+            if (event.target.id.startsWith("doc_deleteButton-")) { // Add a closing parenthesis here
+                var itemId = event.target.getAttribute("data-item-id");
+                var item_id = document.getElementById("doc_confirmDelete");
+                item_id.value = itemId;
+                var itemempid = event.target.getAttribute("data-item-empId");
+                var item_empid = document.getElementById("doc_empid");
+                item_empid.value = itemempid;
+
+            }
+
+            if (event.target.id.startsWith("editButton-")) {
+                // Extract the item ID and other attributes
+                var itemId = event.target.getAttribute("data-item-id");
+                var itemname = event.target.getAttribute("data-item-name");
+                var itemrelation = event.target.getAttribute("data-item-relation");
+                var itemDOB = event.target.getAttribute("data-item-DOB");
+                var itemcnic = event.target.getAttribute("data-item-cnic");
+                var itemcnic_expiry = event.target.getAttribute("data-item-cnic_expiry");
+                var itemempid = event.target.getAttribute("data-item-empId");
+                var itemcompanyid = event.target.getAttribute("data-item-companyId");
+
+                // Assuming you have HTML elements with these IDs
+                var item_id = document.getElementById("item_id");
+                var item_name = document.getElementById("item_name");
+                var item_relation = document.getElementById("item_relation");
+                var item_DOB = document.getElementById("item_DOB");
+                var item_cnic = document.getElementById("item_cnic");
+                var item_cnic_expiry = document.getElementById("item_cnic_expiry");
+                var item_empId = document.getElementById("item_empId");
+                var item_companyId = document.getElementById("item_companyId");
+
+                // Set values to the input fields
+                item_id.value = itemId;
+                item_name.value = itemname;
+                item_DOB.value = itemDOB;
+                item_relation.value = itemrelation;
+                item_cnic.value = itemcnic;
+                item_cnic_expiry.value = itemcnic_expiry;
+                item_empId.value = itemempid;
+                item_companyId.value = itemcompanyid;
+            }
+        });
+    });
+</script>
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Employee Family</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Employee Family</li>
+            </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_employee_family"><i class="fa-solid fa-plus"></i> Add Employee Family</a>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="row">
+    <div class="col-md-6 d-flex">
+        <div class="card profile-box flex-fill">
+            <div class="card-body">
+                <h3 class="card-title">Employee Family Details </h3>
+                <div class="table-responsive">
+                    <table class="table table-nowrap">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Relation
+                                </th>
+                                <th>
+                                    DOB
+                                </th>
+                                <th>
+                                    CNIC
+                                </th>
+                                <th>
+                                    CNIC Expiry
+                                </th>
+                                <th>
+                                    Employee
+                                </th>
+                                <th>
+                                    Company
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.empFamilyModels)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.relation)
+                                    </td>
+                                    <td>
+                                        @string.Format("{0:dd/MM/yyyy}", item.DOB)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.cnic)
+                                    </td>
+                                    <td>
+                                        @string.Format("{0:dd/MM/yyyy}", item.cnic_expiry)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.emp.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.company.name)
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_ticket" id="editButton-@item.Id" data-item-id="@item.Id" data-item-name="@item.name" data-item-relation="@item.relation" data-item-DOB="@string.Format("{0:yyyy-MM-dd}", item.DOB)" data-item-cnic="@item.cnic" data-item-cnic_expiry="@string.Format("{0:yyyy-MM-dd}", item.cnic_expiry)" data-item-companyId="@item.companyId" data-item-empId="@item.empId"><i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
+                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_ticket" id="deleteButton-@item.Id" data-item-id="@item.Id" data-item-empid="@item.empId"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>                                  
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 d-flex">
+        <div class="card profile-box flex-fill">
+            <div class="card-body">
+                <h3 class="card-title">Family Documents </h3>
+                <div class="table-responsive">
+                    <table class="table table-nowrap">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    File
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.empFamilyDocModels)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.filepath)
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" asp-action="Download" asp-route-filename="@item.filepath"><i class="fas fa-download"></i> Download</a>
+                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_empdoc" id="doc_deleteButton-@item.Id" data-item-id="@item.Id" data-item-empId="@item.empId"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Ticket Modal -->
+<div id="add_employee_family" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Employee Family</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Name</label>
+                        <input asp-for="name" class="form-control">
+                        <span asp-validation-for="name" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Relation</label>
+                        <select asp-for="relation" class="form-control">
+                            <option value="Spouse">
+                                Spouse
+                            </option>
+                            <option value="Son">
+                                Son
+                            </option>
+                            <option value="Daughter">
+                                Daughter
+                            </option>
+                        </select>
+                        <span asp-validation-for="relation" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">DOB</label>
+                        <input type="date" asp-for="DOB" class="form-control">
+                        <span asp-validation-for="DOB" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">CNIC</label>
+                        <input asp-for="cnic" class="form-control">
+                        <span asp-validation-for="cnic" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">CNIC Expiry</label>
+                        <input type="date" asp-for="cnic_expiry" class="form-control">
+                        <span asp-validation-for="cnic_expiry" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Upload Document</label>
+                        <input asp-for="filepath" class="form-control" type="file" name="filepath" id="DocumentFiles" multiple />
+                    </div>
+                    <input asp-for="empId" name="empid" class="form-control" value="@ViewBag.empId" hidden />
+                    <input asp-for="companyId" class="form-control" value="@ViewBag.companyId" hidden />
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Ticket Modal -->
+<!-- Edit Ticket Modal -->
+<div id="edit_ticket" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Employee Family</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" id="item_id" />
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Name</label>
+                        <input asp-for="name" class="form-control" id="item_name">
+                        <span asp-validation-for="name" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Relation</label>
+                        <select asp-for="relation" class="form-control"  id="item_relation">
+                            <option value="Spouse">
+                                Spouse
+                            </option>
+                            <option value="Son">
+                                Son
+                            </option>
+                            <option value="Daughter">
+                                Daughter
+                            </option>
+                        </select>
+                        <span asp-validation-for="relation" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">DOB</label>
+                        <input type="date" asp-for="DOB" class="form-control"  id="item_DOB">
+                        <span asp-validation-for="DOB" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">CNIC</label>
+                        <input asp-for="cnic" class="form-control"  id="item_cnic">
+                        <span asp-validation-for="cnic" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">CNIC Expiry</label>
+                        <input type="date" asp-for="cnic_expiry" class="form-control"  id="item_cnic_expiry">
+                        <span asp-validation-for="cnic_expiry" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Upload Document</label>
+                        <input asp-for="filepath" class="form-control" type="file" name="filepath" id="DocumentFiles" multiple />
+                    </div>
+                    <input asp-for="empId" name="empid" class="form-control"  hidden id="item_empId"/>
+                    <input asp-for="companyId" class="form-control"  hidden id="item_companyId" />
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Edit Ticket Modal -->
+<!-- Delete Ticket Modal -->
+<div class="modal custom-modal fade" id="delete_ticket" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Delete Employee Family</h3>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <form asp-action="Delete">
+                                <input type="hidden" name="id" id="confirmDelete" />
+                                <input type="hidden" name="empid" id="empid" />
+                                <button type="submit" class="btn btn-primary continue-btn w-100">Delete</button>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal custom-modal fade" id="delete_empdoc" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Delete Employee Family Document</h3>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <form asp-action="DeleteDoc">
+                                <input type="hidden" name="id" id="doc_confirmDelete" />
+                                <input type="hidden" name="empid" id="doc_empid" />
+                                <button type="submit" class="btn btn-primary continue-btn w-100">Delete</button>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /Delete Ticket Modal -->
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

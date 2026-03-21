@@ -1,0 +1,181 @@
+﻿@model List<itgsgroup.Models.hrms.LeaveCountViewModel>
+@{
+    ViewData["Title"] = "Leave Report";
+    ViewData["active"] = "LR";
+    var emps = ViewBag.emps as List<Tuple<string, string, int?>>;
+    var companys = ViewBag.companys as List<Tuple<string, int>>;
+}
+
+<!-- Add Leave Modal -->
+<div id="leave_report" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Leave Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="date" class="form-control" hidden />
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">From<span class="text-danger">*</span></label>
+                        <input type="date" id="Fromdate" class="form-control">
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label"> To <span class="text-danger">*</span></label>
+                        <input type="date" id="Todate" class="form-control">
+                    </div>
+                    @if ((ViewBag.userRole == "HR" || ViewBag.userRole == "admin"|| ViewBag.userRole == "Viewer") && ViewBag.role == "HR")
+                    {
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Company <span class="text-danger">*</span></label>
+                            <select id="companyDropdown" class="form-control companyId">
+                                <option value="">All</option>
+                                @if (companys != null)
+                                {
+                                    @foreach (var company in companys)
+                                    {
+                                        <option value="@company.Item2">@company.Item1</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Employee <span class="text-danger">*</span></label>
+                            <select id="employeeDropdown" class="form-control empId">
+                                <option value="">All</option>
+                                @if (emps != null)
+                                {
+                                    @foreach (var emp in emps)
+                                    {
+                                        <option value="@emp.Item2" data-companyid="@emp.Item3">@emp.Item1</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    }
+                    <input type="text" id="role" value="@ViewBag.role" hidden />
+                    <div class="submit-section">
+                        <button type="button" id="attdetail" class="btn btn-primary submit-btn">Show</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Leave Modal -->
+@if (ViewBag.Fromdate == null)
+{
+    <script>
+        $(document).ready(function () {
+            // Show the modal when the page loads
+            $('#leave_report').modal('show');
+        });
+    </script>
+}
+
+<script>
+    $(document).ready(function () {
+        $('#attdetail').on('click', function () {
+            // Get the selected date from the input field
+            var FromDate = $('#Fromdate').val();
+            var ToDate = $('#Todate').val();
+            var role = $('#role').val();
+            var companyIdWithClass = document.getElementsByClassName("companyId");
+            if (companyIdWithClass.length > 0) {
+                var companyId = companyIdWithClass[0];
+                var companyIdvalue = companyId.value;
+            }
+
+            var empIdWithClass = document.getElementsByClassName("empId");
+
+            if (empIdWithClass.length > 0) {
+                var empId = empIdWithClass[0];
+                var empIdvalue = empId.value;
+            }
+
+            // Construct the URL with the selected date
+            var url = '/Attendance/leavecount?Fromdate=' + FromDate + '&Todate=' + ToDate + '&empId=' + empIdvalue + '&companyId=' + companyIdvalue + '&role=' + role;
+
+            // Redirect to the controller action with the selected date
+            window.location.href = url;
+        });
+    });
+</script>
+
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="page-title">Leave Report </h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Leave Report </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example5" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>@ViewBag.Heading1</th>
+                        <th>@ViewBag.Heading2</th>
+                        <th>@ViewBag.Heading3</th>
+                        <th>@ViewBag.Heading4</th>
+                        <th>@ViewBag.Heading5</th>
+                        <th>@ViewBag.Heading6</th>
+                        <th>@ViewBag.Heading7</th>
+                        <th>@ViewBag.Heading8</th>
+                        <th>@ViewBag.Heading9</th>
+                        <th>@ViewBag.Heading10</th>
+                        <th>@ViewBag.Heading11</th>
+
+                        <!-- Add other table headers here -->
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            @if (item.emp != null)
+                            {
+                                <td>@item.emp.name</td>
+                            }
+                            else
+                            {
+
+                                <td></td>
+                            }
+
+                            <td>@item.col1</td>
+                            <td>@item.col2</td>
+                            <td>@item.col3</td>
+                            <td>@item.col4</td>
+                            <td>@item.col5</td>
+                            <td>@item.col6</td>
+                            <td>@item.col7</td>
+                            <td>@item.col8</td>
+                            <td>@item.col9</td>
+                            <td>@item.col10</td>
+                            <!-- Add other table cells here -->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

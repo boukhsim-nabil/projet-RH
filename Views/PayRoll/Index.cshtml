@@ -1,0 +1,362 @@
+﻿@model List<itgsgroup.Models.hrms.PayRollModel>
+@using Microsoft.AspNetCore.Identity
+@using itgsgroup.Areas.Identity.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject ApplicationUserManager UserManager
+
+@{
+    ViewData["title"] = "PayRoll";
+    ViewData["active"] = "PR";
+    var companys = ViewBag.Companys as List<Tuple<string, int>>;
+	var userRoles = await UserManager.GetRolesAsync(await UserManager.GetUserAsync(User));
+
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="page-title">PayRoll</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>              
+                <li class="breadcrumb-item active">PayRoll</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+@using (Html.BeginForm())
+{
+<!-- Search Filter -->
+<div class="row filter-row">
+    <div class="col-sm-6 col-md-2">
+        <div class="input-block mb-3 form-focus select-focus">
+            <input name="monthyear" value="@ViewBag.monthyears" id="monthYearInput" type="month" class="form-control">
+            <label class="focus-label">Month Year</label>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-2">
+        <div class="input-block mb-3 form-focus select-focus">
+            <select name="company" value="@ViewBag.companyid" id="companyInput" class="form-control">
+                @if (companys != null)
+                {
+                    @foreach (var company in companys)
+                    {
+                        <option value="@company.Item2">@company.Item1</option>
+                    }
+                }
+            </select>
+            <label class="focus-label">Company</label>
+            <input type="text" id="compid" value="@ViewBag.companyid" hidden/>
+        </div>
+    </div>
+        @if (!userRoles.Contains("Viewer"))
+        {
+            <div class="col-sm-4 col-md-2">
+                <div class="d-grid">
+                    <a asp-controller="payroll" asp-action="index" asp-route-monthyear="" id="showButton" class="btn btn-success"> Show </a>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-2">
+                <div class="d-grid">
+                    <!-- <a asp-controller="payroll" asp-action="generatePayRoll" asp-route-monthyear="" id="generateButton" class="btn btn-success"> Generate </a>-->
+                    <a id="generateModel" data-bs-toggle="modal" data-bs-target="#password_check" class="btn btn-success"> Generate </a>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-2">
+                <div class="d-grid">
+                    <input type="submit" value="Save" class="btn btn-success" />
+                </div>
+            </div>
+        }
+        <div class="col-sm-4 col-md-2">
+        <div class="d-grid">
+                <a asp-controller="payroll" asp-action="PayRollfinal" asp-route-monthyear="" id="finalpayrollButton" class="btn btn-success"> Final PayRoll </a>
+        </div>
+    </div>
+</div>
+<!-- Search Filter -->
+
+<!--    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <input name="monthyear" value="@ViewBag.monthyears" id="monthYearInput" type="month" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <select name="company" value="@ViewBag.companyid" id="companyInput" class="form-control">
+                    @if (companys != null)
+                    {
+                        @foreach (var company in companys)
+                        {
+                            <option value="@company.Item2">@company.Item1</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                        <a asp-controller="payroll" asp-action="index" asp-route-monthyear="" id="showButton" class="btn btn-primary">Show</a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                        <a asp-controller="payroll" asp-action="generatePayRoll" asp-route-monthyear="" id="generateButton" class="btn btn-primary">Generate</a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <a asp-controller="payroll" asp-action="PayRollfinal" asp-route-monthyear="" id="finalpayrollButton" class="btn btn-primary">Pay Roll</a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <a asp-controller="payroll" asp-action="bankletter" asp-route-monthyear="" id="bankletterButton" class="btn btn-primary">Bank Letter</a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <a asp-controller="payroll" asp-action="salaryslip" asp-route-monthyear="" id="salaryslipButton" class="btn btn-primary">Salary Slip</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>-->
+    @if (!userRoles.Contains("Viewer"))
+    {
+
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <table class="table table-bordered table-hover" id="tab_logic">
+                    <thead>
+                        <tr>
+
+                            <th class="text-center">
+                                Employee
+                            </th>
+                            <th class="text-center">
+                                Loan
+                            </th>
+                            <th class="text-center">
+                                SESSI
+                            </th>
+                            <th class="text-center">
+                                Other Deduc.
+                            </th>
+                            <th class="text-center">
+                                Taxable Arear
+                            </th>
+                            <th class="text-center">
+                                Arear
+                            </th>
+                            <th class="text-center">
+                                Bonus
+                            </th>
+                            <th class="text-center">
+                                Remarks
+                            </th>
+                            <th class="text-center">
+                                CPR
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.Count; i++)
+                        {
+                            var item = Model[i];
+                            <tr id='addr@i'>
+                                <input asp-for="@item.Id" name="payrollList[@i].Id" hidden>
+
+                                <td>
+                                    @item.employee.name
+                                </td>
+                                <td>
+                                    <input asp-for="@item.loan_deduction" type="text" name="payrollList[@i].loan_deduction" placeholder='Loan' class="form-control " />
+                                </td>
+                                <td>
+                                    <input asp-for="@item.sessi_deduction" type="text" name="payrollList[@i].sessi_deduction" placeholder='SESSI' class="form-control" />
+                                </td>
+                                <td>
+                                    <input asp-for="@item.other_deduction" type="text" name="payrollList[@i].other_deduction" placeholder='Other Deduc.' class="form-control" />
+                                </td>
+                                <td>
+                                    <input asp-for="@item.taxable_arear" type="text" name="payrollList[@i].taxable_arear" placeholder='Taxable Arear' class="form-control" />
+                                </td>
+                                <td>
+                                    <input asp-for="@item.arear" type="text" name="payrollList[@i].arear" placeholder='Arear' class="form-control" />
+                                </td>
+                                <td>
+                                    <input asp-for="@item.bonus" type="text" name="payrollList[@i].bonus" placeholder='Bonus' class="form-control" />
+                                </td>
+                                <td>
+                                    <input asp-for="@item.remarks" type="text" name="payrollList[@i].remarks" placeholder='Remarks' class="form-control" />
+                                </td>
+                                <td>
+                                    <input asp-for="@item.CPR" type="text" name="payrollList[@i].CPR" placeholder='CPR' class="form-control" />
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+        </table>
+
+            </div>
+        </div>
+        }
+}
+
+<!-- Add Leave Modal -->
+<div id="password_check" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Generate Payroll</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="input-block mb-3">
+                        <label class="col-form-label"> Verify <span class="text-danger">*</span></label>
+                        <input type="text" id="confirmpassword" class="form-control">
+                    </div>
+                <div id="errormessage"></div>
+                <div id="randomStringContainer"></div>
+                    <div class="submit-section">
+                    <a href="#" id="generateButton" class="btn btn-primary submit-btn"> Generate </a>
+                    </div>
+                <div class="modal-body">
+                    <div class="submit-section">
+                    <ul>
+                        <li>Generating a new set of data will replace your existing information. Are you sure you want to proceed?</li>
+                    </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+            var compid = $("#compid").val();
+
+        // Set the default value using JavaScript
+        document.getElementById("companyInput").value = compid;
+
+              });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $("#generateModel").click(function () {
+    // Function to generate a random string
+    function generateRandomString(length) {
+        const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let result = "";
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            result += charset.charAt(randomIndex);
+        }
+        return result;
+    }
+
+    // Generate a random string of length 10 and display it
+    const randomString = generateRandomString(5);
+    document.getElementById("randomStringContainer").innerText = "Random String: " + randomString;
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#showButton").click(function () {
+            // Get the selected month and year from the input field
+            var monthYear = $("#monthYearInput").val();
+            var company = $("#companyInput").val();
+
+            // Update the URL of the "Show" button with the selected monthyear
+            var showUrl = "/payroll/index?monthyear=" + monthYear+ "&company=" + company;
+            $("#showButton").attr("href", showUrl);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#generateButton").click(function () {
+            // Get the selected month and year from the input field
+            var monthYear = $("#monthYearInput").val();
+            var dateonly = new Date(monthYear + '-01');
+            var comparisonDate = new Date('2024-04-01');
+            var company = $("#companyInput").val();
+            var password = $("#confirmpassword").val();
+            var verify = "Random String: " + password;
+            const randomStringContent = document.getElementById("randomStringContainer").innerText;
+
+            // Log the retrieved text content to the console (you can use it as needed)
+            console.log(randomStringContent);
+            console.log(verify);
+            if (verify === randomStringContent) {
+
+                if (dateonly > comparisonDate) {
+                    // Update the URL of the "Show" button with the selected monthyear
+                    var showUrl = "/payroll/generatePayRoll?monthyear=" + monthYear + "&company=" + company;
+                    $("#generateButton").attr("href", showUrl);
+                } else {
+                    document.getElementById("errormessage").innerText = "Payroll not editable till April 2024.";
+                    document.getElementById("errormessage").style.color = "red";
+                }
+            }else{
+               document.getElementById("errormessage").innerText = "Incorrect, please try again!";
+                 document.getElementById("errormessage").style.color = "red";
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#finalpayrollButton").click(function () {
+            // Get the selected month and year from the input field
+            var monthYear = $("#monthYearInput").val();
+            var company = $("#companyInput").val();
+            // Update the URL of the "Show" button with the selected monthyear
+            var showUrl = "/payroll/PayRollfinal?monthyear=" + monthYear + "&company=" + company;
+            $("#finalpayrollButton").attr("href", showUrl);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#bankletterButton").click(function () {
+            // Get the selected month and year from the input field
+            var monthYear = $("#monthYearInput").val();
+            var company = $("#companyInput").val();
+            // Update the URL of the "Show" button with the selected monthyear
+            var showUrl = "/payroll/bankletter?monthyear=" + monthYear + "&company=" + company;
+            $("#bankletterButton").attr("href", showUrl);
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#salaryslipButton").click(function () {
+            // Get the selected month and year from the input field
+            var monthYear = $("#monthYearInput").val();
+            // Update the URL of the "Show" button with the selected monthyear
+            var showUrl = "/payroll/salaryslip?monthyear=" + monthYear;
+            $("#salaryslipButton").attr("href", showUrl);
+        });
+    });
+</script>
+

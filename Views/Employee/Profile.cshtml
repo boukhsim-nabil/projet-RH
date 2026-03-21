@@ -1,0 +1,211 @@
+﻿@model itgsgroup.Models.hrms.EmployeeViewModel
+
+@{
+	ViewData["Title"] = "Profile";
+}
+<!-- Page Header -->
+<div class="page-header">
+	<div class="row">
+		<div class="col-sm-12">
+			<h3 class="page-title">Profile</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+				<li class="breadcrumb-item active">Profile</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- /Page Header -->
+
+<div class="card mb-0">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="profile-view">
+					<div class="profile-img-wrap">
+						<div class="profile-img">
+							<a href="#"><img src="~/dist/files/@Model.profile" alt="User Image"></a>
+						</div>
+					</div>
+					<div class="profile-basic">
+						<div class="row">
+							<div class="col-md-5">
+								<div class="profile-info-left">
+									<h3 class="user-name m-t-0 mb-0">@Model.name</h3>
+									<h6 class="text-muted">@Model.departname</h6>
+									<small class="text-muted">@Model.designationname</small>
+									<div class="staff-id">Employee ID : @Model.empId</div>
+									<div class="small doj text-muted">Date of Join: @(Model.joining_date.HasValue ? Model.joining_date.Value.ToString("dd MMM yyyy") : "")</div>
+								</div>
+							</div>
+							<div class="col-md-7">
+								<ul class="personal-info">
+									<li>
+										<div class="title">Phone:</div>
+										<div class="text"><a href="">@Model.contact</a></div>
+									</li>
+									<li>
+										<div class="title">Email:</div>
+										<div class="text"><a href="">@Model.Email</a></div>
+									</li>
+									<li>
+										<div class="title">Address:</div>
+										<div class="text">@Model.curr_address</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="tab-content">
+
+	<!-- Profile Info Tab -->
+	<div id="emp_profile" class="pro-overview tab-pane fade show active">
+		<div class="row">
+			<div class="col-md-6 d-flex">
+				<div class="card profile-box flex-fill">
+					<div class="card-body">
+						<h3 class="card-title">Personal Informations </h3>
+						<ul class="personal-info">
+							<li>
+								<div class="title">Passport No.</div>
+								<div class="text">@Model.passport</div>
+							</li>
+							<li>
+								<div class="title">Contact</div>
+								<div class="text">@Model.contact</div>
+							</li>
+							<li>
+								<div class="title">Emergency Contact</div>
+								<div class="text"><a href="">@Model.emergency_contact</a></div>
+							</li>
+							<li>
+								<div class="title">Marital status</div>
+								<div class="text">@Model.marital_status</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 d-flex">
+				<div class="card profile-box flex-fill">
+					<div class="card-body">
+						<h3 class="card-title">Bank information</h3>
+						<ul class="personal-info">
+							<li>
+								<div class="title">Bank name</div>
+								<div class="text">@Model.bank</div>
+							</li>
+							<li>
+								<div class="title">Bank account No.</div>
+								<div class="text">@Model.account</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 d-flex">
+				<div class="card profile-box flex-fill">
+					<div class="card-body">
+						<h3 class="card-title">Family Informations </h3>
+						<div class="table-responsive">
+							<table class="table table-nowrap">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Relationship</th>
+										<th>Date of Birth</th>
+										<th>CNIC</th>
+										<th>CNIC Exp.</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach(var empfamily in @Model.empFamilies){
+									<tr>
+										<td>@empfamily.name</td>
+										<td>@empfamily.relation</td>
+										<td>@(empfamily.DOB.HasValue ? empfamily.DOB.Value.ToString("dd MMM yyyy") : "")</td>
+										<td>@empfamily.cnic</td>
+										<td>@(empfamily.cnic_expiry.HasValue ? empfamily.cnic_expiry.Value.ToString("dd MMM yyyy") : "")</td>
+									</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 d-flex">
+					<div class="card profile-box flex-fill">
+					<div class="card-body">
+						<h3 class="card-title">Personal Documents </h3>
+						<div class="table-responsive">
+							<table class="table table-nowrap">
+								<thead>
+									<tr>
+										<th>File</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach(var empdocs in @Model.empDocs){
+									<tr>
+										<td>@empdocs.filepath</td>
+											<td>
+												<a asp-action="Download"
+												   asp-route-filename="@empdocs.filepath">
+													Download
+												</a>
+											</td>
+									</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>	
+			</div>
+			<div class="col-md-6 d-flex">
+					<div class="card profile-box flex-fill">
+					<div class="card-body">
+						<h3 class="card-title">Family Documents </h3>
+						<div class="table-responsive">
+							<table class="table table-nowrap">
+								<thead>
+									<tr>
+										<th>File</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach(var empfamilyDocs in @Model.empFamilyDocs){
+									<tr>
+										<td>@empfamilyDocs.filepath</td>
+											<td>
+												<a asp-action="Download"
+												   asp-route-filename="@empfamilyDocs.filepath">
+													Download
+												</a>
+											</td>
+									</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+	<!-- /Profile Info Tab -->
+
+</div>

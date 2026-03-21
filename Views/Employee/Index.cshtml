@@ -1,0 +1,140 @@
+﻿@model List<itgsgroup.Areas.Identity.Data.ApplicationUser>
+@using Microsoft.AspNetCore.Identity
+@using itgsgroup.Areas.Identity.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject ApplicationUserManager UserManager
+
+@{
+    var userRoles = await UserManager.GetRolesAsync(await UserManager.GetUserAsync(User));
+    ViewData["Title"] = "Employees";
+    ViewData["active"] = "EMP";
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Employee</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
+                <li class="breadcrumb-item active">Employee</li>
+            </ul>
+        </div>
+                            @if (!userRoles.Contains("Viewer"))
+        {
+            <div class="col-auto float-end ms-auto">
+                <a id="register" asp-area="Identity" asp-page="/Account/Register" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Employee</a>
+        </div>}
+        <div class="col-auto float-end ms-auto">
+            <div class="btn-group btn-group-sm">
+                <a asp-controller="Employee" asp-action="all_users" class="btn @(ViewBag.status == "All" ? "btn-primary" : "btn-white")"><i class="las la-hourglass-start"></i> All</a>
+                <a asp-controller="Employee" asp-action="active_users" class="btn @(ViewBag.status == "Active" ? "btn-primary" : "btn-white")"><i class="las la-check-circle"></i> Active</a>
+                <a asp-controller="Employee" asp-action="resign_users" class="btn @(ViewBag.status == "Resign" ? "btn-primary" : "btn-white")"><i class="las la-times-circle"></i> Inactive</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example3" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Mobile</th>
+                        <th>Join Date</th>
+                        @if (!userRoles.Contains("Viewer"))
+                        {
+                            <th>Actions</th>
+                        }
+                        <th>Email</th>
+                        <th>Bank</th>
+                        <th>Account #</th>
+                        <th>Father/Spouse Name</th>
+                        <th>CNIC</th>
+                        <th>Date Of Birth</th>
+                        <th>CNIC Expiry</th>
+                        <th>Passport #</th>
+                        <th>Current Address</th>
+                        <th>Permanent Address</th>
+                        <th>Marital Status</th>
+                        <th>Status</th>
+                        <th>Contact #</th>
+                        <th>Emergency Contact #</th>
+                        <th>joining Date</th>
+                        <th>Resignation Date</th>
+                        <th>Employee Type</th>
+                        <th>Salary</th>
+                        <th>Company</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Shift</th>
+                        <th>Attendence Type</th>
+                        <th>Machine Id</th>
+                        <!-- Add more user properties as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>
+                                <h2 class="table-avatar">
+                                    <a asp-controller="Employee" asp-action="Profile" asp-route-id="@user.Id" class="avatar"><img src="~/dist/files/@user.profile_pic" alt="User Image"></a>
+                                    <a asp-controller ="Employee" asp-action="Profile" asp-route-id="@user.Id">@user.name - <span> @user.designation?.name</span></a>
+                                </h2>
+                            </td>
+                            <td>@user.company?.name</td>
+                            <td>@user.PhoneNumber</td>
+                            <td>
+                                @(user.joining_date.HasValue ? user.joining_date.Value.ToString("dd MMM yyyy") : "")
+                            </td>
+                            @if (!userRoles.Contains("Viewer"))
+                            {
+                                <td class="text-end">
+                                    <div class="dropdown dropdown-action">
+                                    <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" asp-controller="EmpFamily" asp-action="Create" asp-route-id="@user.Id"><i class="fa-solid fa-pencil m-r-5"></i> Relative</a>
+                                        <a class="dropdown-item" asp-controller="Employee" asp-action="Edit" asp-route-id="@user.Id"><i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
+                                    </div>
+                                </div>
+                            </td>
+                            } 
+                            <!-- Add more user property cells as needed -->
+                            <td>@user.Email</td>
+                            <td>@user.bank</td>
+                            <td>@user.account</td>
+                            <td>@user.f_name</td>
+                            <td>@user.cnic</td>
+                            <td>@user.cnic_issue</td>
+                            <td>@user.cnic_expiry</td>
+                            <td>@user.passport</td>
+                            <td>@user.curr_address</td>
+                            <td>@user.permanent_address</td>
+                            <td>@user.marital_status</td>
+                            <td>@user.status</td>
+                            <td>@user.contact</td>
+                            <td>@user.emergency_contact</td>
+                            <td>@user.joining_date</td>
+                            <td>@user.resignation_date</td>
+                            <td>@user.emp_type</td>
+                            <td>@user.salary</td>
+                            <td>@user.company?.name</td>
+                            <td>@user.depart?.name</td>
+                            <td>@user.designation?.name</td>
+                            <td>@user.shift?.from - @user.shift?.to</td>
+                            <td>@user.attend_type</td>
+                            <td>@user.machineId</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

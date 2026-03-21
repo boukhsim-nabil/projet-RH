@@ -1,0 +1,68 @@
+﻿@model List<itgsgroup.Models.hrms.tempMonthAttModel>
+@{
+    ViewData["Title"] = "Daily Attendance";
+    ViewData["active"] = "DATT";
+}
+
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="page-title">Daily Attendance </h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Daily Attendance </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example4" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>Sr#</th>
+                        <th>Department</th>
+                        <th>Employee</th>
+                        <th>Check In</th>
+                        <th>Late</th>
+                        <th>Absent</th>
+                        <th>Present</th>
+                        <th>Leave</th>
+                        <!-- Add other table headers here -->
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>@Model[i].emp.depart.name</td>
+                            <td>
+                                <h2 class="table-avatar">
+                                    <a href="#" class="avatar"><img src="~/dist/files/@Model[i].emp.profile_pic" alt="User Image"></a>
+                                    <a href="#">@Model[i].emp.name</a>
+                                </h2>
+                            </td>
+                            <td>@Model[i].Checkin.TimeOfDay</td>
+                            <td>@(Model[i].late ? "✓" : "")</td>
+                            <td>@(Model[i].absent ? "✓" : "")</td>
+                            <td>@(Model[i].present ? "✓" : "")</td>
+                            <td>@Model[i].leave</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

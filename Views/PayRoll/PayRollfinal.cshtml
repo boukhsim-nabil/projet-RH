@@ -1,0 +1,104 @@
+﻿@model List<itgsgroup.Models.hrms.PayRollModel>
+
+@{
+    ViewData["Title"] = "Final PayRoll";
+}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Final PayRoll</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a asp-controller="PayRoll" asp-action="Index">PayRoll</a></li>
+                <li class="breadcrumb-item active">Final PayRoll</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Display data from the view model -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example5" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Gross Salary</th>
+                        <th>Basic</th>
+                        <th>HRA</th>
+                        <th>Medical All.</th>
+                        <th>Con. All.</th>
+                        <th>Utility All.</th>
+                        <th>Other All.</th>
+                        <th>Days</th>
+                        <th>Per Day Sal.</th>
+                        <th>Deduc. Count</th>
+                        <th>Attendance</th>
+                        <th>Loan</th>
+                        <th>Incometax</th>
+                        <th>EOBI</th>
+                        <th>PF</th>
+                        <th>Sessi</th>
+                        <th>Other Deduc.</th>
+                        <th>Taxable Arear</th>
+                        <th>Arear</th>
+                        <th>Bonus</th>
+                        <th>Tot. Deduc.</th>
+                        <th>Tot Add.</th>
+                        <th>Net Salary</th>
+                        <th>Remarks</th>
+                        <th>CPR</th>
+                        <!-- Add other table headers here -->
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.employee.name</td>
+                            <td>@string.Format("{0:N0}", item.gross_salary)</td>
+                            <td>@string.Format("{0:N0}", item.basic)</td>
+                            <td>@string.Format("{0:N0}", item.hra)</td>
+                            <td>@string.Format("{0:N0}", item.medical_all)</td>
+                            <td>@string.Format("{0:N0}", item.con_all)</td>
+                            <td>@string.Format("{0:N0}", item.utility_all)</td>
+                            <td>@string.Format("{0:N0}", item.other_all)</td>
+                            <td>@item.days</td>
+                            <td>@string.Format("{0:N0}", item.day_salary)</td>
+                            <td>@item.deduction_count</td>
+                            <td>@string.Format("{0:N0}", item.att_deduction)</td>
+                            <td>@string.Format("{0:N0}", item.loan_deduction)</td>
+                            <td>@string.Format("{0:N0}", item.incometax)</td>
+                            <td>@string.Format("{0:N0}", item.EOBI)</td>
+                            <td>@string.Format("{0:N0}", item.pf)</td>
+                            <td>@string.Format("{0:N0}", item.sessi_deduction)</td>
+                            <td>@string.Format("{0:N0}", item.other_deduction)</td>
+                            <td>@string.Format("{0:N0}", item.taxable_arear)</td>
+                            <td>@string.Format("{0:N0}", item.arear)</td>
+                            <td>@string.Format("{0:N0}", item.bonus)</td>
+                            <td>@string.Format("{0:N0}", item.total_deduction)</td>
+                            <td>@string.Format("{0:N0}", item.total_addition)</td>
+                            <td>@string.Format("{0:N0}", item.net_salary)</td>
+                            <td>@item.remarks</td>
+                            <td>@item.CPR</td>
+
+
+
+
+                            <!-- Add other table cells here -->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,1228 @@
+/* ====R — Glassmorphism Theme
+   Loaded after style.css — overrides visual styles only.
+   All Bootstrap layout, Razor bindings, and JS remain untouched.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS Custom Properties
+   -------------------------------------------------------------------------- */
+:root {
+  /* Glass surfaces */
+  --glass-bg:           rgba(255, 255, 255, 0.07);
+  --glass-bg-hover:     rgba(255, 255, 255, 0.13);
+  --glass-bg-active:    rgba(255, 255, 255, 0.18);
+  --glass-border:       rgba(255, 255, 255, 0.16);
+  --glass-border-light: rgba(255, 255, 255, 0.08);
+  --glass-shadow:       0 8px 32px rgba(0, 0, 0, 0.45);
+  --glass-shadow-sm:    0 4px 16px rgba(0, 0, 0, 0.30);
+  --glass-blur:         blur(18px);
+  --glass-blur-sm:      blur(10px);
+  --glass-radius:       16px;
+  --glass-radius-sm:    10px;
+
+  /* Body gradient */
+  --body-grad-1: #0d0d1a;
+  --body-grad-2: #1a1040;
+  --body-grad-3: #0d1a2e;
+
+  /* Accent palette */
+  --accent-purple:  #a78bfa;
+  --accent-blue:    #60a5fa;
+  --accent-teal:    #2dd4bf;
+  --accent-pink:    #f472b6;
+  --accent-orange:  #fb923c;
+
+  /* Typography */
+  --text-primary:   #f0f0ff;
+  --text-secondary: rgba(230, 230, 255, 0.80);
+  --text-muted:     rgba(200, 200, 240, 0.55);
+  --text-link:      var(--accent-blue);
+
+  /* Sidebar */
+  --sidebar-glass-bg:     rgba(10, 8, 30, 0.72);
+  --sidebar-item-hover:   rgba(167, 139, 250, 0.14);
+  --sidebar-item-active:  rgba(167, 139, 250, 0.25);
+  --sidebar-text:         rgba(220, 215, 255, 0.85);
+  --sidebar-icon:         var(--accent-purple);
+
+  /* Header */
+  --header-glass-bg:      rgba(10, 8, 30, 0.65);
+  --header-height:        60px;
+
+  /* Inputs */
+  --input-glass-bg:       rgba(255, 255, 255, 0.06);
+  --input-glass-border:   rgba(255, 255, 255, 0.20);
+  --input-focus-shadow:   0 0 0 3px rgba(167, 139, 250, 0.30);
+
+  /* Status colors (keep readable on dark bg) */
+  --status-success: #34d399;
+  --status-warning: #fbbf24;
+  --status-danger:  #f87171;
+  --status-info:    #38bdf8;
+}
+
+/* --------------------------------------------------------------------------
+   Body & animated background
+   -------------------------------------------------------------------------- */
+body {
+  background: linear-gradient(135deg, var(--body-grad-1) 0%, var(--body-grad-2) 50%, var(--body-grad-3) 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  margin-bottom: 0;
+}
+
+/* Ambient orbs behind everything */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--accent-purple), transparent 70%);
+  top: -150px;
+  left: -150px;
+}
+
+body::after {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--accent-blue), transparent 70%);
+  bottom: -100px;
+  right: -100px;
+}
+
+/* --------------------------------------------------------------------------
+   Scrollbar
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(167, 139, 250, 0.4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(167, 139, 250, 0.7); }
+
+/* --------------------------------------------------------------------------
+   Page Loader
+   -------------------------------------------------------------------------- */
+#loader-wrapper {
+  background: linear-gradient(135deg, var(--body-grad-1), var(--body-grad-2));
+}
+
+#loader-wrapper .loader-ellips__dot {
+  background-color: var(--accent-purple);
+}
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+.header {
+  background: var(--header-glass-bg) !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.40) !important;
+  z-index: 1001;
+}
+
+.header .header-left {
+  background: transparent !important;
+  border-right: 1px solid var(--glass-border);
+}
+
+.page-title-box h3 {
+  color: var(--text-primary) !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Header toggle bars */
+.bar-icon span {
+  background-color: var(--accent-purple) !important;
+}
+
+/* Header nav links */
+.nav.user-menu > li > a {
+  color: var(--text-secondary) !important;
+}
+
+.nav.user-menu > li > a:hover {
+  color: var(--text-primary) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar
+   -------------------------------------------------------------------------- */
+.sidebar {
+  background: var(--sidebar-glass-bg) !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-right: 1px solid var(--glass-border) !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.40) !important;
+}
+
+/* Sidebar menu items */
+.sidebar-menu li a,
+.sidebar-menu li a span {
+  color: var(--sidebar-text) !important;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.sidebar-menu li a:hover {
+  background: var(--sidebar-item-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+.sidebar-menu li a:hover span,
+.sidebar-menu li a:hover i {
+  color: var(--accent-purple) !important;
+}
+
+.sidebar-menu li.active > a {
+  background: var(--sidebar-item-active) !important;
+  color: var(--accent-purple) !important;
+  border-left: 3px solid var(--accent-purple);
+}
+
+.sidebar-menu li.active > a span,
+.sidebar-menu li.active > a i {
+  color: var(--accent-purple) !important;
+}
+
+/* Sidebar submenu */
+.sidebar-menu .submenu-open > a,
+.sidebar-menu .subdrop {
+  background: rgba(167, 139, 250, 0.08) !important;
+}
+
+.sidebar-menu ul.submenu li a {
+  color: var(--text-muted) !important;
+}
+
+.sidebar-menu ul.submenu li a:hover {
+  color: var(--accent-purple) !important;
+  background: var(--sidebar-item-hover) !important;
+}
+
+/* Sidebar icons */
+.sidebar-menu li a i,
+.menu-arrow {
+  color: var(--sidebar-icon) !important;
+}
+
+/* Sidebar section header labels */
+.menu-title {
+  color: var(--text-muted) !important;
+  font-size: 0.7rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   Page wrapper / content area
+   -------------------------------------------------------------------------- */
+.page-wrapper {
+  background: transparent !important;
+}
+
+.content-page,
+.content {
+  background: transparent !important;
+}
+
+/* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+.card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+  color: var(--text-primary) !important;
+}
+
+.card-header {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--glass-radius) var(--glass-radius) 0 0 !important;
+}
+
+.card-body {
+  color: var(--text-secondary) !important;
+}
+
+.card-footer {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-top: 1px solid var(--glass-border) !important;
+  border-radius: 0 0 var(--glass-radius) var(--glass-radius) !important;
+}
+
+.card-title,
+.card-header h4,
+.card-header h5,
+.card-header h3 {
+  color: var(--text-primary) !important;
+}
+
+/* Stat/dashboard cards */
+.dash-widget {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+
+.dash-widget-info h3,
+.dash-widget-info p {
+  color: var(--text-primary) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Breadcrumb & Page header
+   -------------------------------------------------------------------------- */
+.breadcrumb-bar,
+.page-header,
+.inner-page-title {
+  background: transparent !important;
+}
+
+.breadcrumb-item a,
+.breadcrumb-item.active {
+  color: var(--text-muted) !important;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  color: var(--text-muted) !important;
+}
+
+.breadcrumb-item a:hover {
+  color: var(--accent-purple) !important;
+}
+
+.page-title h3,
+.page-title h4 {
+  color: var(--text-primary) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Tables
+   -------------------------------------------------------------------------- */
+.table {
+  color: var(--text-secondary) !important;
+  border-color: var(--glass-border) !important;
+}
+
+.table thead th {
+  background: rgba(167, 139, 250, 0.12) !important;
+  color: var(--accent-purple) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--glass-border-light) !important;
+  transition: background 0.2s ease;
+}
+
+.table tbody tr:hover td {
+  background: var(--glass-bg-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+.table tbody td {
+  border-color: var(--glass-border-light) !important;
+  vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.table-bordered,
+.table-bordered td,
+.table-bordered th {
+  border-color: var(--glass-border) !important;
+}
+
+/* DataTables wrapper */
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+  background: var(--input-glass-bg) !important;
+  border: 1px solid var(--input-glass-border) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--glass-radius-sm);
+  padding: 0.35rem 0.75rem;
+}
+
+.dataTables_wrapper .dataTables_filter label,
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_info {
+  color: var(--text-secondary) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  color: var(--text-secondary) !important;
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius-sm) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: var(--glass-bg-hover) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--accent-purple) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  background: var(--accent-purple) !important;
+  color: #fff !important;
+  border-color: var(--accent-purple) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Forms & Inputs
+   -------------------------------------------------------------------------- */
+.form-control,
+.form-select {
+  background: var(--input-glass-bg) !important;
+  border: 1px solid var(--input-glass-border) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--glass-radius-sm) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control::placeholder {
+  color: var(--text-muted) !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background: rgba(255, 255, 255, 0.10) !important;
+  border-color: var(--accent-purple) !important;
+  box-shadow: var(--input-focus-shadow) !important;
+  color: var(--text-primary) !important;
+  outline: none;
+}
+
+/* Labels */
+label,
+.form-label,
+.col-form-label {
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+}
+
+/* Validation messages */
+.text-danger,
+span.field-validation-error {
+  color: var(--status-danger) !important;
+}
+
+.text-success {
+  color: var(--status-success) !important;
+}
+
+/* Checkbox & Radio */
+.form-check-input {
+  background-color: var(--input-glass-bg) !important;
+  border-color: var(--input-glass-border) !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--accent-purple) !important;
+  border-color: var(--accent-purple) !important;
+}
+
+.form-check-label {
+  color: var(--text-secondary) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Select2
+   -------------------------------------------------------------------------- */
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+  background: var(--input-glass-bg) !important;
+  border: 1px solid var(--input-glass-border) !important;
+  border-radius: var(--glass-radius-sm) !important;
+  color: var(--text-primary) !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: var(--text-primary) !important;
+}
+
+.select2-dropdown {
+  background: rgba(20, 15, 50, 0.92) !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius-sm) !important;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+  background: var(--input-glass-bg) !important;
+  border: 1px solid var(--input-glass-border) !important;
+  color: var(--text-primary) !important;
+}
+
+.select2-container--default .select2-results__option {
+  color: var(--text-secondary) !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background: var(--sidebar-item-hover) !important;
+  color: var(--accent-purple) !important;
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+  background: var(--sidebar-item-active) !important;
+  color: var(--accent-purple) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-purple), #7c3aed) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  box-shadow: 0 4px 15px rgba(167, 139, 250, 0.35) !important;
+  transition: all 0.25s ease !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: linear-gradient(135deg, #c4b5fd, var(--accent-purple)) !important;
+  box-shadow: 0 6px 20px rgba(167, 139, 250, 0.55) !important;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text-secondary) !important;
+  backdrop-filter: var(--glass-blur-sm);
+}
+
+.btn-secondary:hover {
+  background: var(--glass-bg-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--status-success), #059669) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--status-danger), #dc2626) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, var(--status-warning), #d97706) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+.btn-info {
+  background: linear-gradient(135deg, var(--status-info), #0284c7) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+.btn-light {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Focus ring override */
+.btn:focus,
+.btn:active:focus {
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.35) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Badges
+   -------------------------------------------------------------------------- */
+.badge.bg-success, .badge-success { background: var(--status-success) !important; }
+.badge.bg-danger,  .badge-danger  { background: var(--status-danger)  !important; }
+.badge.bg-warning, .badge-warning { background: var(--status-warning) !important; color: #111 !important; }
+.badge.bg-info,    .badge-info    { background: var(--status-info)    !important; }
+.badge.bg-primary, .badge-primary { background: var(--accent-purple)  !important; }
+
+/* --------------------------------------------------------------------------
+   Modals
+   -------------------------------------------------------------------------- */
+.modal-content {
+  background: rgba(15, 10, 40, 0.88) !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.60) !important;
+  color: var(--text-primary) !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--glass-border) !important;
+  background: rgba(167, 139, 250, 0.08) !important;
+  border-radius: var(--glass-radius) var(--glass-radius) 0 0 !important;
+}
+
+.modal-title {
+  color: var(--text-primary) !important;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--glass-border) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-radius: 0 0 var(--glass-radius) var(--glass-radius) !important;
+}
+
+.modal-backdrop {
+  background-color: rgba(0, 0, 10, 0.75) !important;
+}
+
+.btn-close {
+  filter: invert(1) brightness(0.8) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Dropdowns
+   -------------------------------------------------------------------------- */
+.dropdown-menu {
+  background: rgba(15, 10, 45, 0.92) !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius-sm) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+
+.dropdown-item {
+  color: var(--text-secondary) !important;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background: var(--sidebar-item-hover) !important;
+  color: var(--accent-purple) !important;
+}
+
+.dropdown-divider {
+  border-top-color: var(--glass-border) !important;
+}
+
+.dropdown-header {
+  color: var(--text-muted) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Navigation tabs
+   -------------------------------------------------------------------------- */
+.nav-tabs {
+  border-bottom: 1px solid var(--glass-border) !important;
+}
+
+.nav-tabs .nav-link {
+  color: var(--text-muted) !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--glass-radius-sm) var(--glass-radius-sm) 0 0 !important;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  color: var(--text-primary) !important;
+  border-color: var(--glass-border) var(--glass-border) transparent !important;
+  background: var(--glass-bg) !important;
+}
+
+.nav-tabs .nav-link.active {
+  background: var(--glass-bg-active) !important;
+  border-color: var(--glass-border) var(--glass-border) transparent !important;
+  color: var(--accent-purple) !important;
+}
+
+.nav-pills .nav-link {
+  color: var(--text-secondary) !important;
+  border-radius: var(--glass-radius-sm) !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background: var(--accent-purple) !important;
+  color: #fff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Alerts
+   -------------------------------------------------------------------------- */
+.alert {
+  backdrop-filter: var(--glass-blur-sm);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  border-radius: var(--glass-radius-sm) !important;
+  border-width: 1px !important;
+}
+
+.alert-success {
+  background: rgba(52, 211, 153, 0.12) !important;
+  border-color: rgba(52, 211, 153, 0.30) !important;
+  color: var(--status-success) !important;
+}
+
+.alert-danger {
+  background: rgba(248, 113, 113, 0.12) !important;
+  border-color: rgba(248, 113, 113, 0.30) !important;
+  color: var(--status-danger) !important;
+}
+
+.alert-warning {
+  background: rgba(251, 191, 36, 0.12) !important;
+  border-color: rgba(251, 191, 36, 0.30) !important;
+  color: var(--status-warning) !important;
+}
+
+.alert-info {
+  background: rgba(56, 189, 248, 0.12) !important;
+  border-color: rgba(56, 189, 248, 0.30) !important;
+  color: var(--status-info) !important;
+}
+
+/* --------------------------------------------------------------------------
+   List groups
+   -------------------------------------------------------------------------- */
+.list-group-item {
+  background: var(--glass-bg) !important;
+  border-color: var(--glass-border) !important;
+  color: var(--text-secondary) !important;
+}
+
+.list-group-item:hover {
+  background: var(--glass-bg-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+.list-group-item.active {
+  background: var(--accent-purple) !important;
+  border-color: var(--accent-purple) !important;
+  color: #fff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Typography overrides
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary) !important;
+}
+
+p, span, div, li, td, th {
+  color: inherit;
+}
+
+a {
+  color: var(--text-link) !important;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-purple) !important;
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Profile / Avatar area
+   -------------------------------------------------------------------------- */
+.user-img {
+  border: 2px solid var(--glass-border);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.25);
+}
+
+.user-menu .user-img {
+  width: 36px;
+  height: 36px;
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar user info block
+   -------------------------------------------------------------------------- */
+.pro-details,
+.pro-name,
+.pro-role {
+  color: var(--text-secondary) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Datetimepicker
+   -------------------------------------------------------------------------- */
+.bootstrap-datetimepicker-widget {
+  background: rgba(15, 10, 45, 0.95) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius-sm) !important;
+}
+
+.bootstrap-datetimepicker-widget table td,
+.bootstrap-datetimepicker-widget table th {
+  color: var(--text-secondary) !important;
+}
+
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover {
+  background: var(--accent-purple) !important;
+  color: #fff !important;
+}
+
+.bootstrap-datetimepicker-widget table td:hover,
+.bootstrap-datetimepicker-widget table th:hover {
+  background: var(--sidebar-item-hover) !important;
+  color: var(--accent-purple) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Tooltips
+   -------------------------------------------------------------------------- */
+.tooltip-inner {
+  background: rgba(15, 10, 45, 0.95) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--glass-radius-sm) !important;
+  backdrop-filter: var(--glass-blur-sm);
+}
+
+/* --------------------------------------------------------------------------
+   Popovers
+   -------------------------------------------------------------------------- */
+.popover {
+  background: rgba(15, 10, 45, 0.92) !important;
+  border: 1px solid var(--glass-border) !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--glass-radius) !important;
+}
+
+.popover-header {
+  background: rgba(167, 139, 250, 0.10) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+  color: var(--text-primary) !important;
+}
+
+.popover-body {
+  color: var(--text-secondary) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Misc utility overrides
+   -------------------------------------------------------------------------- */
+hr {
+  border-color: var(--glass-border) !important;
+  opacity: 1;
+}
+
+.shadow,
+.shadow-sm,
+.shadow-lg {
+  box-shadow: var(--glass-shadow) !important;
+}
+
+.bg-white,
+.bg-light {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border-light) !important;
+}
+
+.border {
+  border-color: var(--glass-border) !important;
+}
+
+/* Inline code / pre */
+code {
+  background: rgba(167, 139, 250, 0.15) !important;
+  color: var(--accent-purple) !important;
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+}
+
+pre {
+  background: rgba(0, 0, 0, 0.40) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius-sm) !important;
+  color: var(--text-primary) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Employee profile / detail cards
+   -------------------------------------------------------------------------- */
+.profile-widget,
+.profile-info-left,
+.profile-info-right {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--glass-radius) !important;
+}
+
+/* --------------------------------------------------------------------------
+   FullCalendar overrides
+   -------------------------------------------------------------------------- */
+.fc-theme-standard td,
+.fc-theme-standard th,
+.fc-theme-standard .fc-scrollgrid {
+  border-color: var(--glass-border) !important;
+}
+
+.fc .fc-toolbar-title {
+  color: var(--text-primary) !important;
+}
+
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number {
+  color: var(--text-secondary) !important;
+}
+
+.fc .fc-button-primary {
+  background: var(--accent-purple) !important;
+  border-color: transparent !important;
+}
+
+.fc .fc-button-primary:hover {
+  background: #7c3aed !important;
+}
+
+/* --------------------------------------------------------------------------
+   Print — keep readable on white paper
+   -------------------------------------------------------------------------- */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .header, .sidebar, .page-loader { display: none !important; }
+  .card, .card-body {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+  table, th, td {
+    color: #000 !important;
+    border-color: #ccc !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive tweaks
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  :root {
+    --glass-radius: 12px;
+    --glass-radius-sm: 8px;
+  }
+
+  .card {
+    border-radius: var(--glass-radius) !important;
+  }
+
+  /* On mobile the sidebar overlays — keep it solid enough to read */
+  .sidebar {
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+  }
+}
+
+/* ═══════════════════════════════════════
+   GLOBAL NUCLEAR FIX — ALL PAGES
+   Forces visibility on every element
+═══════════════════════════════════════ */
+
+* {
+    color: #e0e7ff !important;
+}
+
+*:not(i):not(.fa):not([class*="fa-"]) {
+    border-color: rgba(255,255,255,0.1) !important;
+}
+
+/* All backgrounds transparent or glass */
+*:not(body):not(html):not(.sidebar):not(.header):not(.modal-content):not(.dropdown-menu) {
+    background-color: transparent !important;
+}
+
+/* Cards */
+.card, .card-body, .card-header, .card-footer {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+/* Tables */
+.table td, .table th,
+.table thead, .table tbody,
+.table-bordered td, .table-bordered th {
+    background: transparent !important;
+    color: #e0e7ff !important;
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background: rgba(255,255,255,0.03) !important;
+}
+
+.table-hover tbody tr:hover {
+    background: rgba(99,102,241,0.1) !important;
+}
+
+/* Forms */
+.form-control, input, select, textarea,
+.select2-selection, .select2-search__field {
+    background: rgba(255,255,255,0.08) !important;
+    color: #e0e7ff !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgba(255,255,255,0.3) !important;
+}
+
+input:focus, select:focus,
+textarea:focus, .form-control:focus {
+    background: rgba(255,255,255,0.12) !important;
+    border-color: rgba(99,102,241,0.7) !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.2) !important;
+    color: #ffffff !important;
+    outline: none !important;
+}
+
+/* Select2 */
+.select2-dropdown, .select2-results,
+.select2-results__option {
+    background: rgba(15,18,55,0.98) !important;
+    color: #e0e7ff !important;
+}
+
+.select2-results__option--highlighted {
+    background: rgba(99,102,241,0.4) !important;
+}
+
+/* Modals */
+.modal-content, .modal-header,
+.modal-body, .modal-footer {
+    background: rgba(10,14,45,0.98) !important;
+    border-color: rgba(255,255,255,0.1) !important;
+}
+
+/* Dropdowns */
+.dropdown-menu {
+    background: rgba(10,14,45,0.98) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+.dropdown-item:hover {
+    background: rgba(99,102,241,0.25) !important;
+}
+
+.dropdown-divider {
+    border-color: rgba(255,255,255,0.1) !important;
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg,#6366f1,#4f46e5) !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+}
+
+.btn-success {
+    background: linear-gradient(135deg,#059669,#047857) !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg,#dc2626,#b91c1c) !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg,#d97706,#b45309) !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+}
+
+.btn-secondary, .btn-default {
+    background: rgba(255,255,255,0.1) !important;
+    border-color: rgba(255,255,255,0.2) !important;
+    color: #e0e7ff !important;
+}
+
+/* Pagination */
+.page-link {
+    background: rgba(255,255,255,0.05) !important;
+    color: #e0e7ff !important;
+    border-color: rgba(255,255,255,0.1) !important;
+}
+
+.page-item.active .page-link {
+    background: rgba(99,102,241,0.5) !important;
+    border-color: transparent !important;
+}
+
+/* Badges */
+.badge-success, .badge-active {
+    background: rgba(5,150,105,0.3) !important;
+    color: #6ee7b7 !important;
+}
+.badge-danger, .badge-inactive {
+    background: rgba(220,38,38,0.3) !important;
+    color: #fca5a5 !important;
+}
+.badge-warning {
+    background: rgba(217,119,6,0.3) !important;
+    color: #fcd34d !important;
+}
+.badge-primary, .badge-info {
+    background: rgba(99,102,241,0.3) !important;
+    color: #a5b4fc !important;
+}
+
+/* Progress */
+.progress {
+    background: rgba(255,255,255,0.1) !important;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg,#6366f1,#22d3ee) !important;
+}
+
+/* Alerts */
+.alert {
+    background: rgba(255,255,255,0.06) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+}
+
+/* Tabs */
+.nav-tabs, .nav-pills {
+    border-color: rgba(255,255,255,0.1) !important;
+}
+
+.nav-tabs .nav-link, .nav-pills .nav-link {
+    color: rgba(255,255,255,0.6) !important;
+    background: transparent !important;
+}
+
+.nav-tabs .nav-link.active,
+.nav-pills .nav-link.active {
+    background: rgba(99,102,241,0.3) !important;
+    color: #ffffff !important;
+    border-color: rgba(99,102,241,0.5) !important;
+}
+
+/* DataTables */
+.dataTables_wrapper *,
+.dataTables_filter input,
+.dataTables_length select {
+    background: transparent !important;
+    color: #e0e7ff !important;
+}
+
+/* Punch / Timesheet specific */
+.punch-det, .punch-info, .punch-hours,
+.punch-btn-section .form-control,
+.stats-box, .stats-box *,
+.activity-box, .activity-list li {
+    background: rgba(255,255,255,0.06) !important;
+    color: #e0e7ff !important;
+}
+
+.stats-box p, .stats-box small {
+    color: rgba(255,255,255,0.5) !important;
+}
+
+/* Headings always bright */
+h1, h2, h3, h4, h5, h6,
+.page-title, .card-title {
+    color: #ffffff !important;
+}
+
+/* Muted text */
+.text-muted, small {
+    color: rgba(255,255,255,0.45) !important;
+}
+
+/* Links */
+a:not(.btn):not(.nav-link) {
+    color: #a5b4fc !important;
+}
+
+a:not(.btn):not(.nav-link):hover {
+    color: #c7d2fe !important;
+}
+
+/* Icons keep their color */
+i.fa, i[class*="fa-"],
+i[class*="las "], i[class*="lar "] {
+    color: inherit !important;
+}
+
+/* Print reset */
+@media print {
+    * {
+        background: white !important;
+        color: black !important;
+    }
+}
+
+/* ── EmpIndex exact class fix ── */
+.punch-det h6, .punch-det p,
+.punch-info span, .punch-hours span,
+.stats-info p, .stats-info strong, .stats-info small,
+.stats-list p, .stats-list strong, .stats-list small,
+.res-activity-list li, .res-activity-list p {
+    color: #e0e7ff !important;
+}
+
+.punch-det, .punch-info, .stats-info {
+    background: rgba(255,255,255,0.06) !important;
+    border-radius: 8px !important;
+    padding: 10px 12px !important;
+    margin-bottom: 8px !important;
+}
+
+.punch-hours {
+    width: 120px !important;
+    height: 120px !important;
+    border-radius: 50% !important;
+    border: 3px solid rgba(99,102,241,0.5) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 15px auto !important;
+    background: rgba(99,102,241,0.1) !important;
+}
+
+    .punch-hours span {
+        color: #ffffff !important;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+    }

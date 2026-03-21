@@ -1,0 +1,292 @@
+﻿@model itgsgroup.Models.hrms.SlabsViewModel
+
+@{
+    ViewData["Title"] = "Tax Slabs";
+    ViewData["active"] = "TS";
+    var companys = ViewBag.companys as List<Tuple<string, int>>;
+    var fascalyear = ViewBag.fascalyear as List<Tuple<string, string, int, int>>;
+}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.addEventListener("click", function (event) {
+            if (event.target.id.startsWith("deleteButton-")) {
+                var itemId = event.target.getAttribute("data-item-id");
+                var item_id = document.getElementById("confirmDelete");
+                item_id.value = itemId;
+            }
+        });
+    });
+</script>
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Tax Slabs</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Tax Slabs</li>
+            </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <a asp-controller="Slabs" asp-action="Index" asp-route-ModelAction="Create" asp-route-id="" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Tax Slab</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example1" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>
+                            From
+                        </th>
+                        <th>
+                           To
+                        </th>
+                        <th>
+                            Percent
+                        </th>
+                        <th>
+                            Extra
+                        </th>
+                        <th>
+                            Fiscal Year
+                        </th>
+                        <th>
+                            Company
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Slabs)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.from)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.to)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.percent)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.extra)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fy.from.Day)/@Html.DisplayFor(modelItem => item.fy.from.Month)/@Html.DisplayFor(modelItem => item.fy.from.Year) -
+                                @Html.DisplayFor(modelItem => item.fy.to.Day)/@Html.DisplayFor(modelItem => item.fy.to.Month)/@Html.DisplayFor(modelItem => item.fy.to.Year)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.company.name)
+                            </td>
+                            <td class="text-end">
+                                <div class="dropdown dropdown-action">
+                                    <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" asp-controller="Slabs" asp-action="Index" asp-route-ModelAction="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_ticket" id="deleteButton-@item.Id" data-item-id="@item.Id"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@if (ViewBag.Modelaction == "Create")
+{
+    <script>
+        $(document).ready(function () {
+            // Show the modal when the page loads
+            $('#add_slabs').modal('show');
+        });
+    </script>
+    <!-- Add Ticket Modal -->
+    <div id="add_slabs" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Tax Slabs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="Index">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">From</label>
+                            <input asp-for="from" class="form-control">
+                            <span asp-validation-for="from" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">To</label>
+                            <input asp-for="to" class="form-control" >
+                            <span asp-validation-for="to" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Percent</label>
+                            <input asp-for="percent" class="form-control">
+                            <span asp-validation-for="percent" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Extra</label>
+                            <input asp-for="extra" class="form-control">
+                            <span asp-validation-for="extra" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Company</label>
+                            <select asp-for="companyId" id="company2Dropdown" class="form-control">
+                                @if (companys != null)
+                                {
+                                    <option></option>
+                                    @foreach (var company in companys)
+                                    {
+                                        <option value="@company.Item2">@company.Item1</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="companyId" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Fiscal Year</label>
+                            <select asp-for="fyId" id="fyDropdown" class="form-control">
+                                @if (fascalyear != null)
+                                {
+                                    @foreach (var fascaly in fascalyear)
+                                    {
+                                        <option value="@fascaly.Item3" data-company2id="@fascaly.Item4">@fascaly.Item1 - @fascaly.Item2</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="fyId" class="text-danger"></span>
+                        </div>
+                        <div class="submit-section">
+                            <button class="btn btn-primary submit-btn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Add Ticket Modal -->
+}
+@if (ViewBag.ModelAction == "Edit")
+{
+    <script>
+        $(document).ready(function () {
+            // Show the modal when the page loads
+            $('#edit_ticket').modal('show');
+        });
+    </script>
+    <!-- Edit Ticket Modal -->
+    <div id="edit_ticket" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Tax Slabs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" id="item_id" />
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">From</label>
+                            <input asp-for="from" class="form-control">
+                            <span asp-validation-for="from" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">To</label>
+                            <input asp-for="to" class="form-control">
+                            <span asp-validation-for="to" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Percent</label>
+                            <input asp-for="percent" class="form-control" >
+                            <span asp-validation-for="percent" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Extra</label>
+                            <input asp-for="extra" class="form-control" >
+                            <span asp-validation-for="extra" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Company</label>
+                            <select asp-for="companyId" id="company2Dropdown" class="form-control">
+                                @if (companys != null)
+                                {
+                                    <option></option>
+                                    @foreach (var company in companys)
+                                    {
+                                        <option value="@company.Item2">@company.Item1</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="companyId" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Fiscal Year</label>
+                            <select asp-for="fyId" id="fyDropdown" class="form-control">
+                                @if (fascalyear != null)
+                                {
+                                    @foreach (var fascaly in fascalyear)
+                                    {
+                                        <option value="@fascaly.Item3" data-company2id="@fascaly.Item4">@fascaly.Item1 - @fascaly.Item2</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="fyId" class="text-danger"></span>
+                        </div>
+                        <div class="submit-section">
+                            <button class="btn btn-primary submit-btn">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Edit Ticket Modal -->
+}
+<!-- Delete Ticket Modal -->
+<div class="modal custom-modal fade" id="delete_ticket" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Delete Tax Slab</h3>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <form asp-action="ConfirmDelete">
+                                <input type="hidden" name="id" id="confirmDelete" />
+                                <button type="submit" class="btn btn-primary continue-btn w-100">Delete</button>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Delete Ticket Modal -->
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

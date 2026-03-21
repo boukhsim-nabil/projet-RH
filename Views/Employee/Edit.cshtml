@@ -1,0 +1,302 @@
+﻿@model itgsgroup.Models.hrms.EmployeeViewModel
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Edit Employee</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Edit Employee</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Edit Form</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-8">                     
+                            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                            <h4 class="card-title">Employee Information</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" name="id" asp-for="Id" hidden />
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                        <label asp-for="Email">Email</label>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="OldPassword" class="form-control" autocomplete="current-password" placeholder="Please enter your old password." />
+                                        <label asp-for="OldPassword" class="form-label"></label>
+                                        <span asp-validation-for="OldPassword" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="NewPassword" class="form-control" autocomplete="new-password" placeholder="Please enter your new password." />
+                                        <label asp-for="NewPassword" class="form-label"></label>
+                                        <span asp-validation-for="NewPassword" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Please confirm your new password." />
+                                        <label asp-for="ConfirmPassword" class="form-label"></label>
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="name" class="form-control" autocomplete="name" aria-required="true" placeholder="name" />
+                                        <label asp-for="name">Emp Name</label>
+                                        <span asp-validation-for="name" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="bank" class="form-control" autocomplete="bank" aria-required="true" placeholder="bank" />
+                                        <label asp-for="bank">Bank</label>
+                                        <span asp-validation-for="bank" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="account" class="form-control" autocomplete="account" aria-required="true" placeholder="account" />
+                                        <label asp-for="account">Account #</label>
+                                        <span asp-validation-for="account" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="f_name" class="form-control" autocomplete="f_name" aria-required="true" placeholder="f_name" />
+                                        <label asp-for="f_name">Father Name/ Spouse Name</label>
+                                        <span asp-validation-for="f_name" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="cnic" class="form-control" autocomplete="cnic" aria-required="true" placeholder="cnic" />
+                                        <label asp-for="cnic">CNIC</label>
+                                        <span asp-validation-for="cnic" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="cnic_issue" class="form-control" autocomplete="cnic_issue" aria-required="true" placeholder="cnic_issue" />
+                                        <label asp-for="cnic_issue">Date Of Birth</label>
+                                        <span asp-validation-for="cnic_issue" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="cnic_expiry" class="form-control" autocomplete="cnic_expiry" aria-required="true" placeholder="cnic" />
+                                        <label asp-for="cnic_expiry">CINC Expiry</label>
+                                        <span asp-validation-for="cnic_expiry" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="passport" class="form-control" autocomplete="passport" aria-required="true" placeholder="passport" />
+                                        <label asp-for="passport">PassPort #</label>
+                                        <span asp-validation-for="passport" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="curr_address" class="form-control" autocomplete="curr_address" aria-required="true" placeholder="curr_address" />
+                                        <label asp-for="curr_address">Current Address</label>
+                                        <span asp-validation-for="curr_address" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="permanent_address" class="form-control" autocomplete="permanent_address" aria-required="true" placeholder="permanent_address" />
+                                        <label asp-for="permanent_address">Permanent Address</label>
+                                        <span asp-validation-for="permanent_address" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select asp-for="roleId" class="form-control" autocomplete="roleId" aria-required="true" placeholder="roleId">
+                                            @foreach (var role in ViewBag.roles)
+                                            {
+                                                <option value="@role.Id">@role.NormalizedName</option>
+                                            }
+                                        </select>
+                                        <label asp-for="roleId">Role</label>
+                                        <span asp-validation-for="roleId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="machineId" class="form-control" autocomplete="machineId" aria-required="true" placeholder="machineId" />
+                                        <label asp-for="machineId">machineId</label>
+                                        <span asp-validation-for="machineId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <select asp-for="marital_status" class="form-control" autocomplete="marital_status" aria-required="true" placeholder="marital_status">
+                                            <option value="Single">Single</option>
+                                            <option value="Married">Married</option>
+                                            <option value="Divorced">Divorced</option>
+                                            <option value="Widowed">Widowed</option>
+                                        </select>
+                                        <label asp-for="marital_status">Marital Status</label>
+                                        <span asp-validation-for="marital_status" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select asp-for="status" class="form-control" autocomplete="status" aria-required="true" placeholder="status">
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
+                                        </select>
+                                        <label asp-for="status">Status</label>
+                                        <span asp-validation-for="status" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="contact" class="form-control" autocomplete="contact" aria-required="true" placeholder="contact" />
+                                        <label asp-for="contact">Contact #</label>
+                                        <span asp-validation-for="contact" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="emergency_contact" class="form-control" autocomplete="emergency_contact" aria-required="true" placeholder="emergency_contact" />
+                                        <label asp-for="emergency_contact">Emergency Contact #</label>
+                                        <span asp-validation-for="emergency_contact" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="joining_date" class="form-control" autocomplete="joining_date" aria-required="true" placeholder="joining_date" />
+                                        <label asp-for="joining_date">Joining Date</label>
+                                        <span asp-validation-for="joining_date" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="resignation_date" class="form-control" autocomplete="resignation_date" aria-required="true" placeholder="resignation_date" />
+                                        <label asp-for="resignation_date">Resignation Date</label>
+                                        <span asp-validation-for="resignation_date" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select asp-for="emp_type" class="form-control" autocomplete="emp_type" aria-required="true" placeholder="emp_type">
+                                            <option value="Probation">Probation</option>
+                                            <option value="Contractual">Contractual</option>
+                                            <option value="Permanent">Permanent</option>
+                                        </select>
+                                        <label asp-for="emp_type">Employee Type</label>
+                                        <span asp-validation-for="emp_type" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="salary" class="form-control" autocomplete="salary" aria-required="true" placeholder="salary" />
+                                        <label asp-for="salary">Salary</label>
+                                        <span asp-validation-for="salary" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select asp-for="companyId" class="form-control" autocomplete="companyId" aria-required="true" placeholder="companyId">
+                                            @foreach (var company in ViewBag.Companys)
+                                            {
+                                                <option value="@company.Id">@company.name</option>
+                                            }
+                                        </select>
+                                        <label asp-for="companyId">Company</label>
+                                        <span asp-validation-for="companyId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select asp-for="departId" class="form-control" autocomplete="departId" aria-required="true" placeholder="departId">
+                                            @foreach (var department in ViewBag.departments)
+                                            {
+                                                <option value="@department.Id">@department.name</option>
+                                            }
+                                        </select>
+                                        <label asp-for="departId">Department</label>
+                                        <span asp-validation-for="departId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select asp-for="designationId" class="form-control" autocomplete="designationId" aria-required="true" placeholder="designationId">
+                                            @foreach (var designation in ViewBag.designations)
+                                            {
+                                                <option value="@designation.Id">@designation.name</option>
+                                            }
+                                        </select>
+                                        <label asp-for="designationId">Designation</label>
+                                        <span asp-validation-for="designationId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select asp-for="shiftId" class="form-control" autocomplete="shiftId" aria-required="true" placeholder="shiftId">
+                                            @foreach (var shift in ViewBag.shifts)
+                                            {
+                                                <option value="@shift.Id">@shift.from - @shift.to</option>
+                                            }
+                                        </select>
+                                        <label asp-for="shiftId">Shift</label>
+                                        <span asp-validation-for="shiftId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input asp-for="filepath" class="form-control" autocomplete="filepath" aria-required="true" placeholder="filepath" multiple />
+                                        <label asp-for="filepath">filepath</label>
+                                        <span asp-validation-for="filepath" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select asp-for="attend_type" class="form-control" autocomplete="attend_type" aria-required="true" placeholder="attend_type">
+                                            <option value=""></option>
+                                            <option value="Auto">Auto</option>
+                                            <option value="Manual">Manual</option>
+                                        </select>
+                                        <label asp-for="attend_type">Attend Type</label>
+                                        <span asp-validation-for="attend_type" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="container">
+                            <div class="picture-container">
+                                <div class="picture">
+                                    <img src="~/dist/files/@Model.profile" class="picture-src" id="wizardPicturePreview" title="">
+                                    <input asp-for="profile_pic" type="file" id="wizard-picture" class="">
+                                </div>
+                                <h4 class="mt-2 mt-3">Employee Picture</h4>
+                            </div>
+                        </div>
+                        
+                    </div>
+                        <div class="row">
+                            <div class="col-md-6 mt-3">
+                                <button type="submit" class="w-100 btn btn-lg btn-primary">Update</button>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <a asp-action="Index" asp-controller="Employee" class="w-100 btn btn-lg btn-primary">Cancel</a>
+                            </div>
+                        </div>
+                </div>
+                </form>
+             </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Employee Documents</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.empDocs)
+                            {
+                                <tr>
+                                    <td>@user.filepath</td>
+                                    <td class="text-end">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" asp-action="Download" asp-route-filename="@user.filepath">Download</a>
+                                                <form asp-action="Delete">
+                                                    <input type="hidden" name="id" asp-for="@user.Id" />
+                                                    <input type="hidden" name="empid" value="@Model.Id" />
+                                                    <input class="dropdown-item" type="submit" value="Delete" />
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

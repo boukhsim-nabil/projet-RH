@@ -1,0 +1,329 @@
+﻿@model itgsgroup.Models.hrms.LeaveApplyViewModel
+
+@{
+    ViewData["Title"] = "Apply Leave";
+    ViewData["active"] = "AL";
+}
+
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Apply Leave</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
+                <li class="breadcrumb-item active">Apply Leave</li>
+            </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_apply_leave"><i class="fa-solid fa-plus"></i> Add Apply Leave</a>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <div class="btn-group btn-group-sm">
+                <a asp-controller="LeaveApply" asp-action="pendingreq" class="btn @(ViewBag.status == "Pending" ? "btn-primary" : "btn-white")"><i class="las la-hourglass-start"></i> Pending</a>
+                <a asp-controller="LeaveApply" asp-action="approvereq" class="btn @(ViewBag.status == "Approve" ? "btn-primary" : "btn-white")"><i class="las la-check-circle"></i> Approved</a>
+                <a asp-controller="LeaveApply" asp-action="rejectreq" class="btn @(ViewBag.status == "Reject" ? "btn-primary" : "btn-white")"><i class="las la-times-circle"></i> Rejected</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Leave Statistics -->
+<div class="row">
+   
+    <div class="col-md-3">
+        <div class="stats-info">
+            <h6>Sick Leave</h6>
+            <h4>@ViewBag.SL</h4>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-info">
+            <h6>Casual Leave</h6>
+            <h4>@ViewBag.CL</h4>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-info">
+            <h6>Annual Leave</h6>
+            <h4>@ViewBag.AL</h4>
+        </div>
+    </div>
+<!--    <div class="col-md-2">
+        <div class="stats-info">
+            <h6>Parenting Leave</h6>
+            <h4>@ViewBag.PL</h4>
+        </div>
+    </div>-->
+    <div class="col-md-3">
+        <div class="stats-info">
+            <h6>Remaining Leave</h6>
+            <h4>@ViewBag.RL</h4>
+        </div>
+    </div>
+</div>
+<!-- /Leave Statistics -->
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example5" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th class="text-center">No. of Days</th>
+                        <th class="text-center">Leave Type</th>
+                        <th>Reason</th>
+                        <th class="text-center">HOD Status</th>
+                        <th class="text-center">HR Status</th>
+           
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.leaveApply) {
+                    <tr>
+                        <td>
+                            @item.from.ToString("dd MMM yyyy")
+                        </td>
+                        <td>
+                            @item.to.ToString("dd MMM yyyy")
+                        </td>
+                        <td class="text-center">
+                                <span class="btn btn-danger btn-sm w-25" >
+                                @Html.DisplayFor(modelItem => item.days)
+                            </span>
+                        </td>
+                        @if (item.leave.type == "Sick Leave")
+                        {
+                            <td class="text-center">
+                                <button class="btn btn-outline-info btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                            </td>
+                        }else if (item.leave.type == "Casual Leave")
+                        {
+                            <td class="text-center">
+                                <button class="btn btn-outline-success btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                            </td>
+                        }else if (item.leave.type == "Annual Leave")
+                        {
+                            <td class="text-center">
+                                <button class="btn btn-outline-primary btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                            </td>
+                        }else if (item.leave.type == "Maternity Leave / Paternity Leave")
+                        {
+                            <td class="text-center">
+                                <button class="btn btn-outline-warning btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                            </td>
+                        }else if (item.leave.type == "Special Leave")
+                        {
+                            <td class="text-center">
+                                <button class="btn btn-outline-danger btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                            </td>
+                        }
+                        else if (item.leave.type == "Half Day")
+                        {
+                            <td class="text-center">
+                                <button class="btn btn-outline-danger btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                            </td>
+                        }
+                        else{
+                                <td class="text-center">
+                                    <button class="btn btn-outline-danger btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                                </td>
+                        }
+                        <td>
+                            @Html.DisplayFor(modelItem => item.reason)
+                        </td>
+                         @if (@item.status == "Approve")
+                         {
+                            <td class="text-center">
+                                <div class="action-label">
+                                    <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                        <i class="fa-regular fa-circle-dot text-success"></i> Approve
+                                    </a>
+                                </div>
+                            </td>
+                         }
+                         else if (@item.status == "Pending")
+                         {
+                            <td class="text-center">
+                                <div class="action-label">
+                                    <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                       <i class="fa-regular fa-circle-dot text-purple"></i> Pending
+                                    </a>
+                                </div>
+                            </td>
+                         }
+                         else if (@item.status == "Reject")
+                         {
+                            <td class="text-center">
+                                <div class="action-label">
+                                   <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                       <i class="fa-regular fa-circle-dot text-danger"></i> Reject
+                                   </a>
+                                </div>
+                            </td>
+                         }
+                         @if (@item.hrstatus == "Approve")
+                         {
+                                <td class="text-center">
+                                    <div class="action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                            <i class="fa-regular fa-circle-dot text-success"></i> Approve
+                                        </a>
+                                    </div>
+                                </td>
+                         }
+                         else if (@item.hrstatus == "Pending")
+                         {
+                                <td class="text-center">
+                                    <div class="action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                            <i class="fa-regular fa-circle-dot text-purple"></i> Pending
+                                        </a>
+                                    </div>
+                                </td>
+                         }
+                         else if (@item.hrstatus == "Reject")
+                         {
+                                <td class="text-center">
+                                    <div class="action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                            <i class="fa-regular fa-circle-dot text-danger"></i> Reject
+                                        </a>
+                                    </div>
+                                </td>
+                         }            
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@if (ViewBag.exceddays != null)
+{
+    <script>
+        $(document).ready(function () {
+            // Show the modal when the page loads
+            $('#add_apply_leave').modal('show');
+        });
+    </script>
+}
+
+<!-- Add Leave Modal -->
+<div id="add_apply_leave" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Apply Leave</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @if (ViewBag.id != null)
+                    {
+                        <input type="hidden" asp-for="Id" value="@ViewBag.id" />
+                    }
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">From <span class="text-danger">*</span></label>
+                                <input type="date" asp-for="from" class="form-control" id="fromDate">
+                                <span asp-validation-for="from" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-block mb-3">
+                                <label class="col-form-label">To <span class="text-danger">*</span></label>
+                                <input type="date" asp-for="to" class="form-control" id="toDate">
+                                <span asp-validation-for="to" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">No. Days <span class="text-danger">*</span></label>
+                        <input asp-for="days" class="form-control" id="result" readonly />
+                        <span asp-validation-for="days" class="text-danger"></span>
+                        <span class="text-danger">@ViewBag.exceddays</span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Leave <span class="text-danger">*</span></label>
+                        <select asp-for="leaveId" class="form-control" asp-items="ViewBag.leaveId"></select>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Leave Reason <span class="text-danger">*</span></label>
+                        <textarea asp-for="reason" rows="4" class="form-control"></textarea>
+                        <span asp-validation-for="reason" class="text-danger"></span>
+                    </div>
+                    <input asp-for="empId" name="empId" class="form-control" value="@ViewBag.empId" hidden />
+                    <input asp-for="companyId" name="companyId" class="form-control" value="@ViewBag.companyId" hidden />
+                    @if (ViewBag.userRole == "HOD" || ViewBag.userRole == "HR")
+                    {
+                        <input asp-for="status" class="form-control" value="Approve" hidden />
+                    }
+                    else
+                    {
+                        <input asp-for="status" class="form-control" value="Pending" hidden />
+                    }
+                    @if (ViewBag.userRole == "HR")
+                    {
+                        <input asp-for="hrstatus" class="form-control" value="Approve" hidden />
+                    }
+                    else
+                    {
+                        <input asp-for="hrstatus" class="form-control" value="Pending" hidden />
+                    }
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Leave Modal -->
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    // Get references to the date input fields and the result textbox
+    const fromDateInput = document.getElementById("fromDate");
+    const toDateInput = document.getElementById("toDate");
+    const resultTextbox = document.getElementById("result");
+
+    // Function to calculate and display the number of days
+    function calculateDays() {
+        // Get the values of the date input fields
+        const fromDateValue = new Date(fromDateInput.value);
+        const toDateValue = new Date(toDateInput.value);
+
+        // Check if both dates are valid
+        if (!isNaN(fromDateValue.getTime()) && !isNaN(toDateValue.getTime())) {
+            // Calculate the difference in milliseconds
+            const timeDifference = toDateValue - fromDateValue;
+
+            // Convert the time difference to days
+            const daysDifference = timeDifference / (1000 * 60 * 60 * 24) +1;
+
+            // Set the value of the result textbox
+            resultTextbox.value = parseInt(daysDifference.toFixed(0));
+        } else {
+            // Handle invalid date input
+            resultTextbox.value = 0;
+        }
+    }
+
+    // Add input event listeners to the date input fields
+    fromDateInput.addEventListener("input", calculateDays);
+    toDateInput.addEventListener("input", calculateDays);
+
+</script>

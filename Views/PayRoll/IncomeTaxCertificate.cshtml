@@ -1,0 +1,58 @@
+﻿@model List<itgsgroup.Models.hrms.PayRollModel>
+@{
+    ViewData["Title"] = "Income Tax Certificate";
+    ViewData["active"] = "ITC";
+}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Income Tax Certificate</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
+                <li class="breadcrumb-item active">Income Tax Certificate</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Display data from the view model -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example3" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Company</th>
+                        <th>CNIC</th>
+                        <th>Name</th>
+                        <th>Taxable Salary</th>
+                        <th>Income Tax</th>
+                        <th>CPR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.monthYear</td>
+                            <td>@item.employee.company.name</td>
+                            <td>@item.employee.cnic</td>
+                            <td>@item.employee.name</td>
+                            <td>@string.Format("{0:N0}", (item.gross_salary - (item.gross_salary * 0.05)))</td>
+                            <td>@string.Format("{0:N0}", item.incometax)</td>
+                            <td>@item.CPR</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

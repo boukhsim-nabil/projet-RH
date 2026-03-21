@@ -1,0 +1,198 @@
+﻿@using itgsgroup.Models.hrms;
+@model itgsgroup.Models.hrms.LeaveApplyViewModel
+
+@{
+    ViewData["Title"] = "Leave Request";
+    ViewData["active"] = "HRLR";
+}
+
+
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Leave Request</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">Leave Request</li>
+            </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <div class="btn-group btn-group-sm">
+                <a asp-controller="LeaveRequest" asp-action="hrpendingreq" class="btn @(ViewBag.hrstatus == "Pending" ? "btn-primary" : "btn-white")"><i class="las la-hourglass-start"></i> Pending</a>
+                <a asp-controller="LeaveRequest" asp-action="hrapprovereq" class="btn @(ViewBag.hrstatus == "Approve" ? "btn-primary" : "btn-white")"><i class="las la-check-circle"></i> Approved</a>
+                <a asp-controller="LeaveRequest" asp-action="hrrejectreq" class="btn @(ViewBag.hrstatus == "Reject" ? "btn-primary" : "btn-white")"><i class="las la-times-circle"></i> Rejected</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Display data from the view model -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example3" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>
+                           From
+                        </th>
+                        <th>
+                            To
+                        </th>
+                        <th>
+                            No.Days
+                        </th>
+                        <th>
+                            Leave Type
+                        </th>
+                        <th>
+                           Employee
+                        </th>
+                        <th>
+                            Company
+                        </th>
+                        <th>
+                            Reason
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.leaveApply)
+                    {
+                        <tr>
+                            <td>
+                                @item.from.ToString("dd MMM yyyy")
+                            </td>
+                            <td>
+                                @item.to.ToString("dd MMM yyyy")
+                            </td>
+                            <td class="text-center">
+                                <span class="btn btn-danger btn-sm w-50">
+                                    @Html.DisplayFor(modelItem => item.days)
+                                </span>
+                            </td>
+                            @if (item.leave.type == "Sick Leave")
+                            {
+                                <td class="text-center">
+                                    <button class="btn btn-outline-info btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                                </td>
+                            }
+                            else if (item.leave.type == "Casual Leave")
+                            {
+                                <td class="text-center">
+                                    <button class="btn btn-outline-success btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                                </td>
+                            }
+                            else if (item.leave.type == "Annual Leave")
+                            {
+                                <td class="text-center">
+                                    <button class="btn btn-outline-primary btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                                </td>
+                            }
+                            else if (item.leave.type == "Maternity Leave / Paternity Leave")
+                            {
+                                <td class="text-center">
+                                    <button class="btn btn-outline-warning btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                                </td>
+                            }
+                            else if (item.leave.type == "Special Leave")
+                            {
+                                <td class="text-center">
+                                    <button class="btn btn-outline-danger btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                                </td>
+                            }
+                            else if (item.leave.type == "Half Day")
+                            {
+                                <td class="text-center">
+                                    <button class="btn btn-outline-danger btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    <button class="btn btn-outline-danger btn-sm"> @Html.DisplayFor(modelItem => item.leave.type)</button>
+                                </td>
+                            }
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.emp.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.company.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.reason)
+                            </td>
+
+                            @if (@item.hrstatus == "Approve")
+                            {
+                                <td class="text-center">
+                                    <div class="dropdown action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-regular fa-circle-dot text-success"></i> Approve
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <form method="post" asp-action="UpdatehrStatus">
+                                                <input type="hidden" name="id" value="@item.Id">
+                                                <input type="hidden" name="hrstatus" value="@ViewBag.hrstatus">
+                                                <input type="hidden" name="newStatus" value="Reject">
+                                                <button class="dropdown-item" type="submit"><i class="fa-regular fa-circle-dot text-danger"></i> Reject</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            }
+                            else if (@item.hrstatus == "Pending")
+                            {
+                                <td class="text-center">
+                                    <div class="dropdown action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-regular fa-circle-dot text-purple"></i> Pending
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <form method="post" asp-action="UpdatehrStatus">
+                                                <input type="hidden" name="id" value="@item.Id">
+                                                <input type="hidden" name="hrstatus" value="@ViewBag.hrstatus">
+                                                <input type="hidden" name="newStatus" value="Approve">
+                                                <button class="dropdown-item" type="submit"><i class="fa-regular fa-circle-dot text-success"></i> Approved</button>
+                                            </form>
+                                            <form method="post" asp-action="UpdatehrStatus">
+                                                <input type="hidden" name="id" value="@item.Id">
+                                                <input type="hidden" name="hrstatus" value="@ViewBag.hrstatus">
+                                                <input type="hidden" name="newStatus" value="Reject">
+                                                <button class="dropdown-item" type="submit"><i class="fa-regular fa-circle-dot text-danger"></i> Reject</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            }
+                            else if (@item.hrstatus == "Reject")
+                            {
+                                <td class="text-center">
+                                    <div class="dropdown action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-regular fa-circle-dot text-danger"></i> Reject
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <form method="post" asp-action="UpdatehrStatus">
+                                                <input type="hidden" name="id" value="@item.Id">
+                                                <input type="hidden" name="hrstatus" value="@ViewBag.hrstatus">
+                                                <input type="hidden" name="newStatus" value="Approve">
+                                                <button class="dropdown-item" type="submit"><i class="fa-regular fa-circle-dot text-success"></i> Approved</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "Employee Dashboard";
+    ViewData["active"] = "ED";
+	var empRawAtts = ViewBag.empRawAtt as List<Tuple<DateTime, string>>;
+}
+
+<!-- Page Header -->
+<div class="page-header">
+	<div class="row">
+		<div class="col-sm-12">
+			<h3 class="page-title">Dashboard</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- /Page Header -->
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="card punch-status">
+			<div class="card-body">
+				<h5 class="card-title">Timesheet <small class="text-muted">@DateTime.Now.ToString("dd MMM yyyy")</small></h5>
+				<div class="punch-det">
+					<h6>Punch In at</h6>
+					<p>@ViewBag.todaycheckin</p>
+				</div>
+				<div class="punch-info">
+					<div class="punch-hours">
+						<span>@ViewBag.todaytime hrs</span>
+					</div>
+				</div>
+				<div class="punch-det">
+					<h6>Punch Out at</h6>
+					<p>@ViewBag.todaycheckout</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="card att-statistics">
+			<div class="card-body">
+				<h5 class="card-title">Statistics</h5>
+				<div class="stats-list">
+					<div class="stats-info">
+						<p>
+							Today <strong>
+								@ViewBag.todaytime <small>/ 9 hrs</small>
+							</strong>
+						</p>
+						<div class="progress">
+							<div class="progress-bar bg-primary w-@ViewBag.todayhour" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					<div class="stats-info">
+						<p>This Week <strong>@ViewBag.TotalWeekTime <small>/ 45 hrs</small></strong></p>
+						<div class="progress">
+							<div class="progress-bar bg-warning w-@ViewBag.weekhour" role="progressbar" aria-valuenow="31" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					<div class="stats-info">
+						<p>This Month <strong>@ViewBag.TotalMonthTime <small>/ 198 hrs</small></strong></p>
+						<div class="progress">
+							<div class="progress-bar bg-success w-@ViewBag.monthhour" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+					<div class="stats-info">
+						<p>Remaining <strong>@ViewBag.RemainMonthTime <small>/ 198 hrs</small></strong></p>
+						<div class="progress">
+							<div class="progress-bar bg-danger w-@ViewBag.remainhour" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="card recent-activity">
+			<div class="card-body">
+				<h5 class="card-title">Today Activity</h5>
+				<ul class="res-activity-list">
+					@if (empRawAtts != null)
+					{
+						@foreach (var empRawAtt in empRawAtts)
+						{
+							<li>
+								@if (empRawAtt.Item2 == "4")
+								{
+									<p class="mb-0"> Punch In at </p>
+								}
+								else if (empRawAtt.Item2 == "5")
+								{
+									<p class="mb-0"> Punch Out at </p>
+								}
+								<p class="res-activity-time">
+									<i class="fa-regular fa-clock"></i>
+									@empRawAtt.Item1
+								</p>
+							</li>
+						}
+					}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- /Page Content -->

@@ -1,0 +1,205 @@
+﻿@model itgsgroup.Models.hrms.COATViewModel
+
+@{
+    ViewData["Title"] = "Time Correction";
+	ViewData["active"] = "TC";
+}
+
+<!-- Page Header -->
+<div class="page-header">
+	<div class="row align-items-center">
+		<div class="col">
+			<h3 class="page-title">Time Correction</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
+				<li class="breadcrumb-item active">Time Correction</li>
+			</ul>
+		</div>
+		<div class="col-auto float-end ms-auto">
+			<a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_time_correction"><i class="fa-solid fa-plus"></i> Add Time Correction</a>
+		</div>
+		<div class="col-auto float-end ms-auto">
+			<div class="btn-group btn-group-sm">
+				<a asp-controller="COAT" asp-action="pendingreq" class="btn @(ViewBag.status == "Pending" ? "btn-primary" : "btn-white")"><i class="las la-hourglass-start"></i> Pending</a>
+				<a asp-controller="COAT" asp-action="approvereq" class="btn @(ViewBag.status == "Approve" ? "btn-primary" : "btn-white")"><i class="las la-check-circle"></i> Approved</a>
+				<a asp-controller="COAT" asp-action="rejectreq" class="btn @(ViewBag.status == "Reject" ? "btn-primary" : "btn-white")"><i class="las la-times-circle"></i> Rejected</a>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Page Header -->
+<!-- Leave Statistics -->
+<div class="row">
+	<div class="col-md-3">
+		<div class="stats-info">
+			<h6>Annual Time Correction</h6>
+			<h4>@ViewBag.yearlyTC</h4>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="stats-info">
+			<h6>Monthly Time Correction</h6>
+			<h4>@ViewBag.monthlyTC</h4>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="stats-info">
+			<h6>Weekly Time Correction</h6>
+			<h4>@ViewBag.weeklyTC</h4>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="stats-info">
+			<h6>Pending Time Correction</h6>
+			<h4>@ViewBag.PendingTC</h4>
+		</div>
+	</div>
+</div>
+<!-- /Leave Statistics -->
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="table-responsive">
+			<table id="example1" class="table table-striped custom-table leave-employee-table mb-0">
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Correction Time</th>
+						<th>Reason</th>
+						<th class="text-center">HOD Status</th>
+						<th class="text-center">HR Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model.COATModel)
+					{
+						<tr>
+							<td>
+								@item.date.ToString("dd MMM yyyy")
+							</td>
+							<td>
+								@item.correct_datetime.ToString("dd MMM yyyy HH:mm:ss")
+							</td>
+
+							<td>
+								@Html.DisplayFor(modelItem => item.reason)
+							</td>
+							@if (@item.status == "Approve")
+							{
+								<td class="text-center">
+									<div class="action-label">
+										<a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+											<i class="fa-regular fa-circle-dot text-success"></i> Approve
+										</a>
+									</div>
+								</td>
+							}
+							else if (@item.status == "Pending")
+							{
+								<td class="text-center">
+									<div class="action-label">
+										<a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+											<i class="fa-regular fa-circle-dot text-purple"></i> Pending
+										</a>
+									</div>
+								</td>
+							}
+							else if (@item.status == "Reject")
+							{
+								<td class="text-center">
+									<div class="action-label">
+										<a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+											<i class="fa-regular fa-circle-dot text-danger"></i> Reject
+										</a>
+									</div>
+								</td>
+							}
+							@if (@item.hrstatus == "Approve")
+							{
+								<td class="text-center">
+									<div class="action-label">
+										<a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+											<i class="fa-regular fa-circle-dot text-success"></i> Approve
+										</a>
+									</div>
+								</td>
+							}
+							else if (@item.hrstatus == "Pending")
+							{
+								<td class="text-center">
+									<div class="action-label">
+										<a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+											<i class="fa-regular fa-circle-dot text-purple"></i> Pending
+										</a>
+									</div>
+								</td>
+							}
+							else if (@item.hrstatus == "Reject")
+							{
+								<td class="text-center">
+									<div class="action-label">
+										<a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+											<i class="fa-regular fa-circle-dot text-danger"></i> Reject
+										</a>
+									</div>
+								</td>
+							}
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- /Page Content -->
+<!-- Add Leave Modal -->
+<div id="add_time_correction" class="modal custom-modal fade" role="dialog">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Add Time Correction</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form asp-action="Create" method="post">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<input type="date" asp-for="date" class="form-control" hidden />
+					<div class="input-block mb-3">
+						<label class="col-form-label">Correction Date/Time <span class="text-danger">*</span></label>
+						<input asp-for="correct_datetime" class="form-control">
+						<span asp-validation-for="correct_datetime" class="text-danger"></span>
+					</div>
+					<div class="input-block mb-3">
+						<label class="col-form-label">Time Correction Reason <span class="text-danger">*</span></label>
+						<textarea asp-for="reason" rows="4" class="form-control"></textarea>
+						<span asp-validation-for="reason" class="text-danger"></span>
+					</div>
+					<input asp-for="empId" name="empId" class="form-control" value="@ViewBag.empId" hidden />
+					<input asp-for="companyId" name="companyId" class="form-control" value="@ViewBag.companyId" hidden />
+					@if(ViewBag.userRole == "HOD" || ViewBag.userRole == "HR")
+					{
+						<input asp-for="status" class="form-control" value="Approve" hidden />
+					}else{
+					<input asp-for="status" class="form-control" value="Pending"  hidden/>
+					}
+					@if(ViewBag.userRole == "HR"){
+						<input asp-for="hrstatus" class="form-control" value="Approve" hidden />
+					}else{
+						<input asp-for="hrstatus" class="form-control" value="Pending" hidden />
+					}
+					<div class="submit-section">
+						<button class="btn btn-primary submit-btn">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Add Leave Modal -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,255 @@
+﻿@model itgsgroup.Models.hrms.LoanApplyViewModel
+
+@{
+    ViewData["Title"] = "Apply Loan";
+    ViewData["active"] = "LA";
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Apply Loan</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
+                <li class="breadcrumb-item active">Apply Loan</li>
+            </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_apply_loan"><i class="fa-solid fa-plus"></i> Add Apply Loan</a>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <div class="btn-group btn-group-sm">
+                <a asp-controller="LoanApply" asp-action="pendingreq" class="btn @(ViewBag.status == "Pending" ? "btn-primary" : "btn-white")"><i class="las la-hourglass-start"></i> Pending</a>
+                <a asp-controller="LoanApply" asp-action="approvereq" class="btn @(ViewBag.status == "Approve" ? "btn-primary" : "btn-white")"><i class="las la-check-circle"></i> Approved</a>
+                <a asp-controller="LoanApply" asp-action="rejectreq" class="btn @(ViewBag.status == "Reject" ? "btn-primary" : "btn-white")"><i class="las la-times-circle"></i> Rejected</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Leave Statistics -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="stats-info">
+            <h6>Loan Received</h6>
+            <h4>@string.Format("{0:N0}", ViewBag.LR)</h4>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-info">
+            <h6>Loan Pay</h6>
+            <h4>@string.Format("{0:N0}", ViewBag.LP)</h4>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-info">
+            <h6>Remaining Loan Amount</h6>
+            <h4>@string.Format("{0:N0}", ViewBag.RL)</h4>
+        </div>
+    </div>
+</div>
+<!-- /Leave Statistics -->
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example3" class="table table-striped custom-table leave-employee-table mb-0">
+    <thead>
+        <tr>
+            <th>
+                Start Date
+            </th>
+            <th>
+                Loan Amount
+            </th>
+            <th>
+                Monthly Installment Amount
+            </th>
+            <th>
+                Reason
+            </th>
+
+            <th class="text-center">
+                HOD Status
+            </th>
+            <th class="text-center">
+                HR Status
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.loanApply) {
+        <tr>
+            <td>
+                @item.startdate.ToString("dd MMM yyyy")
+            </td>
+            <td>
+                                @string.Format("{0:N0}", item.loanamount)
+            </td>
+                <td>
+                                @string.Format("{0:N0}", item.repaymentamount)
+                </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.reason)
+            </td>
+                            @if (@item.status == "Approve")
+                            {
+                                <td class="text-center">
+                                    <div class="action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                            <i class="fa-regular fa-circle-dot text-success"></i> Approve
+                                        </a>
+                                    </div>
+                                </td>
+                            }
+                            else if (@item.status == "Pending")
+                            {
+                                <td class="text-center">
+                                    <div class="action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                            <i class="fa-regular fa-circle-dot text-purple"></i> Pending
+                                        </a>
+                                    </div>
+                                </td>
+                            }
+                            else if (@item.status == "Reject")
+                            {
+                                <td class="text-center">
+                                    <div class="action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                            <i class="fa-regular fa-circle-dot text-danger"></i> Reject
+                                        </a>
+                                    </div>
+                                </td>
+                            }
+                            @if (@item.hrstatus == "Approve")
+                            {
+                                <td class="text-center">
+                                    <div class="action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                            <i class="fa-regular fa-circle-dot text-success"></i> Approve
+                                        </a>
+                                    </div>
+                                </td>
+                            }
+                            else if (@item.hrstatus == "Pending")
+                            {
+                                <td class="text-center">
+                                    <div class="action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                            <i class="fa-regular fa-circle-dot text-purple"></i> Pending
+                                        </a>
+                                    </div>
+                                </td>
+                            }
+                            else if (@item.hrstatus == "Reject")
+                            {
+                                <td class="text-center">
+                                    <div class="action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                            <i class="fa-regular fa-circle-dot text-danger"></i> Reject
+                                        </a>
+                                    </div>
+                                </td>
+                            }
+        </tr>
+}
+                    @if (ViewBag.loanopeingdate != null)
+                    {
+
+
+                        <tr>
+                            <td>@ViewBag.loanopeingdate</td>
+                        <td>@ViewBag.loanopeingamount</td>
+                        <td>0</td>
+                        <td>Opening</td>
+                        <td class="text-center">
+                            <div class="action-label">
+                                <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                    <i class="fa-regular fa-circle-dot text-success"></i> Approve
+                                </a>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="action-label">
+                                <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
+                                    <i class="fa-regular fa-circle-dot text-success"></i> Approve
+                                </a>
+                            </div>
+                        </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+        </div>
+    </div>
+</div>
+<!-- Add Leave Modal -->
+<div id="add_apply_loan" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Apply Loan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Starting Date <span class="text-danger">*</span></label>
+                        <input type="date" asp-for="startdate" class="form-control">
+                        <span asp-validation-for="startdate" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Loan Amount <span class="text-danger">*</span></label>
+                        <input asp-for="loanamount" class="form-control" />
+                        <span asp-validation-for="loanamount" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Monthly Installment Amount <span class="text-danger">*</span></label>
+                        <input asp-for="repaymentamount" class="form-control" />
+                        <span asp-validation-for="repaymentamount" class="text-danger"></span>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Loan Reason <span class="text-danger">*</span></label>
+                        <textarea asp-for="reason" rows="4" class="form-control"></textarea>
+                        <span asp-validation-for="reason" class="text-danger"></span>
+                    </div>
+                    <input asp-for="empId" name="empId" class="form-control" value="@ViewBag.empId" hidden />
+                    <input asp-for="companyId" name="companyId" class="form-control" value="@ViewBag.companyId" hidden />
+                    @if (ViewBag.userRole == "HOD" || ViewBag.userRole == "HR")
+                    {
+                        <input asp-for="status" class="form-control" value="Approve" hidden />
+                    }
+                    else
+                    {
+                        <input asp-for="status" class="form-control" value="Approve" hidden />
+                    }
+                    @if (ViewBag.userRole == "HR")
+                    {
+                        <input asp-for="hrstatus" class="form-control" value="Approve" hidden />
+                    }
+                    else
+                    {
+                        <input asp-for="hrstatus" class="form-control" value="Pending" hidden />
+                    }
+                    <div class="submit-section">
+                        <button class="btn btn-primary submit-btn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Leave Modal -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

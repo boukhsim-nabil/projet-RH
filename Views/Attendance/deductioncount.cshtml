@@ -1,0 +1,164 @@
+﻿@model List<itgsgroup.Models.hrms.DeductionCountViewModel>
+
+@{
+    ViewData["Title"] = "Deduction Count";
+    ViewData["active"] = "DC";
+    var emps = ViewBag.emps as List<Tuple<string, string, int?>>;
+    var companys = ViewBag.companys as List<Tuple<string, int>>;
+}
+
+<!-- Add Leave Modal -->
+<div id="deduction_count" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Deduction Count </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="date" class="form-control" hidden />
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">From<span class="text-danger">*</span></label>
+                        <input type="date" id="Fromdate" class="form-control">
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label"> To <span class="text-danger">*</span></label>
+                        <input type="date" id="Todate" class="form-control">
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Company <span class="text-danger">*</span></label>
+                        <select id="companyDropdown" class="form-control companyId">
+                            @if (ViewBag.role == "HR")
+                            {
+                                <option value="">All</option>
+                            }
+                            @if (companys != null)
+                            {
+                                @foreach (var company in companys)
+                                {
+                                    <option value="@company.Item2">@company.Item1</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Employee <span class="text-danger">*</span></label>
+                        <select id="employeeDropdown" class="form-control empId">
+                            @if (ViewBag.role == "HR")
+                            {
+                                <option value="">All</option>
+                            }
+                            @if (emps != null)
+                            {
+                                @foreach (var emp in emps)
+                                {
+                                    <option value="@emp.Item2" data-companyid="@emp.Item3">@emp.Item1</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <input type="text" id="role" value="@ViewBag.role" hidden />
+                    <div class="submit-section">
+                        <button type="button" id="attdetail" class="btn btn-primary submit-btn">Show</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Leave Modal -->
+@if (ViewBag.Fromdate == null)
+{
+    <script>
+        $(document).ready(function () {
+            // Show the modal when the page loads
+            $('#deduction_count').modal('show');
+        });
+    </script>
+}
+
+<script>
+    $(document).ready(function () {
+        $('#attdetail').on('click', function () {
+            // Get the selected date from the input field
+            var FromDate = $('#Fromdate').val();
+            var ToDate = $('#Todate').val();
+            var companyIdWithClass = document.getElementsByClassName("companyId");
+            if (companyIdWithClass.length > 0) {
+                var companyId = companyIdWithClass[0];
+                var companyIdvalue = companyId.value;
+            }
+
+            var empIdWithClass = document.getElementsByClassName("empId");
+
+            if (empIdWithClass.length > 0) {
+                var empId = empIdWithClass[0];
+                var empIdvalue = empId.value;
+            }
+
+            // Construct the URL with the selected date
+            var url = '/Attendance/deductioncount?Fromdate=' + FromDate + '&Todate=' + ToDate + '&empId=' + empIdvalue + '&companyId=' + companyIdvalue;
+
+            // Redirect to the controller action with the selected date
+            window.location.href = url;
+        });
+    });
+</script>
+
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="page-title">Deduction Count </h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Deduction Count </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example3" class="table table-striped custom-table leave-employee-table mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Late</th>
+                        <th>Absent</th>
+                        <th>Diciplinary Action</th>
+                        <th> Total Deduction</th>
+
+                        <!-- Add other table headers here -->
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.emp.name</td>
+                            <td>@item.Late</td>
+                            <td>@item.Absent</td>
+                            <td>@item.DiciplinaryAction</td>
+                            <td>@item.TotalDeduction</td>
+                            <!-- Add other table cells here -->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

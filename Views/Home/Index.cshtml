@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["active"] = "AD";
+}
+
+
+<!-- Page Header -->
+<div class="page-header">
+	<div class="row">
+		<div class="col-sm-12">
+			<h3 class="page-title">Welcome HR!</h3>
+			<ul class="breadcrumb">
+				<li class="breadcrumb-item active">Dashboard</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- /Page Header -->
+
+<!-- Statistics Widget -->
+<div class="row">
+<div class="col-md-12 col-lg-6 col-xl-6 d-flex">
+	<div class="card flex-fill">
+		<div class="card-body">
+			<h4 class="card-title">Task Statistics</h4>
+			<div class="statistics">
+				<div class="row">
+					<div class="col-md-6 col-6 text-center">
+						<div class="stats-box mb-4">
+							<p>Total Companies</p>
+							<h3>@ViewBag.noofcompanys</h3>
+						</div>
+					</div>
+					<div class="col-md-6 col-6 text-center">
+						<div class="stats-box mb-4">
+							<p>Total Employees</p>
+							<h3>@ViewBag.employees</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+<!--				<div class="progress mb-4">
+					@foreach (var company in ViewBag.companys)
+					{
+						<div class="progress-bar bg-@company.Color w-@company.Percent" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">@company.Percent %</div>
+					}
+
+				</div>
+			<div class="progress mb-4">
+				<div class="progress-bar bg-purple w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+				<div class="progress-bar bg-warning w-22" role="progressbar" aria-valuenow="18" aria-valuemin="0" aria-valuemax="100">22%</div>
+				<div class="progress-bar bg-success w-24" role="progressbar" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100">24%</div>
+				<div class="progress-bar bg-danger w-21" role="progressbar" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">21%</div>
+				<div class="progress-bar bg-info w-10" role="progressbar" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">10%</div>
+							</div>-->
+			<div>
+					@foreach (var company in ViewBag.companys)
+					{
+						<p><i class="fa-regular fa-circle-dot text-@company.Color me-2"></i>@company.name <span class="float-end">@company.UserCount</span></p>
+					}
+			</div>
+		</div>
+	</div>
+</div>
+</div>

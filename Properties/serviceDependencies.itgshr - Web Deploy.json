@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/itgshr/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsApplicationDbContextCon_1B2914FF11",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/itgsgroup/databases/itgsgroup",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:ApplicationDbContextConnection"
+    }
+  }
+}

@@ -1,0 +1,135 @@
+﻿@model itgsgroup.Models.hrms.roleModel
+@{
+    ViewData["Title"] = "Roles";
+    ViewData["active"] = "ROLES";
+}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.addEventListener("click", function (event) {
+            if (event.target.id.startsWith("deleteButton-")) { // Add a closing parenthesis here
+                var itemId = event.target.getAttribute("data-item-name");
+                var item_id = document.getElementById("confirmDelete");
+                item_id.value = itemId;
+            }
+        });
+    });
+</script>
+
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Roles</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Roles</li>
+            </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_roles"><i class="fa-solid fa-plus"></i> Add Role</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example1" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>
+                           Id
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.identityRoles)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_ticket" id="deleteButton-@item.Name" data-item-name="@item.Name"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
+
+                                @using (Html.BeginForm("DeleteRole", "Roles", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="roleName" value="@item.Name" />
+                             //       <input type="submit" value="Delete" />
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Ticket Modal -->
+<div id="add_roles" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Role</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <form method="post" asp-action="Create">                       
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">Name</label>
+                            <input name="Name" asp-for="identityRole.Name" class="form-control" aria-required="ture" required />                           
+                            <span asp-validation-for="identityRole.Name" class="text-danger"></span>
+                        </div>
+                    <div class="submit-section">
+                        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Ticket Modal -->
+<!-- Delete Ticket Modal -->
+<div class="modal custom-modal fade" id="delete_ticket" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Delete Role</h3>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <form asp-action="DeleteRole">
+                                <input type="hidden" name="roleName" id="confirmDelete" />
+                                <button type="submit" class="btn btn-primary continue-btn w-100">Delete</button>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Delete Ticket Modal -->
+
+
+
+    

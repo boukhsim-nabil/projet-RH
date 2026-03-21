@@ -1,0 +1,94 @@
+﻿@model List<itgsgroup.Models.hrms.PayRollModel>
+@{
+    ViewData["Title"] = "Monthly PayRoll";
+    ViewData["active"] = "MPR";
+}
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Monthly PayRoll</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
+                <li class="breadcrumb-item active">Monthly PayRoll</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Display data from the view model -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example3" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Gross Salary</th>
+                        <th>Basic</th>
+                        <th>H.R.A</th>
+                        <th>Medical ALL.</th>
+                        <th>Conveyance ALL.</th>
+                        <th>Utility ALL.</th>
+                        <th>Other ALL.</th>
+                        <th>No. Of Days</th>
+                        <th>Day Sal.</th>
+                        <th>No. Of Deduc. Days</th>
+                        <th>Amount Deduc. Days</th>
+                        <th>Loan</th>
+                        <th>Income Tax</th>
+                        <th>EOBI</th>
+                        <th>PF</th>
+                        <th>Sessi</th>
+                        <th>Other Deduc.</th>
+                        <th>Arear</th>
+                        <th>Bonus</th>
+                        <th>Tot. Deduc.</th>
+                        <th>Tot Add.</th>
+                        <th>Net Salary</th>
+                        <th>Remarks</th>
+                        <th>CPR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.monthYear</td>
+                            <td>@item.gross_salary</td>
+                            <td>@item.basic</td>
+                            <td>@item.hra</td>
+                            <td>@item.medical_all</td>
+                            <td>@item.con_all</td>
+                            <td>@item.utility_all</td>
+                            <td>@item.other_all</td>
+                            <td>@item.days</td>
+                            <td>@item.day_salary</td>
+                            <td>@item.deduction_count</td>
+                            <td>@item.att_deduction</td>
+                            <td>@item.loan_deduction</td>
+                            <td>@item.incometax</td>
+                            <td>@item.EOBI</td>
+                            <td>@item.pf</td>
+                            <td>@item.sessi_deduction</td>
+                            <td>@item.other_deduction</td>
+                            <td>@item.arear</td>
+                            <td>@item.bonus</td>
+                            <td>@item.total_deduction</td>
+                            <td>@item.total_addition</td>
+                            <td>@item.net_salary</td>
+                            <td>@item.remarks</td>
+                            <td>@item.CPR</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

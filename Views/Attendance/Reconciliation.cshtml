@@ -1,0 +1,169 @@
+﻿@model List<itgsgroup.Models.hrms.ReconciliationViewModel>
+@{
+    ViewData["Title"] = ViewBag.role+" Attendance Count";
+    if(ViewBag.role == null){
+            ViewData["active"] = "AC";
+    }
+    else if (ViewBag.role == "HOD")
+    {
+        ViewData["active"] = "SAC";
+    }
+    var emps = ViewBag.emps as List<Tuple<string, string, int?>>;
+    var companys = ViewBag.companys as List<Tuple<string, int>>;
+}
+
+<!-- Add Leave Modal -->
+<div id="add_attendance_count" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@ViewBag.role Attendance Count</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="date" class="form-control" hidden />
+                    <div class="input-block mb-3">
+                        <label class="col-form-label">From<span class="text-danger">*</span></label>
+                        <input type="date" id="Fromdate" class="form-control">                        
+                    </div>
+                    <div class="input-block mb-3">
+                        <label class="col-form-label"> To <span class="text-danger">*</span></label>
+                        <input type="date" id="Todate" class="form-control">                      
+                    </div>
+                    @if ((ViewBag.userRole == "HR" || ViewBag.userRole == "admin" || ViewBag.userRole == "Viewer") && ViewBag.role == "HR")
+                    {
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Company <span class="text-danger">*</span></label>
+                            <select id="companyDropdown" class="form-control companyId">
+                                <option value="">All</option> 
+                                @if (companys != null)
+                                {
+                                    @foreach (var company in companys)
+                                    {
+                                        <option value="@company.Item2">@company.Item1</option>
+                                    }
+                                }
+                            </select>                        
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Employee <span class="text-danger">*</span></label>
+                            <select id="employeeDropdown" class="form-control empId">
+                                <option value="">All</option>                     
+                                @if (emps != null)
+                                {
+                                    @foreach (var emp in emps)
+                                    {
+                                        <option value="@emp.Item2" data-companyid="@emp.Item3">@emp.Item1</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    }
+                    <input type="text" id="role" value="@ViewBag.role" hidden/>
+                    <div class="submit-section">                   
+                        <button type="button" id="attdetail" class="btn btn-primary submit-btn">Show</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Leave Modal -->
+@if(ViewBag.Fromdate == null)
+{
+    <script>
+        $(document).ready(function () {
+            // Show the modal when the page loads
+            $('#add_attendance_count').modal('show');
+        });
+    </script>
+}
+
+<script>
+    $(document).ready(function () {
+        $('#attdetail').on('click', function () {
+            // Get the selected date from the input field
+            var FromDate = $('#Fromdate').val();
+            var ToDate = $('#Todate').val();
+            var role = $('#role').val();
+            var companyIdWithClass = document.getElementsByClassName("companyId");
+            if (companyIdWithClass.length > 0) {
+                var companyId = companyIdWithClass[0];
+                var companyIdvalue = companyId.value;
+            }
+
+            var empIdWithClass = document.getElementsByClassName("empId");
+
+            if (empIdWithClass.length > 0) {
+                var empId = empIdWithClass[0];
+                var empIdvalue = empId.value;
+            }
+
+            // Construct the URL with the selected date
+            var url = '/Attendance/Reconciliation?Fromdate=' + FromDate + '&Todate=' + ToDate + '&empId=' + empIdvalue + '&companyId=' + companyIdvalue + '&role=' + role;
+
+            // Redirect to the controller action with the selected date
+            window.location.href = url;
+        });
+    });
+</script>
+
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="page-title">@ViewBag.role Attendance Count</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
+                <li class="breadcrumb-item active">@ViewBag.role Attendance Count</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Display data from the view model -->
+<table id="example3" class="table table-striped custom-table leave-employee-table mb-0">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Total Days</th>
+        <th>Sundays</th>
+        <th>Saturdays</th>
+        <th> Gazetted Holidays</th>
+        <th>Company Holidays</th>
+        <th>Total Working Days</th>
+        <th>Present Days</th>
+        <!-- Add other table headers here -->
+    </tr>
+    </thead>
+    <tbody>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.name</td>
+            <td>@item.TotalDays</td>
+            <td>@item.Sundays</td>
+            <td>@item.Saturdays</td>
+            <td>@item.GazettedHolidaysCount</td>
+            <td>@item.CompanyHolidaysCount</td>
+            <td>@item.TotalWorkingDays</td>
+            <td>@item.PresentDays</td>
+            <!-- Add other table cells here -->
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

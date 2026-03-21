@@ -1,0 +1,259 @@
+﻿@model itgsgroup.Models.hrms.DiciplinaryActionViewModel
+
+@{
+    ViewData["Title"] = "Diciplinary Action";
+    ViewData["active"] = "DPA";
+    var emps = ViewBag.emps as List<Tuple<string, string, int?>>;
+    var companys = ViewBag.companys as List<Tuple<string, int>>;
+}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.addEventListener("click", function (event) {
+            if (event.target.id.startsWith("deleteButton-")) {
+                var itemId = event.target.getAttribute("data-item-id");
+                var item_id = document.getElementById("confirmDelete");
+                item_id.value = itemId;
+            }
+        });
+    });
+</script>
+
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Diciplinary Action</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active">Diciplinary Action</li>
+            </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <a asp-controller="DiciplinaryAction" asp-action="Index" asp-route-ModelAction="Create" asp-route-id="" class="btn add-btn"><i class="fa-solid fa-plus"></i> Add Diciplinary Action</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="example3" class="table table-striped custom-table leave-employee-table mb-0">
+                <thead>
+                    <tr>
+                        <th>
+                            Action Date
+                        </th>
+                        <th>
+                            Reason
+                        </th>
+                        <th>
+                            Employee
+                        </th>
+                        <th>
+                            Company
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.diciplnaryAction)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ActionDate.Day)/@Html.DisplayFor(modelItem => item.ActionDate.Month)/@Html.DisplayFor(modelItem => item.ActionDate.Year)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.reason)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.emp.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.company.name)
+                            </td>
+                            <td class="text-end">
+                                <div class="dropdown dropdown-action">
+                                    <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" asp-controller="DiciplinaryAction" asp-action="Index" asp-route-ModelAction="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-pencil m-r-5"></i> Edit</a>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_ticket" id="deleteButton-@item.Id" data-item-id="@item.Id"><i class="fa-regular fa-trash-can m-r-5"></i> Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@if (ViewBag.Modelaction == "Create")
+{
+    <script>
+        $(document).ready(function () {
+            // Show the modal when the page loads
+            $('#add_diciplinary_action').modal('show');
+        });
+    </script>
+
+    <!-- Add Ticket Modal -->
+    <div id="add_diciplinary_action" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Diciplinary Action</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Action Date</label>
+                            <input type="date" asp-for="ActionDate" class="form-control">
+                            <span asp-validation-for="ActionDate" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Reason</label>
+                            <input asp-for="reason" class="form-control" type="text">
+                            <span asp-validation-for="reason" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Company</label>
+                            <select id="companyDropdown" name="companyid" class="form-control">
+                                <option>All</option>
+                                @if (companys != null)
+                                {
+                                    @foreach (var company in companys)
+                                    {
+                                        <option value="@company.Item2">@company.Item1</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Employee</label>
+                            <select asp-for="empId" id="employeeDropdown" name="empId" class="form-control">
+                                @if (emps != null)
+                                {
+                                    @foreach (var emp in emps)
+                                    {
+                                        <option value="@emp.Item2" data-companyid="@emp.Item3">@emp.Item1</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="empId" class="text-danger"></span>
+                        </div>
+                        <div class="submit-section">
+                            <button class="btn btn-primary submit-btn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Add Ticket Modal -->
+}
+@if (ViewBag.ModelAction == "Edit")
+{
+    <script>
+        $(document).ready(function () {
+            // Show the modal when the page loads
+            $('#edit_ticket').modal('show');
+        });
+    </script>
+    <!-- Edit Ticket Modal -->
+    <div id="edit_ticket" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Diciplinary Action</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" id="item_id" />
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Action Date</label>
+                            <input type="date" asp-for="ActionDate" class="form-control" id="item_from">
+                            <span asp-validation-for="ActionDate" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Reason</label>
+                            <input asp-for="reason" class="form-control" type="text" id="item_reason">
+                            <span asp-validation-for="reason" class="text-danger"></span>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Company</label>
+                            <select id="companyDropdown" name="companyid" class="form-control">
+                                <option></option>
+                                @if (companys != null)
+                                {
+                                    @foreach (var company in companys)
+                                    {
+                                        <option value="@company.Item2">@company.Item1</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Employee</label>
+                            <select asp-for="empId" id="employeeDropdown" name="empId" class="form-control">
+                                @if (emps != null)
+                                {
+                                    @foreach (var emp in emps)
+                                    {
+                                        <option value="@emp.Item2" data-companyid="@emp.Item3">@emp.Item1</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="empId" class="text-danger"></span>
+                        </div>
+                        <div class="submit-section">
+                            <button class="btn btn-primary submit-btn">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Edit Ticket Modal -->
+}
+<!-- Delete Ticket Modal -->
+<div class="modal custom-modal fade" id="delete_ticket" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-header">
+                    <h3>Delete Diciplinary Action</h3>
+                    <p>Are you sure want to delete?</p>
+                </div>
+                <div class="modal-btn delete-action">
+                    <div class="row">
+                        <div class="col-6">
+                            <form asp-action="Delete">
+                                <input type="hidden" name="id" id="confirmDelete" />
+                                <button type="submit" class="btn btn-primary continue-btn w-100">Delete</button>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <a href="javascript:void(0);" data-bs-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Delete Ticket Modal -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

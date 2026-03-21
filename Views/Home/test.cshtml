@@ -1,0 +1,578 @@
+﻿@model IEnumerable<itgsgroup.Models.hrms.LeaveApplyModel>
+
+@{
+    ViewData["Title"] = "test";
+    //   Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sticky Header Table Example</title>
+
+</head>
+<body>
+
+    <div class="container mt-4">
+        <h2>Sticky Header Table</h2>
+        <div class="table-responsive">
+            <table class="table table-striped" data-module="sticky-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Age</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jane</td>
+                        <td>Smith</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Bob</td>
+                        <td>Johnson</td>
+                        <td>22</td>
+                    </tr>
+
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
