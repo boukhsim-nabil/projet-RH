@@ -1,102 +1,365 @@
-﻿@page
+@page
 @model LoginModel
 
 @{
-	ViewData["Title"] = "Log in";
+	ViewData["Title"] = "Connexion";
 	Layout = null;
 }
 <!DOCTYPE html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
+<html lang="fr">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Smarthr - Bootstrap Admin Template">
-	<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
-	<meta name="author" content="Dreamguys - Bootstrap Admin Template">
-	<title>Login - HR Itgs</title>
+	<title>Connexion - SUPMTI RH</title>
+	<style>
+		*, *::before, *::after {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
 
-	<!-- Favicon -->
-	<link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.png">
+		body {
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: linear-gradient(135deg, #0d0d1a, #1a1040, #0d1a2e);
+			font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+			overflow: hidden;
+			position: relative;
+		}
 
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+		/* Animated blobs */
+		.blob {
+			position: fixed;
+			border-radius: 50%;
+			filter: blur(80px);
+			opacity: 0.35;
+			animation: float 8s ease-in-out infinite;
+			pointer-events: none;
+			z-index: 0;
+		}
 
-	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" href="~/assets/plugins/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="~/assets/plugins/fontawesome/css/all.min.css">
+		.blob-1 {
+			width: 420px;
+			height: 420px;
+			background: radial-gradient(circle, #4f46e5, #6366f1);
+			top: -120px;
+			left: -100px;
+			animation-duration: 9s;
+			animation-delay: 0s;
+		}
 
-	<!-- Lineawesome CSS -->
-	<link rel="stylesheet" href="~/assets/css/line-awesome.min.css">
-	<link rel="stylesheet" href="~/assets/css/material.css">
+		.blob-2 {
+			width: 350px;
+			height: 350px;
+			background: radial-gradient(circle, #06b6d4, #0891b2);
+			bottom: -80px;
+			right: -80px;
+			animation-duration: 11s;
+			animation-delay: -3s;
+		}
 
-	<!-- Lineawesome CSS -->
-	<link rel="stylesheet" href="~/assets/css/line-awesome.min.css">
+		.blob-3 {
+			width: 300px;
+			height: 300px;
+			background: radial-gradient(circle, #7c3aed, #a855f7);
+			bottom: 30%;
+			left: -60px;
+			animation-duration: 13s;
+			animation-delay: -6s;
+		}
 
-	<!-- Main CSS -->
-	<link rel="stylesheet" href="~/assets/css/style.css">
+		@@keyframes float {
+			0%, 100% { transform: translateY(0px) scale(1); }
+			33%       { transform: translateY(-30px) scale(1.04); }
+			66%       { transform: translateY(20px) scale(0.97); }
+		}
 
+		/* Glass card */
+		.login-card {
+			position: relative;
+			z-index: 10;
+			width: 100%;
+			max-width: 420px;
+			padding: 48px 40px;
+			background: rgba(255, 255, 255, 0.07);
+			backdrop-filter: blur(30px);
+			-webkit-backdrop-filter: blur(30px);
+			border: 1px solid rgba(255, 255, 255, 0.15);
+			border-radius: 20px;
+			box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+		}
+
+		/* Logo / Title */
+		.login-logo {
+			text-align: center;
+			margin-bottom: 8px;
+		}
+
+		.login-logo .logo-icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 56px;
+			height: 56px;
+			background: linear-gradient(135deg, #4f46e5, #7c3aed);
+			border-radius: 14px;
+			margin-bottom: 16px;
+			box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
+		}
+
+		.login-logo .logo-icon svg {
+			width: 28px;
+			height: 28px;
+			fill: #fff;
+		}
+
+		.login-title {
+			font-size: 28px;
+			font-weight: 700;
+			color: #ffffff;
+			letter-spacing: 1px;
+			text-align: center;
+			margin-bottom: 4px;
+		}
+
+		.login-subtitle {
+			font-size: 13px;
+			color: rgba(255, 255, 255, 0.45);
+			text-align: center;
+			margin-bottom: 36px;
+			letter-spacing: 0.3px;
+		}
+
+		/* Validation summary */
+		.validation-summary {
+			background: rgba(239, 68, 68, 0.15);
+			border: 1px solid rgba(239, 68, 68, 0.35);
+			border-radius: 10px;
+			padding: 12px 16px;
+			margin-bottom: 20px;
+			color: #fca5a5;
+			font-size: 13px;
+		}
+
+		.validation-summary ul {
+			margin: 0;
+			padding-left: 18px;
+		}
+
+		/* Form groups */
+		.form-group {
+			margin-bottom: 20px;
+		}
+
+		.form-label {
+			display: block;
+			font-size: 13px;
+			font-weight: 500;
+			color: rgba(255, 255, 255, 0.7);
+			margin-bottom: 8px;
+			letter-spacing: 0.2px;
+		}
+
+		.form-control {
+			width: 100%;
+			padding: 12px 16px;
+			background: rgba(255, 255, 255, 0.06);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			border-radius: 10px;
+			color: #ffffff;
+			font-size: 14px;
+			outline: none;
+			transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+		}
+
+		.form-control::placeholder {
+			color: rgba(255, 255, 255, 0.25);
+		}
+
+		.form-control:focus {
+			border-color: #6366f1;
+			background: rgba(99, 102, 241, 0.1);
+			box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+		}
+
+		/* Password wrapper */
+		.password-wrapper {
+			position: relative;
+		}
+
+		.password-wrapper .form-control {
+			padding-right: 44px;
+		}
+
+		.toggle-password {
+			position: absolute;
+			right: 14px;
+			top: 50%;
+			transform: translateY(-50%);
+			cursor: pointer;
+			color: rgba(255, 255, 255, 0.35);
+			font-size: 15px;
+			user-select: none;
+			transition: color 0.2s;
+		}
+
+		.toggle-password:hover {
+			color: rgba(255, 255, 255, 0.7);
+		}
+
+		/* Validation errors */
+		.field-validation-error {
+			display: block;
+			font-size: 12px;
+			color: #fca5a5;
+			margin-top: 5px;
+		}
+
+		/* Remember + forgot row */
+		.remember-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 28px;
+		}
+
+		.remember-label {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 13px;
+			color: rgba(255, 255, 255, 0.6);
+			cursor: pointer;
+			user-select: none;
+		}
+
+		.remember-label input[type="checkbox"] {
+			width: 15px;
+			height: 15px;
+			accent-color: #6366f1;
+			cursor: pointer;
+		}
+
+		.forgot-link {
+			font-size: 13px;
+			color: #818cf8;
+			text-decoration: none;
+			transition: color 0.2s;
+		}
+
+		.forgot-link:hover {
+			color: #a5b4fc;
+			text-decoration: underline;
+		}
+
+		/* Submit button */
+		.btn-login {
+			width: 100%;
+			padding: 13px;
+			background: linear-gradient(135deg, #4f46e5, #7c3aed);
+			border: none;
+			border-radius: 10px;
+			color: #ffffff;
+			font-size: 15px;
+			font-weight: 600;
+			letter-spacing: 0.4px;
+			cursor: pointer;
+			transition: box-shadow 0.25s, transform 0.15s, opacity 0.2s;
+			box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+		}
+
+		.btn-login:hover {
+			box-shadow: 0 10px 32px rgba(79, 70, 229, 0.55);
+			transform: translateY(-1px);
+		}
+
+		.btn-login:active {
+			transform: translateY(0);
+			opacity: 0.9;
+		}
+
+		/* Footer note */
+		.login-footer {
+			margin-top: 24px;
+			text-align: center;
+			font-size: 12px;
+			color: rgba(255, 255, 255, 0.3);
+		}
+	</style>
 </head>
-<body class="account-page">
+<body>
 
-	<!-- Main Wrapper -->
-	<div class="main-wrapper">
-		<div class="account-content">
-			<div class="container">
-					<!-- Account Logo -->
-				<div class="account-logo">
-					<a href="admin-dashboard.html"><img src="~/assets/img/logo2.png" alt="Dreamguy's Technologies"></a>
-				</div>
-				<!-- /Account Logo -->
-				<div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show" role="alert">
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-					</button>
-				</div>
-				<div class="account-box">
-					<div class="account-wrapper">
-						<h3 class="account-title">Login</h3>
-						<p class="account-subtitle">Access to our dashboard</p>
-						<!-- Account Form -->
-						<form id="account" method="post">
-							<div class="input-block mb-4">
-								<label asp-for="Input.Email" class="col-form-label">Email Address</label>
-								<input asp-for="Input.Email" class="form-control" type="text">
-								<span asp-validation-for="Input.Email" class="text-danger"></span>
-							</div>
-							<div class="input-block mb-4">
-								<div class="row align-items-center">
-									<div class="col">
-										<label asp-for="Input.Password" class="col-form-label">Password</label>
-									</div>
-									</div>
-								<div class="position-relative">
-									<input asp-for="Input.Password" class="form-control" type="password" id="password">
-									<span class="fa-solid fa-eye-slash" id="toggle-password"></span>
-									<span asp-validation-for="Input.Password" class="text-danger"></span>
-								</div>
-							</div>
-							<div class="input-block mb-4 text-center">
-								<button class="btn btn-primary account-btn" type="submit">Login</button>
-							</div>
-							<div class="account-footer">
-								<p>Don't have an account yet? Contact to HR Now</p>
-							</div>
-						</form>
-						<!-- /Account Form -->
+	<!-- Animated blobs -->
+	<div class="blob blob-1"></div>
+	<div class="blob blob-2"></div>
+	<div class="blob blob-3"></div>
 
-					</div>
-				</div>
+	<!-- Glass card -->
+	<div class="login-card">
+
+		<!-- Logo -->
+		<div class="login-logo">
+			<div class="logo-icon">
+				<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<path d="M12 2C8.13 2 5 5.13 5 9c0 2.61 1.41 4.88 3.5 6.16V17h7v-1.84C17.59 13.88 19 11.61 19 9c0-3.87-3.13-7-7-7zm-1 14v1H8v-1h3zm0 2v1H8v-1h3zm4-2v1h-3v-1h3zm0 2v1h-3v-1h3z"/>
+				</svg>
 			</div>
 		</div>
+
+		<h1 class="login-title">SUPMTI RH</h1>
+		<p class="login-subtitle">Système de Gestion RH</p>
+
+		<!-- Validation summary -->
+		<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+		<!-- Login form -->
+		<form id="account" method="post">
+			@Html.AntiForgeryToken()
+
+			<!-- Email -->
+			<div class="form-group">
+				<label asp-for="Input.Email" class="form-label">Adresse Email</label>
+				<input asp-for="Input.Email" class="form-control" type="text" placeholder="exemple@domaine.com" autocomplete="username" />
+				<span asp-validation-for="Input.Email" class="field-validation-error"></span>
+			</div>
+
+			<!-- Password -->
+			<div class="form-group">
+				<label asp-for="Input.Password" class="form-label">Mot de passe</label>
+				<div class="password-wrapper">
+					<input asp-for="Input.Password" class="form-control" type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+					<span class="toggle-password" id="toggle-password" title="Afficher / masquer">&#128065;</span>
+				</div>
+				<span asp-validation-for="Input.Password" class="field-validation-error"></span>
+			</div>
+
+			<!-- Remember me + forgot password -->
+			<div class="remember-row">
+				<label class="remember-label">
+					<input asp-for="Input.RememberMe" type="checkbox" />
+					Se souvenir de moi
+				</label>
+				<a class="forgot-link" asp-page="./ForgotPassword">Mot de passe oublié&nbsp;?</a>
+			</div>
+
+			<!-- Submit -->
+			<button type="submit" class="btn-login">Se connecter</button>
+
+			<p class="login-footer">Pour tout accès, contactez votre responsable RH.</p>
+		</form>
+
 	</div>
-	<!-- /Main Wrapper -->
-	<!-- jQuery -->
-	<script src="~/assets/js/jquery-3.7.0.min.js"></script>
 
-	<!-- Bootstrap Core JS -->
-	<script src="~/assets/js/bootstrap.bundle.min.js"></script>
-
-	<!-- Custom JS -->
-	<script src="~/assets/js/app.js"></script>
+	<script>
+		// Toggle password visibility
+		document.getElementById('toggle-password').addEventListener('click', function () {
+			var pwd = document.getElementById('password');
+			pwd.type = pwd.type === 'password' ? 'text' : 'password';
+			this.style.opacity = pwd.type === 'text' ? '0.8' : '0.35';
+		});
+	</script>
 
 </body>
 </html>

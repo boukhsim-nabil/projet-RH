@@ -1,6 +1,6 @@
-﻿/*using Microsoft.AspNetCore.Identity;
+/*using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using itgsgroup.Areas.Identity.Data;
+using supmtigroupe.Areas.Identity.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,7 +56,7 @@ app.Run();
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using itgsgroup.Areas.Identity.Data;
+using supmtigroupe.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
@@ -78,7 +78,7 @@ builder.Services.AddScoped<ITimeService, TimeService>();
 
 var app = builder.Build();
 
-// ── Création automatique du compte Admin ──────────────────
+// -- Cr�ation automatique du compte Admin ------------------
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -107,7 +107,7 @@ using (var scope = app.Services.CreateScope())
             await userManager.AddToRoleAsync(adminUser, adminRole);
     }
 }
-// ─────────────────────────────────────────────────────────
+// ---------------------------------------------------------
 
 if (!app.Environment.IsDevelopment())
 {

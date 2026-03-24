@@ -1,4 +1,4 @@
-﻿@model List<itgsgroup.Models.hrms.tempMonthAttModel>
+@model List<supmtigroupe.Models.hrms.tempMonthAttModel>
 @{
     ViewData["Title"] = "Daily Attendance";
     ViewData["active"] = "DATT";
@@ -49,9 +49,9 @@
                                 </h2>
                             </td>
                             <td>@Model[i].Checkin.TimeOfDay</td>
-                            <td>@(Model[i].late ? "✓" : "")</td>
-                            <td>@(Model[i].absent ? "✓" : "")</td>
-                            <td>@(Model[i].present ? "✓" : "")</td>
+                            <td>@(Model[i].late ? "?" : "")</td>
+                            <td>@(Model[i].absent ? "?" : "")</td>
+                            <td>@(Model[i].present ? "?" : "")</td>
                             <td>@Model[i].leave</td>
                         </tr>
                     }

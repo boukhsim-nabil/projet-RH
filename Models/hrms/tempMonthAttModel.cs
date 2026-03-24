@@ -1,9 +1,9 @@
-﻿using itgsgroup.Areas.Identity.Data;
+using supmtigroupe.Areas.Identity.Data;
 using Microsoft.Build.Execution;
 using NuGet.Packaging.Signing;
 using System.ComponentModel.DataAnnotations;
 
-namespace itgsgroup.Models.hrms
+namespace supmtigroupe.Models.hrms
 {
     public class tempMonthAttModel
     {

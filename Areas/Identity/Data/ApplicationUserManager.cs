@@ -1,4 +1,4 @@
-﻿namespace itgsgroup.Areas.Identity.Data
+namespace supmtigroupe.Areas.Identity.Data
 {
 	using Microsoft.AspNetCore.Identity;
 	using Microsoft.Extensions.Options;

@@ -1,4 +1,4 @@
-namespace itgsgroup.Models
+namespace supmtigroupe.Models
 {
     public class ErrorViewModel
     {

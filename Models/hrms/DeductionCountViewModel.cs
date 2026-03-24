@@ -1,6 +1,6 @@
-﻿using itgsgroup.Areas.Identity.Data;
+using supmtigroupe.Areas.Identity.Data;
 
-namespace itgsgroup.Models.hrms
+namespace supmtigroupe.Models.hrms
 {
     public class DeductionCountViewModel
     {

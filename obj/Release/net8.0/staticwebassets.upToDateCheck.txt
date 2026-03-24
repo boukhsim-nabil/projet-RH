@@ -324,8 +324,8 @@ wwwroot\assets\img\img4.jpg
 wwwroot\assets\img\i_logo.png
 wwwroot\assets\img\keyboard.png
 wwwroot\assets\img\laptop.png
-wwwroot\assets\img\logo.png
 wwwroot\assets\img\logo.svg
+wwwroot\assets\img\logo1.png
 wwwroot\assets\img\logo2.png
 wwwroot\assets\img\logo3.png
 wwwroot\assets\img\mouse.png
@@ -366,7 +366,7 @@ wwwroot\assets\img\two-col.png
 wwwroot\assets\img\user.jpg
 wwwroot\assets\img\vertical.png
 wwwroot\assets\img\video-call.jpg
-wwwroot\assets\img\white_grouplogo.png
+wwwroot\assets\img\white_grouplogo5.png
 wwwroot\assets\js\app.js
 wwwroot\assets\js\bootstrap-datetimepicker.min.js
 wwwroot\assets\js\bootstrap.bundle.js
@@ -505,6 +505,7 @@ wwwroot\assets\scss\pages\subscriptions.scss
 wwwroot\assets\scss\pages\task.scss
 wwwroot\assets\scss\utils\mixins.scss
 wwwroot\assets\scss\utils\variables.scss
+wwwroot\css\glassmorphism.css
 wwwroot\css\site.css
 wwwroot\dist\files\eb92b0d0-c4a3-423f-bec2-e018b99c0486_11(1).jpg
 wwwroot\favicon.ico
@@ -2552,4 +2553,3 @@ wwwroot\plugins\uplot\uPlot.esm.js
 wwwroot\plugins\uplot\uPlot.iife.js
 wwwroot\plugins\uplot\uPlot.iife.min.js
 wwwroot\plugins\uplot\uPlot.min.css
-wwwroot\css\glassmorphism.css

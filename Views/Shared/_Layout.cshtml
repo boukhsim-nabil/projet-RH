@@ -1,5 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using itgsgroup.Areas.Identity.Data
+@using Microsoft.AspNetCore.Identity
+@using supmtigroupe.Areas.Identity.Data
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ApplicationUserManager UserManager
@@ -101,10 +101,10 @@
 			<!-- Logo -->
 			<div class="header-left">
 				<a href="#" class="logo">
-					<img src="~/assets/img/white_grouplogo.png" width="140" height="140" alt="Logo">
+					<img src="~/assets/img/white_grouplogo5.png" width="140" height="140" alt="Logo">
 				</a>
-				<a href="#" class="logo2">
-					<img src="~/assets/img/logo2.png" width="40" height="40" alt="Logo">
+				<a href="#" class="logo">
+					<img src="~/assets/img/log.png" width="40" height="40" alt="Logo">
 				</a>
 			</div>
 			<!-- /Logo -->
@@ -363,9 +363,9 @@
 
 					</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" asp-controller="Employee" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)">My Profile</a>
+						<a class="dropdown-item" asp-controller="Employee" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)">Mon Profil</a>
 						<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("AfterLogin", "Home", new { area = "" })">
-							<button id="logout" type="submit" class="dropdown-item">Logout</button>
+							<button id="logout" type="submit" class="dropdown-item">Déconnexion</button>
 						</form>
 					</div>
 				</li>
@@ -375,9 +375,9 @@
 			<div class="dropdown mobile-user-menu">
 				<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></a>
 				<div class="dropdown-menu dropdown-menu-right">
-					<a class="dropdown-item" asp-controller="Employee" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)">My Profile</a>
+					<a class="dropdown-item" asp-controller="Employee" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)">Mon Profil</a>
 					<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("AfterLogin", "Home", new { area = "" })">
-						<button id="logout" type="submit" class="dropdown-item">Logout</button>
+						<button id="logout" type="submit" class="dropdown-item">Déconnexion</button>
 					</form>
 				</div>
 			</div>
@@ -396,7 +396,7 @@
 									<span>Main</span>
 								</li>
 								<li class="submenu">
-									<a href="#"><i class="la la-dashboard"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
+									<a href="#"><i class="la la-dashboard"></i> <span> Tableau de bord</span> <span class="menu-arrow"></span></a>
 									<ul>
 										<li><a href="admin-dashboard.html">Admin Dashboard</a></li>
 										<li><a href="employee-dashboard.html">Employee Dashboard</a></li>
@@ -427,7 +427,7 @@
 								<li class="submenu">
 									<a href="#" class="noti-dot"><i class="la la-user"></i> <span> Employees</span> <span class="menu-arrow"></span></a>
 									<ul>
-										<li><a href="employees.html">All Employees</a></li>
+										<li><a href="employees.html">Tous les Employés</a></li>
 										<li><a href="holidays.html">Holidays</a></li>
 										<li><a href="leaves.html">Leaves (Admin) <span class="badge rounded-pill bg-primary float-end">1</span></a></li>
 										<li><a href="leaves-employee.html">Leaves (Employee)</a></li>
@@ -683,15 +683,15 @@
 							<span>Main</span>
 						</li>
 						<li class="submenu">
-							<a href="#"><i class="la la-dashboard"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
+							<a href="#"><i class="la la-dashboard"></i> <span> Tableau de bord</span> <span class="menu-arrow"></span></a>
 							<ul>
 								@if (userRoles.Contains("HR") || userRoles.Contains("admin") || userRoles.Contains("Viewer"))
 								{
-									<li><a class="@(ViewData["active"] == "AD" ? "active" : "")" asp-controller="Home" asp-action="Index">Dashboard</a></li>
+									<li><a class="@(ViewData["active"] == "AD" ? "active" : "")" asp-controller="Home" asp-action="Index">Tableau de bord</a></li>
 								}
 								@if (userRoles.Contains("Employee") || userRoles.Contains("admin") || userRoles.Contains("HOD"))
 								{
-									<li><a class="@(ViewData["active"] == "ED" ? "active" : "")" asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
+									<li><a class="@(ViewData["active"] == "ED" ? "active" : "")" asp-controller="Home" asp-action="EmpIndex">Tableau de bord</a></li>
 								}
 							</ul>
 						</li>
@@ -711,34 +711,34 @@
 								<span>Employee</span>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="las la-user-check"></i> <span> Attendance</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="las la-user-check"></i> <span> Présence</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a class="@(ViewData["active"] == "TC" ? "active" : "")" asp-controller="COAT" asp-action="pendingreq">Time Correction</a></li>
-									<li><a class="@(ViewData["active"] == "VA" ? "active" : "")" asp-controller="Attendance" asp-action="empAttend">View Attendance</a></li>
-									<li><a class="@(ViewData["active"] == "AC" ? "active" : "")" asp-controller="Attendance" asp-action="Reconciliation">Attendance Count</a></li>
-									<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount" asp-route-role="Emp">Deduction Count</a></li>
+									<li><a class="@(ViewData["active"] == "TC" ? "active" : "")" asp-controller="COAT" asp-action="pendingreq">Correction Temps</a></li>
+									<li><a class="@(ViewData["active"] == "VA" ? "active" : "")" asp-controller="Attendance" asp-action="empAttend">Voir Présence</a></li>
+									<li><a class="@(ViewData["active"] == "AC" ? "active" : "")" asp-controller="Attendance" asp-action="Reconciliation">Comptage Présence</a></li>
+									<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount" asp-route-role="Emp">Comptage Déductions</a></li>
 
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="las la-calendar-minus"></i><span> Leaves</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="las la-calendar-minus"></i><span> Congés</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a class="@(ViewData["active"] == "AL" ? "active" : "")" asp-controller="LeaveApply" asp-action="pendingreq">Apply Leave</a></li>
+									<li><a class="@(ViewData["active"] == "AL" ? "active" : "")" asp-controller="LeaveApply" asp-action="pendingreq">Demander Congé</a></li>
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="las la-hand-holding-usd"></i> <span> Loan</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="las la-hand-holding-usd"></i> <span> Prêt</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a class="@(ViewData["active"] == "LA" ? "active" : "")" asp-controller="LoanApply" asp-action="pendingreq">Apply Loan</a></li>
-									<li><a class="@(ViewData["active"] == "LL" ? "active" : "")" asp-controller="LoanApply" asp-action="loan">Ledger Loan</a></li>
+									<li><a class="@(ViewData["active"] == "LA" ? "active" : "")" asp-controller="LoanApply" asp-action="pendingreq">Demander Prêt</a></li>
+									<li><a class="@(ViewData["active"] == "LL" ? "active" : "")" asp-controller="LoanApply" asp-action="loan">Livre Prêt</a></li>
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="la la-money"></i> <span> Payroll</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="la la-money"></i> <span> Paie</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a class="@(ViewData["active"] == "MPR" ? "active" : "")" asp-controller="payRoll" asp-action="emppayRoll">Monthly Payroll</a></li>
-									<li><a class="@(ViewData["active"] == "PS" ? "active" : "")" asp-controller="payRoll" asp-action="salaryslip">Pay Slip</a></li>
-									<li><a class="@(ViewData["active"] == "ITC" ? "active" : "")" asp-controller="payRoll" asp-action="incometaxcertificate">Tax Certificate</a></li>
+									<li><a class="@(ViewData["active"] == "MPR" ? "active" : "")" asp-controller="payRoll" asp-action="emppayRoll">Paie Mensuelle</a></li>
+									<li><a class="@(ViewData["active"] == "PS" ? "active" : "")" asp-controller="payRoll" asp-action="salaryslip">Bulletin de Paie</a></li>
+									<li><a class="@(ViewData["active"] == "ITC" ? "active" : "")" asp-controller="payRoll" asp-action="incometaxcertificate">Certificat Fiscal</a></li>
 								</ul>
 							</li>
 						}
@@ -748,28 +748,28 @@
 								<span>HOD</span>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="las la-user-check"></i> <span> Attendance</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="las la-user-check"></i> <span> Présence</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a class="@(ViewData["active"] == "TC" ? "active" : "")" asp-controller="COAT" asp-action="pendingreq">Time Correction</a></li>
-									<li><a class="@(ViewData["active"] == "VA" ? "active" : "")" asp-controller="Attendance" asp-action="empAttend">View Attendance</a></li>
-									<li><a class="@(ViewData["active"] == "AC" ? "active" : "")" asp-controller="Attendance" asp-action="Reconciliation">Attendance Count</a></li>
-									<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount" asp-route-role="Emp">Deduction Count</a></li>
+									<li><a class="@(ViewData["active"] == "TC" ? "active" : "")" asp-controller="COAT" asp-action="pendingreq">Correction Temps</a></li>
+									<li><a class="@(ViewData["active"] == "VA" ? "active" : "")" asp-controller="Attendance" asp-action="empAttend">Voir Présence</a></li>
+									<li><a class="@(ViewData["active"] == "AC" ? "active" : "")" asp-controller="Attendance" asp-action="Reconciliation">Comptage Présence</a></li>
+									<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount" asp-route-role="Emp">Comptage Déductions</a></li>
 
 									<li class="submenu">
 										<a href="#"> <span>Sub - Attendance</span> <span class="menu-arrow"></span></a>
 										<ul>
-											<li><a class="@(ViewData["active"] == "TCR" ? "active" : "")" asp-controller="COATrequest" asp-action="pendingreq">Time Correction Request</a></li>
-											<li><a class="@(ViewData["active"] == "VSA" ? "active" : "")" asp-controller="Attendance" asp-action="subAttend">View Attendance</a></li>
-											<li><a class="@(ViewData["active"] == "SAC" ? "active" : "")" asp-controller="Attendance" asp-action="Reconciliation" asp-route-role="HOD">Attendance Count</a></li>
-											<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount" asp-route-role="HOD">Deduction Count</a></li>
+											<li><a class="@(ViewData["active"] == "TCR" ? "active" : "")" asp-controller="COATrequest" asp-action="pendingreq">Demande Correction Temps</a></li>
+											<li><a class="@(ViewData["active"] == "VSA" ? "active" : "")" asp-controller="Attendance" asp-action="subAttend">Voir Présence</a></li>
+											<li><a class="@(ViewData["active"] == "SAC" ? "active" : "")" asp-controller="Attendance" asp-action="Reconciliation" asp-route-role="HOD">Comptage Présence</a></li>
+											<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount" asp-route-role="HOD">Comptage Déductions</a></li>
 										</ul>
 									</li>
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="las la-calendar-minus"></i> <span> Leaves</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="las la-calendar-minus"></i> <span> Congés</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a class="@(ViewData["active"] == "AL" ? "active" : "")" asp-controller="LeaveApply" asp-action="pendingreq">Apply Leave</a></li>
+									<li><a class="@(ViewData["active"] == "AL" ? "active" : "")" asp-controller="LeaveApply" asp-action="pendingreq">Demander Congé</a></li>
 									<li class="submenu">
 										<a href="#"> <span>Subordinate - Leaves</span> <span class="menu-arrow"></span></a>
 										<ul>
@@ -780,10 +780,10 @@
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="javascript:void(0);"><i class="las la-hand-holding-usd"></i> <span> Loan</span>  <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><i class="las la-hand-holding-usd"></i> <span> Prêt</span>  <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a class="@(ViewData["active"] == "LA" ? "active" : "")" asp-controller="LoanApply" asp-action="pendingreq">Apply Loan</a></li>
-									<li><a class="@(ViewData["active"] == "LL" ? "active" : "")" asp-controller="LoanApply" asp-action="loan">Ledger Loan</a></li>
+									<li><a class="@(ViewData["active"] == "LA" ? "active" : "")" asp-controller="LoanApply" asp-action="pendingreq">Demander Prêt</a></li>
+									<li><a class="@(ViewData["active"] == "LL" ? "active" : "")" asp-controller="LoanApply" asp-action="loan">Livre Prêt</a></li>
 									<!--<li class="submenu">
 										<a href="javascript:void(0);"> <span>Subordinate - Loan</span> <span class="menu-arrow"></span></a>
 										<ul>
@@ -793,11 +793,11 @@
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="la la-money"></i> <span> Payroll</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="la la-money"></i> <span> Paie</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a class="@(ViewData["active"] == "MPR" ? "active" : "")" asp-controller="payRoll" asp-action="emppayRoll">Monthly Payroll</a></li>
-									<li><a class="@(ViewData["active"] == "PS" ? "active" : "")" asp-controller="payRoll" asp-action="salaryslip">Pay Slip</a></li>
-									<li><a class="@(ViewData["active"] == "ITC" ? "active" : "")" asp-controller="payRoll" asp-action="incometaxcertificate">Tax Certificate</a></li>
+									<li><a class="@(ViewData["active"] == "MPR" ? "active" : "")" asp-controller="payRoll" asp-action="emppayRoll">Paie Mensuelle</a></li>
+									<li><a class="@(ViewData["active"] == "PS" ? "active" : "")" asp-controller="payRoll" asp-action="salaryslip">Bulletin de Paie</a></li>
+									<li><a class="@(ViewData["active"] == "ITC" ? "active" : "")" asp-controller="payRoll" asp-action="incometaxcertificate">Certificat Fiscal</a></li>
 								</ul>
 							</li>
 						}
@@ -807,22 +807,22 @@
 								<span>HR</span>
 							</li>
 							<!--		<li class="submenu">
-										<a href="#"><i class="las la-user-check"></i> <span> Attendance</span> <span class="menu-arrow"></span></a>
+										<a href="#"><i class="las la-user-check"></i> <span> Présence</span> <span class="menu-arrow"></span></a>
 										<ul>
 											<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount">Deduction Count</a></li>
 											<li><a class="@(ViewData["active"] == "SAC" ? "active" : "")" asp-controller="Attendance" asp-action="Reconciliation" >Attendance Reconciliation</a></li>
 										</ul>
 									</li>-->
 							<li class="submenu">
-								<a href="#"><i class="la la-hourglass"></i> <span> Approvals From HR</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="la la-hourglass"></i> <span> Approbations RH</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a class="@(ViewData["active"] == "HRTCR" ? "active" : "")" asp-controller="COATrequest" asp-action="hrpendingreq">Time Correction</a></li>
+									<li><a class="@(ViewData["active"] == "HRTCR" ? "active" : "")" asp-controller="COATrequest" asp-action="hrpendingreq">Correction Temps</a></li>
 									<li><a class="@(ViewData["active"] == "HRLR" ? "active" : "")" asp-controller="LeaveRequest" asp-action="hrpendingreq">Leave Request</a></li>
 									<li><a class="@(ViewData["active"] == "HRLOANR" ? "active" : "")" asp-controller="LoanRequest" asp-action="hrpendingreq">Loan Request</a></li>
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="la la-calendar"></i> <span> Holidays</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="la la-calendar"></i> <span> Jours Fériés</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a class="@(ViewData["active"] == "CH" ? "active" : "")" asp-controller="CompanyHoliday" asp-action="Index">Company Holidays</a></li>
 									<li><a class="@(ViewData["active"] == "GH" ? "active" : "")" asp-controller="GazettedHoliday" asp-action="Index">Gazetted Holidays</a></li>
@@ -836,14 +836,14 @@
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="la la-file-alt"></i> <span> Reports</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="la la-file-alt"></i> <span> Rapports</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a class="@(ViewData["active"] == "DA" ? "active" : "")" asp-controller="Attendance" asp-action="DetailAtt">Detail Attendance</a></li>
 									<li><a class="@(ViewData["active"] == "DATT" ? "active" : "")" asp-controller="Attendance" asp-action="DailyAttDetail">Daily Attendance</a></li>
-									<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount" asp-route-role="HR">Deduction Count</a></li>
+									<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount" asp-route-role="HR">Comptage Déductions</a></li>
 									<li><a class="@(ViewData["active"] == "LR" ? "active" : "")" asp-controller="Attendance" asp-action="leavecount" asp-route-role="HR">Leave Count Report</a></li>
 									<li><a class="@(ViewData["active"] == "SAC" ? "active" : "")" asp-controller="Attendance" asp-action="Reconciliation" asp-route-role="HR">Attendance Reconciliation</a></li>
-									<li><a class="@(ViewData["active"] == "LL" ? "active" : "")" asp-controller="LoanApply" asp-action="loan">Ledger Loan</a></li>
+									<li><a class="@(ViewData["active"] == "LL" ? "active" : "")" asp-controller="LoanApply" asp-action="loan">Livre Prêt</a></li>
 									<li><a class="@(ViewData["active"] == "BL" ? "active" : "")" asp-controller="PayRoll" asp-action="bankletter">Bank Letter</a></li>
 								</ul>
 							</li>
@@ -851,12 +851,12 @@
 								<a class="@(ViewData["active"] == "PR" ? "active" : "")" asp-controller="PayRoll" asp-action="Index"><i class="la la-money"></i> <span> PayRoll</span> </a>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="las la-cog"></i> <span> Setup</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="las la-cog"></i> <span> Configuration</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a class="@(ViewData["active"] == "NE" ? "active" : "")" id="register" asp-area="Identity" asp-page="/Account/Register">New Employee</a></li>
-									<li><a class="@(ViewData["active"] == "DEP" ? "active" : "")" asp-controller="Department" asp-action="Index">Department</a></li>
-									<li><a class="@(ViewData["active"] == "DES" ? "active" : "")" asp-controller="Designation" asp-action="Index">Designation</a></li>
-									<li><a class="@(ViewData["active"] == "SHIFT" ? "active" : "")" asp-controller="Shift" asp-action="Index">Shift</a></li>
+									<li><a class="@(ViewData["active"] == "NE" ? "active" : "")" id="register" asp-area="Identity" asp-page="/Account/Register">Nouvel Employé</a></li>
+									<li><a class="@(ViewData["active"] == "DEP" ? "active" : "")" asp-controller="Department" asp-action="Index">Département</a></li>
+									<li><a class="@(ViewData["active"] == "DES" ? "active" : "")" asp-controller="Designation" asp-action="Index">Poste</a></li>
+									<li><a class="@(ViewData["active"] == "SHIFT" ? "active" : "")" asp-controller="Shift" asp-action="Index">Horaire</a></li>
 									<li><a class="@(ViewData["active"] == "LO" ? "active" : "")" asp-controller="LoanOpening" asp-action="Index">Loan Opening</a></li>
 									<li><a class="@(ViewData["active"] == "EOBI" ? "active" : "")" asp-controller="EOBI" asp-action="Index">EOBI %</a></li>
 									<li><a class="@(ViewData["active"] == "TS" ? "active" : "")" asp-controller="Slabs" asp-action="Index">Tax Slabs</a></li>
@@ -867,9 +867,9 @@
 									<li><a class="@(ViewData["active"] == "FY" ? "active" : "")" asp-controller="FascalYear" asp-action="Index">Fiscal Year</a></li>
 									<li><a class="@(ViewData["active"] == "LF" ? "active" : "")" asp-controller="LeaveType" asp-action="Index">Leave Fixation</a></li>
 									<li><a class="@(ViewData["active"] == "LT" ? "active" : "")" asp-controller="LeaveType" asp-action="leavenameindex">Leave Type</a></li>
-									<li><a class="@(ViewData["active"] == "ROLES" ? "active" : "")" asp-controller="Roles" asp-action="Index">Roles</a></li>
-									<li><a class="@(ViewData["active"] == "EMP" ? "active" : "")" asp-controller="Employee" asp-action="all_users">All Employees</a></li>
-									<li><a class="@(ViewData["active"] == "FP" ? "active" : "")" asp-area="Identity" asp-page="/Account/forgotpassword">Forgot Password</a></li>
+									<li><a class="@(ViewData["active"] == "ROLES" ? "active" : "")" asp-controller="Roles" asp-action="Index">Rôles</a></li>
+									<li><a class="@(ViewData["active"] == "EMP" ? "active" : "")" asp-controller="Employee" asp-action="all_users">Tous les Employés</a></li>
+									<li><a class="@(ViewData["active"] == "FP" ? "active" : "")" asp-area="Identity" asp-page="/Account/forgotpassword">Mot de passe oublié</a></li>
 								</ul>
 							</li>
 						}
@@ -879,28 +879,28 @@
 								<span>View</span>
 							</li>
 							<!--		<li class="submenu">
-										<a href="#"><i class="las la-user-check"></i> <span> Attendance</span> <span class="menu-arrow"></span></a>
+										<a href="#"><i class="las la-user-check"></i> <span> Présence</span> <span class="menu-arrow"></span></a>
 										<ul>
 											<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount">Deduction Count</a></li>
 											<li><a class="@(ViewData["active"] == "SAC" ? "active" : "")" asp-controller="Attendance" asp-action="Reconciliation" >Attendance Reconciliation</a></li>
 										</ul>
 									</li>-->
 							<li class="submenu">
-								<a href="#"><i class="la la-file-alt"></i> <span> Reports</span> <span class="menu-arrow"></span></a>
+								<a href="#"><i class="la la-file-alt"></i> <span> Rapports</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a class="@(ViewData["active"] == "DA" ? "active" : "")" asp-controller="Attendance" asp-action="DetailAtt">Detail Attendance</a></li>
 									<li><a class="@(ViewData["active"] == "DATT" ? "active" : "")" asp-controller="Attendance" asp-action="DailyAttDetail">Daily Attendance</a></li>
-									<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount" asp-route-role="HR">Deduction Count</a></li>
+									<li><a class="@(ViewData["active"] == "DC" ? "active" : "")" asp-controller="Attendance" asp-action="deductioncount" asp-route-role="HR">Comptage Déductions</a></li>
 									<li><a class="@(ViewData["active"] == "LR" ? "active" : "")" asp-controller="Attendance" asp-action="leavecount" asp-route-role="HR">Leave Count Report</a></li>
 									<li><a class="@(ViewData["active"] == "SAC" ? "active" : "")" asp-controller="Attendance" asp-action="Reconciliation" asp-route-role="HR">Attendance Reconciliation</a></li>
-									<li><a class="@(ViewData["active"] == "LL" ? "active" : "")" asp-controller="LoanApply" asp-action="loan">Ledger Loan</a></li>
+									<li><a class="@(ViewData["active"] == "LL" ? "active" : "")" asp-controller="LoanApply" asp-action="loan">Livre Prêt</a></li>
 									<li><a class="@(ViewData["active"] == "BL" ? "active" : "")" asp-controller="PayRoll" asp-action="bankletter">Bank Letter</a></li>
 								</ul>
 							</li>
 							<li>
 								<a class="@(ViewData["active"] == "PR" ? "active" : "")" asp-controller="PayRoll" asp-action="Index"><i class="la la-money"></i> <span> PayRoll</span> </a>
 							</li>
-							<li><a class="@(ViewData["active"] == "EMP" ? "active" : "")" asp-controller="Employee" asp-action="all_users"><i class="la la-user"></i><span> All Employees </span></a></li>
+							<li><a class="@(ViewData["active"] == "EMP" ? "active" : "")" asp-controller="Employee" asp-action="all_users"><i class="la la-user"></i><span> Tous les Employés </span></a></li>
 						}
 
 					</ul>
@@ -1089,7 +1089,7 @@
 				<div class="sidebar-right">
 					<div class="tab-content" id="v-pills-tabContent">
 						<div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
-							<p>Dashboard</p>
+							<p>Tableau de bord</p>
 							<ul>
 								<li>
 									<a href="admin-dashboard.html">Admin Dashboard</a>
@@ -1131,7 +1131,7 @@
 						<div class="tab-pane fade" id="v-pills-employees" role="tabpanel" aria-labelledby="v-pills-employees-tab">
 							<p>Employees</p>
 							<ul>
-								<li><a href="employees.html">All Employees</a></li>
+								<li><a href="employees.html">Tous les Employés</a></li>
 								<li><a href="holidays.html">Holidays</a></li>
 								<li><a href="leaves.html">Leaves (Admin) <span class="badge rounded-pill bg-primary float-end">1</span></a></li>
 								<li><a href="leaves-employee.html">Leaves (Employee)</a></li>

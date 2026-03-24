@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace itgsgroup.Migrations
+namespace supmtigroupe.Migrations
 {
     /// <inheritdoc />
     public partial class updateMigration : Migration

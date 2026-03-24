@@ -1,11 +1,11 @@
-﻿using itgsgroup.Areas.Identity.Data;
-using itgsgroup.Models.hrms;
+using supmtigroupe.Areas.Identity.Data;
+using supmtigroupe.Models.hrms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 
-namespace itgsgroup.Areas.Identity.Data;
+namespace supmtigroupe.Areas.Identity.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {

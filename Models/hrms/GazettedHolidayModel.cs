@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace itgsgroup.Models.hrms
+namespace supmtigroupe.Models.hrms
 {
     public class GazettedHolidayModel
     {

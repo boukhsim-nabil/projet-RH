@@ -261,3 +261,4 @@ D:\visual studio code\HRM-mainT1\HRM-main\obj\Release\net8.0\refint\itgsgroup.dl
 D:\visual studio code\HRM-mainT1\HRM-main\obj\Release\net8.0\itgsgroup.pdb
 D:\visual studio code\HRM-mainT1\HRM-main\obj\Release\net8.0\itgsgroup.genruntimeconfig.cache
 D:\visual studio code\HRM-mainT1\HRM-main\obj\Release\net8.0\ref\itgsgroup.dll
+D:\visual studio code\HRM-mainT1\HRM-main\obj\Release\net8.0\itgsgroup.sourcelink.json

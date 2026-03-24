@@ -1,4 +1,4 @@
-﻿namespace itgsgroup.Models.hrms
+namespace supmtigroupe.Models.hrms
 {
 	public class GetPakTime
 	{

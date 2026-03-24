@@ -1,5 +1,5 @@
-﻿using itgsgroup.Areas.Identity.Data;
-using itgsgroup.Models.hrms;
+using supmtigroupe.Areas.Identity.Data;
+using supmtigroupe.Models.hrms;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.SignalR;
 using System;
-using itgsgroup.Hub;
+using supmtigroupe.Hub;
 using Microsoft.AspNetCore.Authorization;
 using System.Text;
 using System.Data;
 
-namespace itgsgroup.Controllers
+namespace supmtigroupe.Controllers
 {
     [Authorize]
     public class AttendanceController : Controller
@@ -357,17 +357,17 @@ namespace itgsgroup.Controllers
 						.Reference(c => c.emp) // Assuming emp is a reference (single navigation property)
 						.Load();
 				}
-				ViewBag.Heading1 = leavecount.FirstOrDefault(c => c.Id == 1).empId;
-				ViewBag.Heading2 = leavecount.FirstOrDefault(c => c.Id == 1).col1;
-				ViewBag.Heading3 = leavecount.FirstOrDefault(c => c.Id == 1).col2;
-				ViewBag.Heading4 = leavecount.FirstOrDefault(c => c.Id == 1).col3;
-				ViewBag.Heading5 = leavecount.FirstOrDefault(c => c.Id == 1).col4;
-				ViewBag.Heading6 = leavecount.FirstOrDefault(c => c.Id == 1).col5;
-				ViewBag.Heading7 = leavecount.FirstOrDefault(c => c.Id == 1).col6;
-				ViewBag.Heading8 = leavecount.FirstOrDefault(c => c.Id == 1).col7;
-				ViewBag.Heading9 = leavecount.FirstOrDefault(c => c.Id == 1).col8;
-				ViewBag.Heading10 = leavecount.FirstOrDefault(c => c.Id == 1).col9;
-				ViewBag.Heading11 = leavecount.FirstOrDefault(c => c.Id == 1).col10;
+				ViewBag.Heading1 = leavecount.FirstOrDefault(c => c.Id == 1)?.empId;
+				ViewBag.Heading2 = leavecount.FirstOrDefault(c => c.Id == 1)?.col1;
+				ViewBag.Heading3 = leavecount.FirstOrDefault(c => c.Id == 1)?.col2;
+				ViewBag.Heading4 = leavecount.FirstOrDefault(c => c.Id == 1)?.col3;
+				ViewBag.Heading5 = leavecount.FirstOrDefault(c => c.Id == 1)?.col4;
+				ViewBag.Heading6 = leavecount.FirstOrDefault(c => c.Id == 1)?.col5;
+				ViewBag.Heading7 = leavecount.FirstOrDefault(c => c.Id == 1)?.col6;
+				ViewBag.Heading8 = leavecount.FirstOrDefault(c => c.Id == 1)?.col7;
+				ViewBag.Heading9 = leavecount.FirstOrDefault(c => c.Id == 1)?.col8;
+				ViewBag.Heading10 = leavecount.FirstOrDefault(c => c.Id == 1)?.col9;
+				ViewBag.Heading11 = leavecount.FirstOrDefault(c => c.Id == 1)?.col10;
 			if ((userRoles.FirstOrDefault() == "HR" || userRoles.FirstOrDefault() == "admin" || userRoles.FirstOrDefault() == "Viewer") && role == "HR")
 			{
 				List<Tuple<string, int>> companys = _context.companies

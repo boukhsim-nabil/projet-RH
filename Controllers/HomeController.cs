@@ -1,6 +1,6 @@
-﻿using itgsgroup.Areas.Identity.Data;
-using itgsgroup.Models;
-using itgsgroup.Models.hrms;
+using supmtigroupe.Areas.Identity.Data;
+using supmtigroupe.Models;
+using supmtigroupe.Models.hrms;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using System.Diagnostics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace itgsgroup.Controllers
+namespace supmtigroupe.Controllers
 {
 	public class HomeController : Controller
     {

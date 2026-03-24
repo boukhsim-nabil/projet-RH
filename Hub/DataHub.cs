@@ -1,4 +1,4 @@
-﻿namespace itgsgroup.Hub
+namespace supmtigroupe.Hub
 {
     using Microsoft.AspNetCore.SignalR;
     using System.Threading.Tasks;

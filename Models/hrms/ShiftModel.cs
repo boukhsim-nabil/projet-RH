@@ -1,7 +1,7 @@
-﻿using itgsgroup.Areas.Identity.Data;
+using supmtigroupe.Areas.Identity.Data;
 using System.ComponentModel.DataAnnotations;
 
-namespace itgsgroup.Models.hrms
+namespace supmtigroupe.Models.hrms
 {
     public class ShiftModel
     {
