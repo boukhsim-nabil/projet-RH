@@ -1,6 +1,6 @@
 @model List<supmtigroupe.Models.hrms.LeaveCountViewModel>
 @{
-    ViewData["Title"] = "Leave Report";
+    ViewData["Title"] = "Rapport Congés";
     ViewData["active"] = "LR";
     var emps = ViewBag.emps as List<Tuple<string, string, int?>>;
     var companys = ViewBag.companys as List<Tuple<string, int>>;
@@ -11,7 +11,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Leave Report</h5>
+                <h5 class="modal-title">Rapport Congés</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -21,19 +21,19 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="date" class="form-control" hidden />
                     <div class="input-block mb-3">
-                        <label class="col-form-label">From<span class="text-danger">*</span></label>
+                        <label class="col-form-label">Du<span class="text-danger">*</span></label>
                         <input type="date" id="Fromdate" class="form-control">
                     </div>
                     <div class="input-block mb-3">
-                        <label class="col-form-label"> To <span class="text-danger">*</span></label>
+                        <label class="col-form-label"> Au <span class="text-danger">*</span></label>
                         <input type="date" id="Todate" class="form-control">
                     </div>
                     @if ((ViewBag.userRole == "HR" || ViewBag.userRole == "admin"|| ViewBag.userRole == "Viewer") && ViewBag.role == "HR")
                     {
                         <div class="input-block mb-3">
-                            <label class="col-form-label">Company <span class="text-danger">*</span></label>
+                            <label class="col-form-label">Entreprise <span class="text-danger">*</span></label>
                             <select id="companyDropdown" class="form-control companyId">
-                                <option value="">All</option>
+                                <option value="">Tous</option>
                                 @if (companys != null)
                                 {
                                     @foreach (var company in companys)
@@ -44,9 +44,9 @@
                             </select>
                         </div>
                         <div class="input-block mb-3">
-                            <label class="col-form-label">Employee <span class="text-danger">*</span></label>
+                            <label class="col-form-label">Employé <span class="text-danger">*</span></label>
                             <select id="employeeDropdown" class="form-control empId">
-                                <option value="">All</option>
+                                <option value="">Tous</option>
                                 @if (emps != null)
                                 {
                                     @foreach (var emp in emps)
@@ -59,7 +59,7 @@
                     }
                     <input type="text" id="role" value="@ViewBag.role" hidden />
                     <div class="submit-section">
-                        <button type="button" id="attdetail" class="btn btn-primary submit-btn">Show</button>
+                        <button type="button" id="attdetail" class="btn btn-primary submit-btn">Afficher</button>
                     </div>
                 </form>
             </div>
@@ -111,10 +111,10 @@
 <div class="page-header">
     <div class="row">
         <div class="col-sm-12">
-            <h3 class="page-title">Leave Report </h3>
+            <h3 class="page-title">Rapport Congés </h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active">Leave Report </li>
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Tableau de Bord</a></li>
+                <li class="breadcrumb-item active">Rapport Congés </li>
             </ul>
         </div>
     </div>

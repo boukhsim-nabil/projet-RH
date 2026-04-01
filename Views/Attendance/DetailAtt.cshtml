@@ -1,6 +1,6 @@
 @model List<supmtigroupe.Models.hrms.tempMonthAttViewModel>
 @{
-    ViewData["Title"] = "Detail Attendance";
+    ViewData["Title"] = "Présence Détaillée";
     ViewData["active"] = "DA";
     var emps = ViewBag.emps as List<Tuple<string, string, int?>>;
     var companys = ViewBag.companys as List<Tuple<string, int>>;
@@ -11,7 +11,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Detail Attendance </h5>
+                <h5 class="modal-title">Présence Détaillée </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -21,17 +21,17 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="date" class="form-control" hidden />
                     <div class="input-block mb-3">
-                        <label class="col-form-label">From<span class="text-danger">*</span></label>
+                        <label class="col-form-label">Du<span class="text-danger">*</span></label>
                         <input type="date" id="Fromdate" class="form-control">
                     </div>
                     <div class="input-block mb-3">
-                        <label class="col-form-label"> To <span class="text-danger">*</span></label>
+                        <label class="col-form-label"> Au <span class="text-danger">*</span></label>
                         <input type="date" id="Todate" class="form-control">
                     </div>
                     <div class="input-block mb-3">
-                        <label class="col-form-label">Company <span class="text-danger">*</span></label>
+                        <label class="col-form-label">Entreprise <span class="text-danger">*</span></label>
                         <select id="companyDropdown" class="form-control companyId">
-                            <option value="">All</option>
+                            <option value="">Tous</option>
                             @if (companys != null)
                             {
                                 @foreach (var company in companys)
@@ -42,9 +42,9 @@
                         </select>
                     </div>
                     <div class="input-block mb-3">
-                        <label class="col-form-label">Employee <span class="text-danger">*</span></label>
+                        <label class="col-form-label">Employé <span class="text-danger">*</span></label>
                         <select id="employeeDropdown" class="form-control empId">
-                            <option value="">All</option>
+                            <option value="">Tous</option>
                             @if (emps != null)
                             {
                                 @foreach (var emp in emps)
@@ -56,7 +56,7 @@
                     </div>
                     <input type="text" id="role" value="@ViewBag.role" hidden />
                     <div class="submit-section">
-                        <button type="button" id="attdetail" class="btn btn-primary submit-btn">Show</button>
+                        <button type="button" id="attdetail" class="btn btn-primary submit-btn">Afficher</button>
                     </div>
                 </form>
             </div>
@@ -107,10 +107,10 @@
 <div class="page-header">
     <div class="row">
         <div class="col-sm-12">
-            <h3 class="page-title">Detail Attendance </h3>
+            <h3 class="page-title">Présence Détaillée </h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active">Detail Attendance </li>
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Tableau de Bord</a></li>
+                <li class="breadcrumb-item active">Présence Détaillée </li>
             </ul>
         </div>
     </div>
@@ -122,21 +122,21 @@
             <table id="example5" class="table table-striped custom-table leave-employee-table mb-0">
                 <thead>
                     <tr>
-                        <th>Employee</th>
+                        <th>Employé</th>
                         <th>Date</th>
-                        <th>Day</th>                       
-                        <th>Check In</th>
-                        <th>Check Out</th>
-                        <th>Working Hours</th>
-                        <th>Late</th>
+                        <th>Jour</th>
+                        <th>Entrée</th>
+                        <th>Sortie</th>
+                        <th>Heures Réelles</th>
+                        <th>Retard</th>
                         <th>Absent</th>
-                        <th>Diciplinary Action</th>
-                        <th>Half Day</th>
-                        <th>Early Going</th>
-                        <th>Present</th>
-                        <th>Leave</th>
-                        <th>Holiday</th>
-                        <th>Replacement</th>
+                        <th>Action Disciplinaire</th>
+                        <th>Demi-Journée</th>
+                        <th>Départ Anticipé</th>
+                        <th>Présent</th>
+                        <th>Congé</th>
+                        <th>Férié</th>
+                        <th>Remplacement</th>
                         <!-- Add other table headers here -->
                     </tr>
                 </thead>

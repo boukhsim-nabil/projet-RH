@@ -1,7 +1,7 @@
 @model supmtigroupe.Models.hrms.LeaveApplyViewModel
 
 @{
-    ViewData["Title"] = "Apply Leave";
+    ViewData["Title"] = "Demande de Congé";
     ViewData["active"] = "AL";
 }
 
@@ -10,20 +10,20 @@
 <div class="page-header">
     <div class="row align-items-center">
         <div class="col">
-            <h3 class="page-title">Apply Leave</h3>
+            <h3 class="page-title">Demande de Congé</h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
-                <li class="breadcrumb-item active">Apply Leave</li>
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Tableau de Bord</a></li>
+                <li class="breadcrumb-item active">Demande de Congé</li>
             </ul>
         </div>
         <div class="col-auto float-end ms-auto">
-            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_apply_leave"><i class="fa-solid fa-plus"></i> Add Apply Leave</a>
+            <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_apply_leave"><i class="fa-solid fa-plus"></i> Ajouter Demande de Congé</a>
         </div>
         <div class="col-auto float-end ms-auto">
             <div class="btn-group btn-group-sm">
-                <a asp-controller="LeaveApply" asp-action="pendingreq" class="btn @(ViewBag.status == "Pending" ? "btn-primary" : "btn-white")"><i class="las la-hourglass-start"></i> Pending</a>
-                <a asp-controller="LeaveApply" asp-action="approvereq" class="btn @(ViewBag.status == "Approve" ? "btn-primary" : "btn-white")"><i class="las la-check-circle"></i> Approved</a>
-                <a asp-controller="LeaveApply" asp-action="rejectreq" class="btn @(ViewBag.status == "Reject" ? "btn-primary" : "btn-white")"><i class="las la-times-circle"></i> Rejected</a>
+                <a asp-controller="LeaveApply" asp-action="pendingreq" class="btn @(ViewBag.status == "Pending" ? "btn-primary" : "btn-white")"><i class="las la-hourglass-start"></i> En Attente</a>
+                <a asp-controller="LeaveApply" asp-action="approvereq" class="btn @(ViewBag.status == "Approve" ? "btn-primary" : "btn-white")"><i class="las la-check-circle"></i> Approuvé</a>
+                <a asp-controller="LeaveApply" asp-action="rejectreq" class="btn @(ViewBag.status == "Reject" ? "btn-primary" : "btn-white")"><i class="las la-times-circle"></i> Rejeté</a>
             </div>
         </div>
     </div>
@@ -31,22 +31,22 @@
 <!-- /Page Header -->
 <!-- Leave Statistics -->
 <div class="row">
-   
+
     <div class="col-md-3">
         <div class="stats-info">
-            <h6>Sick Leave</h6>
+            <h6>Congé Maladie</h6>
             <h4>@ViewBag.SL</h4>
         </div>
     </div>
     <div class="col-md-3">
         <div class="stats-info">
-            <h6>Casual Leave</h6>
+            <h6>Congé Occasionnel</h6>
             <h4>@ViewBag.CL</h4>
         </div>
     </div>
     <div class="col-md-3">
         <div class="stats-info">
-            <h6>Annual Leave</h6>
+            <h6>Congé Annuel</h6>
             <h4>@ViewBag.AL</h4>
         </div>
     </div>
@@ -58,7 +58,7 @@
     </div>-->
     <div class="col-md-3">
         <div class="stats-info">
-            <h6>Remaining Leave</h6>
+            <h6>Congé Restant</h6>
             <h4>@ViewBag.RL</h4>
         </div>
     </div>
@@ -72,14 +72,14 @@
             <table id="example5" class="table table-striped custom-table leave-employee-table mb-0">
                 <thead>
                     <tr>
-                        <th>From</th>
-                        <th>To</th>
-                        <th class="text-center">No. of Days</th>
-                        <th class="text-center">Leave Type</th>
-                        <th>Reason</th>
-                        <th class="text-center">HOD Status</th>
-                        <th class="text-center">HR Status</th>
-           
+                        <th>Du</th>
+                        <th>Au</th>
+                        <th class="text-center">Nb. Jours</th>
+                        <th class="text-center">Type de Congé</th>
+                        <th>Motif</th>
+                        <th class="text-center">Statut HOD</th>
+                        <th class="text-center">Statut RH</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -141,7 +141,7 @@
                             <td class="text-center">
                                 <div class="action-label">
                                     <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
-                                        <i class="fa-regular fa-circle-dot text-success"></i> Approve
+                                        <i class="fa-regular fa-circle-dot text-success"></i> Approuvé
                                     </a>
                                 </div>
                             </td>
@@ -151,7 +151,7 @@
                             <td class="text-center">
                                 <div class="action-label">
                                     <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
-                                       <i class="fa-regular fa-circle-dot text-purple"></i> Pending
+                                       <i class="fa-regular fa-circle-dot text-purple"></i> En Attente
                                     </a>
                                 </div>
                             </td>
@@ -161,7 +161,7 @@
                             <td class="text-center">
                                 <div class="action-label">
                                    <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
-                                       <i class="fa-regular fa-circle-dot text-danger"></i> Reject
+                                       <i class="fa-regular fa-circle-dot text-danger"></i> Rejeté
                                    </a>
                                 </div>
                             </td>
@@ -171,7 +171,7 @@
                                 <td class="text-center">
                                     <div class="action-label">
                                         <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
-                                            <i class="fa-regular fa-circle-dot text-success"></i> Approve
+                                            <i class="fa-regular fa-circle-dot text-success"></i> Approuvé
                                         </a>
                                     </div>
                                 </td>
@@ -181,7 +181,7 @@
                                 <td class="text-center">
                                     <div class="action-label">
                                         <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
-                                            <i class="fa-regular fa-circle-dot text-purple"></i> Pending
+                                            <i class="fa-regular fa-circle-dot text-purple"></i> En Attente
                                         </a>
                                     </div>
                                 </td>
@@ -191,11 +191,11 @@
                                 <td class="text-center">
                                     <div class="action-label">
                                         <a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
-                                            <i class="fa-regular fa-circle-dot text-danger"></i> Reject
+                                            <i class="fa-regular fa-circle-dot text-danger"></i> Rejeté
                                         </a>
                                     </div>
                                 </td>
-                         }            
+                         }
                     </tr>
                 }
                 </tbody>
@@ -218,7 +218,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Apply Leave</h5>
+                <h5 class="modal-title">Ajouter Demande de Congé</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -233,31 +233,31 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="input-block mb-3">
-                                <label class="col-form-label">From <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Du <span class="text-danger">*</span></label>
                                 <input type="date" asp-for="from" class="form-control" id="fromDate">
                                 <span asp-validation-for="from" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="input-block mb-3">
-                                <label class="col-form-label">To <span class="text-danger">*</span></label>
+                                <label class="col-form-label">Au <span class="text-danger">*</span></label>
                                 <input type="date" asp-for="to" class="form-control" id="toDate">
                                 <span asp-validation-for="to" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                     <div class="input-block mb-3">
-                        <label class="col-form-label">No. Days <span class="text-danger">*</span></label>
+                        <label class="col-form-label">Nb. Jours <span class="text-danger">*</span></label>
                         <input asp-for="days" class="form-control" id="result" readonly />
                         <span asp-validation-for="days" class="text-danger"></span>
                         <span class="text-danger">@ViewBag.exceddays</span>
                     </div>
                     <div class="input-block mb-3">
-                        <label class="col-form-label">Leave <span class="text-danger">*</span></label>
+                        <label class="col-form-label">Congé <span class="text-danger">*</span></label>
                         <select asp-for="leaveId" class="form-control" asp-items="ViewBag.leaveId"></select>
                     </div>
                     <div class="input-block mb-3">
-                        <label class="col-form-label">Leave Reason <span class="text-danger">*</span></label>
+                        <label class="col-form-label">Motif du Congé <span class="text-danger">*</span></label>
                         <textarea asp-for="reason" rows="4" class="form-control"></textarea>
                         <span asp-validation-for="reason" class="text-danger"></span>
                     </div>
@@ -280,7 +280,7 @@
                         <input asp-for="hrstatus" class="form-control" value="Pending" hidden />
                     }
                     <div class="submit-section">
-                        <button class="btn btn-primary submit-btn">Submit</button>
+                        <button class="btn btn-primary submit-btn">Soumettre</button>
                     </div>
                 </form>
             </div>

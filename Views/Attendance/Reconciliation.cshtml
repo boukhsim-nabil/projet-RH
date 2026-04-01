@@ -1,6 +1,6 @@
 @model List<supmtigroupe.Models.hrms.ReconciliationViewModel>
 @{
-    ViewData["Title"] = ViewBag.role+" Attendance Count";
+    ViewData["Title"] = ViewBag.role+" Comptage Présence";
     if(ViewBag.role == null){
             ViewData["active"] = "AC";
     }
@@ -17,7 +17,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">@ViewBag.role Attendance Count</h5>
+                <h5 class="modal-title">@ViewBag.role Comptage Présence</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -27,19 +27,19 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="date" class="form-control" hidden />
                     <div class="input-block mb-3">
-                        <label class="col-form-label">From<span class="text-danger">*</span></label>
-                        <input type="date" id="Fromdate" class="form-control">                        
+                        <label class="col-form-label">Du<span class="text-danger">*</span></label>
+                        <input type="date" id="Fromdate" class="form-control">
                     </div>
                     <div class="input-block mb-3">
-                        <label class="col-form-label"> To <span class="text-danger">*</span></label>
-                        <input type="date" id="Todate" class="form-control">                      
+                        <label class="col-form-label"> Au <span class="text-danger">*</span></label>
+                        <input type="date" id="Todate" class="form-control">
                     </div>
                     @if ((ViewBag.userRole == "HR" || ViewBag.userRole == "admin" || ViewBag.userRole == "Viewer") && ViewBag.role == "HR")
                     {
                         <div class="input-block mb-3">
-                            <label class="col-form-label">Company <span class="text-danger">*</span></label>
+                            <label class="col-form-label">Entreprise <span class="text-danger">*</span></label>
                             <select id="companyDropdown" class="form-control companyId">
-                                <option value="">All</option> 
+                                <option value="">Tous</option>
                                 @if (companys != null)
                                 {
                                     @foreach (var company in companys)
@@ -47,12 +47,12 @@
                                         <option value="@company.Item2">@company.Item1</option>
                                     }
                                 }
-                            </select>                        
+                            </select>
                         </div>
                         <div class="input-block mb-3">
-                            <label class="col-form-label">Employee <span class="text-danger">*</span></label>
+                            <label class="col-form-label">Employé <span class="text-danger">*</span></label>
                             <select id="employeeDropdown" class="form-control empId">
-                                <option value="">All</option>                     
+                                <option value="">Tous</option>
                                 @if (emps != null)
                                 {
                                     @foreach (var emp in emps)
@@ -64,8 +64,8 @@
                         </div>
                     }
                     <input type="text" id="role" value="@ViewBag.role" hidden/>
-                    <div class="submit-section">                   
-                        <button type="button" id="attdetail" class="btn btn-primary submit-btn">Show</button>
+                    <div class="submit-section">
+                        <button type="button" id="attdetail" class="btn btn-primary submit-btn">Afficher</button>
                     </div>
                 </form>
             </div>
@@ -117,10 +117,10 @@
 <div class="page-header">
     <div class="row">
         <div class="col-sm-12">
-            <h3 class="page-title">@ViewBag.role Attendance Count</h3>
+            <h3 class="page-title">@ViewBag.role Comptage Présence</h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
-                <li class="breadcrumb-item active">@ViewBag.role Attendance Count</li>
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Tableau de Bord</a></li>
+                <li class="breadcrumb-item active">@ViewBag.role Comptage Présence</li>
             </ul>
         </div>
     </div>
@@ -130,14 +130,14 @@
 <table id="example3" class="table table-striped custom-table leave-employee-table mb-0">
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Total Days</th>
-        <th>Sundays</th>
-        <th>Saturdays</th>
-        <th> Gazetted Holidays</th>
-        <th>Company Holidays</th>
-        <th>Total Working Days</th>
-        <th>Present Days</th>
+        <th>Nom</th>
+        <th>Total Jours</th>
+        <th>Dimanches</th>
+        <th>Samedis</th>
+        <th>Jours Fériés Nationaux</th>
+        <th>Congés Entreprise</th>
+        <th>Jours Ouvrables</th>
+        <th>Jours Présents</th>
         <!-- Add other table headers here -->
     </tr>
     </thead>

@@ -1,7 +1,7 @@
 @model List<supmtigroupe.Models.hrms.empAttendViewModel>
 
 @{
-	ViewData["Title"] = "View Subordinate Attendance";
+	ViewData["Title"] = "Voir Présence Subordonnés";
 	ViewData["active"] = "VSA";
 	var empRawAtts = ViewBag.empRawAtt as List<Tuple<DateTime, string>>;
 }
@@ -10,10 +10,10 @@
 <div class="page-header">
 	<div class="row">
 		<div class="col-sm-12">
-			<h3 class="page-title">Subordinate Attendance</h3>
+			<h3 class="page-title">Présence Subordonnés</h3>
 			<ul class="breadcrumb">
-				<li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Dashboard</a></li>
-				<li class="breadcrumb-item active">Subordinate Attendance</li>
+				<li class="breadcrumb-item"><a asp-controller="Home" asp-action="EmpIndex">Tableau de Bord</a></li>
+				<li class="breadcrumb-item active">Présence Subordonnés</li>
 			</ul>
 		</div>
 	</div>
@@ -28,13 +28,13 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Employee</th>
+						<th>Employé</th>
 						<th>Date </th>
-						<th>Day</th>
-						<th>Time Correction</th>
-						<th>Punch In</th>
-						<th>Punch Out</th>
-						<th>Production</th>
+						<th>Jour</th>
+						<th>Correction Horaire</th>
+						<th>Entrée</th>
+						<th>Sortie</th>
+						<th>Heures Réelles</th>
 					</tr>
 				</thead>
 				<tbody>

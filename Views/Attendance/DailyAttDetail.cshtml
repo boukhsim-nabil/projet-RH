@@ -1,6 +1,6 @@
 @model List<supmtigroupe.Models.hrms.tempMonthAttModel>
 @{
-    ViewData["Title"] = "Daily Attendance";
+    ViewData["Title"] = "Présence Journalière";
     ViewData["active"] = "DATT";
 }
 
@@ -9,10 +9,10 @@
 <div class="page-header">
     <div class="row">
         <div class="col-sm-12">
-            <h3 class="page-title">Daily Attendance </h3>
+            <h3 class="page-title">Présence Journalière </h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active">Daily Attendance </li>
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Tableau de Bord</a></li>
+                <li class="breadcrumb-item active">Présence Journalière </li>
             </ul>
         </div>
     </div>
@@ -24,14 +24,14 @@
             <table id="example4" class="table table-striped custom-table leave-employee-table mb-0">
                 <thead>
                     <tr>
-                        <th>Sr#</th>
-                        <th>Department</th>
-                        <th>Employee</th>
-                        <th>Check In</th>
-                        <th>Late</th>
+                        <th>N°</th>
+                        <th>Département</th>
+                        <th>Employé</th>
+                        <th>Entrée</th>
+                        <th>Retard</th>
                         <th>Absent</th>
-                        <th>Present</th>
-                        <th>Leave</th>
+                        <th>Présent</th>
+                        <th>Congé</th>
                         <!-- Add other table headers here -->
                     </tr>
                 </thead>
