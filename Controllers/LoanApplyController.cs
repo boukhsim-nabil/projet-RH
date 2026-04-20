@@ -146,7 +146,7 @@ namespace supmtigroupe.Controllers
 
             List<Tuple<string, string, int?>> emps = _userManager.Users
 .AsEnumerable() // Fetch users into memory
-.Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "Admin").Result)
+.Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "admin").Result)
 && u.status == "Active")
 .Select(c => Tuple.Create(c.name, c.Id, c.companyId))
 .OrderBy(c => c.Item1)

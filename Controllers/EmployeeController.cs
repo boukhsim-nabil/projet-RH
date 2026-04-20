@@ -94,7 +94,8 @@ namespace supmtigroupe.Controllers
            
             var emp = _userManager.Users.Include(c => c.empDocs).Where(c => c.Id == id).FirstOrDefault();
             var currentRoles = await _userManager.GetRolesAsync(emp);
-            var role = await _manager.FindByNameAsync(currentRoles.FirstOrDefault());
+            var currentRoleName = currentRoles.FirstOrDefault();
+            var role = currentRoleName != null ? await _manager.FindByNameAsync(currentRoleName) : null;
             if (id != null)
             {
                 var empedit = new EmployeeViewModel
@@ -126,7 +127,7 @@ namespace supmtigroupe.Controllers
                     shiftId = emp.shiftId,
                     profile = emp.profile_pic,
                     attend_type = emp.attend_type,
-                    roleId = role.Id,
+                    roleId = role?.Id,
                     empDocs = emp.empDocs.ToList(),
                     machineId = emp.machineId,
             };
@@ -189,8 +190,14 @@ namespace supmtigroupe.Controllers
             await _userManager.RemoveFromRolesAsync(user, currentRoles);
 
             // Step 3: Add the user to the new role.
-            var role = await _manager.FindByIdAsync(EmpModel.roleId);
-            await _userManager.AddToRoleAsync(user, role.Name);
+            if (!string.IsNullOrEmpty(EmpModel.roleId))
+            {
+                var role = await _manager.FindByIdAsync(EmpModel.roleId);
+                if (role != null)
+                {
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                }
+            }
 
          //   await _userManager.ChangePasswordAsync(user, currentPassword, EmpModel.Password);
 

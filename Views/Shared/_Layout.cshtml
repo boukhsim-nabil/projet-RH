@@ -695,16 +695,6 @@
 								}
 							</ul>
 						</li>
-						@if (userRoles.Contains("notHR") || userRoles.Contains("notadmin"))
-						{
-							<li class="submenu">
-								<a href="#"><i class="la la-cube"></i> <span> Apps</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="chat.html">Chat</a></li>
-									<li><a href="events.html">Calendar</a></li>
-								</ul>
-							</li>
-						}
 						@if (userRoles.Contains("Employee") || userRoles.Contains("admin"))
 						{
 							<li class="menu-title">

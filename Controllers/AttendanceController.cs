@@ -70,13 +70,13 @@ namespace supmtigroupe.Controllers
 
                 /*	List<Tuple<string, string, int?>> emps = _userManager.Users
     .AsEnumerable() // Fetch users into memory
-    .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "Admin").Result)
+    .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "admin").Result)
     && u.status == "Active")
     .Select(c => Tuple.Create(c.name, c.Id, c.companyId))
     .OrderBy(c => c.Item1)
     .ToList();*/
                 var hrAndAdminRoleIds = _context.Roles
-                 .Where(r => r.Name == "HR" || r.Name == "Admin")
+                 .Where(r => r.Name == "HR" || r.Name == "admin")
                  .Select(r => r.Id)
                  .ToList();
 
@@ -128,14 +128,14 @@ namespace supmtigroupe.Controllers
 
                 /*	List<Tuple<string, string, int?>> emps = _userManager.Users
              .AsEnumerable() // Fetch users into memory
-             .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "Admin").Result)
+             .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "admin").Result)
              && u.status == "Active")
              .Select(c => Tuple.Create(c.name, c.Id, c.companyId))
              .OrderBy(c => c.Item1)
              .ToList();
                 */
                 var hrAndAdminRoleIds = _context.Roles
-                 .Where(r => r.Name == "HR" || r.Name == "Admin")
+                 .Where(r => r.Name == "HR" || r.Name == "admin")
                  .Select(r => r.Id)
                  .ToList();
 
@@ -164,14 +164,14 @@ namespace supmtigroupe.Controllers
 
                 /*List<Tuple<string, string, int?>> emps = _userManager.Users
          .AsEnumerable() // Fetch users into memory
-         .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "Admin").Result)
+         .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "admin").Result)
          && u.status == "Active")
          .Select(c => Tuple.Create(c.name, c.Id, c.companyId))
          .OrderBy(c => c.Item1)
          .ToList();
 				*/
                 var hrAndAdminRoleIds = _context.Roles
-             .Where(r => r.Name == "HR" || r.Name == "Admin")
+             .Where(r => r.Name == "HR" || r.Name == "admin")
              .Select(r => r.Id)
              .ToList();
 
@@ -228,14 +228,14 @@ namespace supmtigroupe.Controllers
                 //.ToList();
                 /*	List<Tuple<string, string, int?>> emps = _userManager.Users
             .AsEnumerable() // Fetch users into memory
-            .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "Admin").Result)
+            .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "admin").Result)
             && u.status == "Active" && u.Id == user.Id)
             .Select(c => Tuple.Create(c.name, c.Id, c.companyId))
             .OrderBy(c => c.Item1)
             .ToList();
                 */
                 var hrAndAdminRoleIds = _context.Roles
-                 .Where(r => r.Name == "HR" || r.Name == "Admin")
+                 .Where(r => r.Name == "HR" || r.Name == "admin")
                  .Select(r => r.Id)
                  .ToList();
 
@@ -266,14 +266,14 @@ namespace supmtigroupe.Controllers
                 //.ToList();
                 /*	List<Tuple<string, string, int?>> emps = _userManager.Users
             .AsEnumerable() // Fetch users into memory
-            .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "Admin").Result)
+            .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "admin").Result)
             && u.status == "Active")
             .Select(c => Tuple.Create(c.name, c.Id, c.companyId))
             .OrderBy(c => c.Item1)
             .ToList();
                 */
                 var hrAndAdminRoleIds = _context.Roles
-                 .Where(r => r.Name == "HR" || r.Name == "Admin")
+                 .Where(r => r.Name == "HR" || r.Name == "admin")
                  .Select(r => r.Id)
                  .ToList();
 
@@ -305,14 +305,14 @@ namespace supmtigroupe.Controllers
                 //.ToList();
                 /*	List<Tuple<string, string, int?>> emps = _userManager.Users
             .AsEnumerable() // Fetch users into memory
-            .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "Admin").Result)
+            .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "admin").Result)
             && u.status == "Active" && u.departId == user.departId )
             .Select(c => Tuple.Create(c.name, c.Id, c.companyId))
             .OrderBy(c => c.Item1)
             .ToList();
                 */
                 var hrAndAdminRoleIds = _context.Roles
-                 .Where(r => r.Name == "HR" || r.Name == "Admin")
+                 .Where(r => r.Name == "HR" || r.Name == "admin")
                  .Select(r => r.Id)
                  .ToList();
 
@@ -377,14 +377,14 @@ namespace supmtigroupe.Controllers
 
                 /*	List<Tuple<string, string, int?>> emps = _userManager.Users
              .AsEnumerable() // Fetch users into memory
-             .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "Admin").Result)
+             .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "admin").Result)
              && u.status == "Active")
              .Select(c => Tuple.Create(c.name, c.Id, c.companyId))
              .OrderBy(c => c.Item1)
              .ToList();
                 */
                 var hrAndAdminRoleIds = _context.Roles
-                 .Where(r => r.Name == "HR" || r.Name == "Admin")
+                 .Where(r => r.Name == "HR" || r.Name == "admin")
                  .Select(r => r.Id)
                  .ToList();
 

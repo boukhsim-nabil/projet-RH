@@ -78,7 +78,7 @@ builder.Services.AddScoped<ITimeService, TimeService>();
 
 var app = builder.Build();
 
-// -- Création automatique du compte Admin ------------------
+// -- Crï¿½ation automatique du compte Admin ------------------
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -86,10 +86,22 @@ using (var scope = app.Services.CreateScope())
 
     string adminEmail = "admin@hrm.com";
     string adminPassword = "Admin@123";
-    string adminRole = "Admin";
+    string adminRole = "admin";
 
-    if (!await roleManager.RoleExistsAsync(adminRole))
-        await roleManager.CreateAsync(new IdentityRole(adminRole));
+    // Rename existing "Admin" (capital A) to "admin" (lowercase) for consistency
+    var existingAdminRole = await roleManager.FindByNameAsync("admin");
+    if (existingAdminRole != null && existingAdminRole.Name != "admin")
+    {
+        existingAdminRole.Name = "admin";
+        existingAdminRole.NormalizedName = "ADMIN";
+        await roleManager.UpdateAsync(existingAdminRole);
+    }
+
+    foreach (var roleName in new[] { adminRole, "HR", "HOD", "Employee", "Viewer" })
+    {
+        if (!await roleManager.RoleExistsAsync(roleName))
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+    }
 
     var existingUser = await userManager.FindByEmailAsync(adminEmail);
     if (existingUser == null)

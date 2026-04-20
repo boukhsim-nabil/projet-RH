@@ -220,20 +220,20 @@ namespace supmtigroupe.Areas.Identity.Pages.Account
                 user.designationId = Input.designationId;
                 user.shiftId = Input.shiftId;
 
-               if (Input.roleId != null)
-                {
-                    var role = await _manager.FindByIdAsync(Input.roleId);
-                    await _userManager.AddToRoleAsync(user, role.Name);
-                }
-                
-              
-
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
+                    if (Input.roleId != null)
+                    {
+                        var role = await _manager.FindByIdAsync(Input.roleId);
+                        if (role != null)
+                        {
+                            await _userManager.AddToRoleAsync(user, role.Name);
+                        }
+                    }
                     string uniqueFileName2 = null;
                     if (Input.filepath != null && Input.filepath.Count > 0)
                     {

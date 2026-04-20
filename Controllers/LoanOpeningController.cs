@@ -41,7 +41,7 @@ namespace supmtigroupe.Controllers
                 .ToList();
             */
             var hrAndAdminRoleIds = _context.Roles
-                 .Where(r => r.Name == "HR" || r.Name == "Admin")
+                 .Where(r => r.Name == "HR" || r.Name == "admin")
                  .Select(r => r.Id)
                  .ToList();
 

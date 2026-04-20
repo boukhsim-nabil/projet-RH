@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("itgsgroup")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+093fa22bfdb0f1d0f2aa92ccab86193110692e1d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5e3252419405df972d80b289ddd20a0003d9057c")]
 [assembly: System.Reflection.AssemblyProductAttribute("itgsgroup")]
 [assembly: System.Reflection.AssemblyTitleAttribute("itgsgroup")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
