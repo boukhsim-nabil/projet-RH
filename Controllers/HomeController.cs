@@ -140,6 +140,44 @@ namespace supmtigroupe.Controllers
 
 			DateTime currentDateTime = _timeService.GetCurrentTimeInPakistan();
 			var emp_Attend = _context.empAttendViewModels.FromSqlRaw("EXEC emp_attend @empId = '" + empId + "'").ToList();
+
+			// Fallback : si tempMonthAtts n'a pas encore été peuplé pour le mois courant,
+			// calculer les présences directement depuis rawattendances (toujours à jour).
+			if (!emp_Attend.Any(c => c.date.Month == currentDateTime.Month && c.date.Year == currentDateTime.Year))
+			{
+				var rawAtt = _context.rawattendances
+					.Where(r => r.empId == empId
+							 && r.att_datetime.Month == currentDateTime.Month
+							 && r.att_datetime.Year == currentDateTime.Year)
+					.OrderBy(r => r.att_datetime)
+					.ToList();
+
+				if (rawAtt.Any())
+				{
+					emp_Attend = rawAtt
+						.GroupBy(r => r.att_datetime.Date)
+						.Select(g =>
+						{
+							var checkins  = g.Where(r => r.AttState == "4").ToList();
+							var checkouts = g.Where(r => r.AttState == "5").ToList();
+							var checkin   = checkins.Any()  ? checkins.Min(r => r.att_datetime).TimeOfDay  : TimeSpan.Zero;
+							var checkout  = checkouts.Any() ? checkouts.Max(r => r.att_datetime).TimeOfDay : TimeSpan.Zero;
+							var actual    = checkin != TimeSpan.Zero && checkout != TimeSpan.Zero
+											? checkout - checkin : TimeSpan.Zero;
+							return new empAttendViewModel
+							{
+								date       = g.Key,
+								Day        = g.Key.DayOfWeek.ToString(),
+								Checkin    = checkin,
+								Checkout   = checkout,
+								actualhour = actual,
+								empId      = empId
+							};
+						})
+						.ToList();
+				}
+			}
+
 			TimeSpan todayin = emp_Attend.Where(c => c.date == currentDateTime.Date).Select(c => c.Checkin).FirstOrDefault();
 			TimeSpan todayout = emp_Attend.Where(c => c.date == currentDateTime.Date).Select(c => c.Checkout).FirstOrDefault();
 			int todayintValue = 0;

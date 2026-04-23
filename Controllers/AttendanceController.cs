@@ -43,70 +43,83 @@ namespace supmtigroupe.Controllers
             ViewBag.role = role;
             var employeeId = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(employeeId);
-            if (empId == "undefined") {
+            var userRoles = await _userManager.GetRolesAsync(user);
+            ViewBag.userRole = userRoles.FirstOrDefault();
+
+            if (empId == "undefined")
 				empId = "";
-				
-			}
 
-            var reconciliation = _context.ReconciliationViewModels.FromSqlRaw("EXEC Reconciliation @Fromdate = '"+ Fromdate+"',@Todate = '"+Todate+ "',@empId = '"+empId+"',@companyId = '"+companyId+"'").ToList();
-
-            foreach (var item in reconciliation)
-            {
-                _context.Entry(item)
-                    .Reference(c => c.emp) // Assuming emp is a reference (single navigation property)
-                    .Load();
-            } 
-			
-			var userRoles = await _userManager.GetRolesAsync(user);
-			ViewBag.userRole = userRoles.FirstOrDefault();
-
-
+            // Peupler les dropdowns avant tout appel SP pour qu'ils s'affichent même en cas d'erreur
             if ((userRoles.FirstOrDefault() == "HR" || userRoles.FirstOrDefault() == "admin" || userRoles.FirstOrDefault() == "Viewer") && role == "HR")
-			{
-                List<Tuple<string, int>> companys = _context.companies
-				.Select(c => Tuple.Create(c.name, c.Id))
-				.ToList();
-                ViewBag.Companys = companys;
+            {
+                // ViewBag.companys (minuscule) pour correspondre à la vue : var companys = ViewBag.companys
+                ViewBag.companys = _context.companies
+                    .Select(c => Tuple.Create(c.name, c.Id))
+                    .ToList();
 
-                /*	List<Tuple<string, string, int?>> emps = _userManager.Users
-    .AsEnumerable() // Fetch users into memory
-    .Where(u => !(_userManager.IsInRoleAsync(u, "HR").Result || _userManager.IsInRoleAsync(u, "admin").Result)
-    && u.status == "Active")
-    .Select(c => Tuple.Create(c.name, c.Id, c.companyId))
-    .OrderBy(c => c.Item1)
-    .ToList();*/
                 var hrAndAdminRoleIds = _context.Roles
-                 .Where(r => r.Name == "HR" || r.Name == "admin")
-                 .Select(r => r.Id)
-                 .ToList();
-
-                // Fetch user IDs associated with those roles
+                    .Where(r => r.Name == "HR" || r.Name == "admin")
+                    .Select(r => r.Id)
+                    .ToList();
                 var hrAndAdminUserIds = _context.UserRoles
                     .Where(ur => hrAndAdminRoleIds.Contains(ur.RoleId))
                     .Select(ur => ur.UserId)
                     .ToList();
-
-                // Filter users who are NOT in "HR" or "Admin" and are "Active"
-                var emps = _context.Users
+                ViewBag.emps = _context.Users
                     .Where(u => !hrAndAdminUserIds.Contains(u.Id) && u.status == "Active")
                     .OrderBy(u => u.name)
                     .Select(u => Tuple.Create(u.name, u.Id, u.companyId))
                     .ToList();
+            }
 
-                ViewBag.emps = emps;
-                return View(reconciliation.OrderBy(c => c.emp.companyId).ThenBy(c => c.emp.departId).ThenBy(c => c.emp.joining_date).ToList());
-			}
+            // Guard : ne pas appeler la SP si les dates ne sont pas fournies (chargement initial)
+            if (string.IsNullOrEmpty(Fromdate) || string.IsNullOrEmpty(Todate))
+                return View(new List<ReconciliationViewModel>());
+
+            List<ReconciliationViewModel> reconciliation;
+            try
+            {
+                reconciliation = _context.ReconciliationViewModels
+                    .FromSqlRaw("EXEC Reconciliation @Fromdate = '" + Fromdate + "',@Todate = '" + Todate + "',@empId = '" + empId + "',@companyId = '" + companyId + "'")
+                    .ToList();
+
+                foreach (var item in reconciliation)
+                {
+                    _context.Entry(item)
+                        .Reference(c => c.emp)
+                        .Load();
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ReconciliationError"] = "Erreur lors de la réconciliation : " + ex.Message;
+                return View(new List<ReconciliationViewModel>());
+            }
+
+            if ((userRoles.FirstOrDefault() == "HR" || userRoles.FirstOrDefault() == "admin" || userRoles.FirstOrDefault() == "Viewer") && role == "HR")
+            {
+                return View(reconciliation
+                    .OrderBy(c => c.emp.companyId).ThenBy(c => c.emp.departId).ThenBy(c => c.emp.joining_date)
+                    .ToList());
+            }
             else if ((userRoles.FirstOrDefault() == "HOD" || userRoles.FirstOrDefault() == "admin") && role == "HOD")
             {
-                return View(reconciliation.Where(c => c.emp.departId == user.departId && c.empId != user.Id 
-				).OrderBy(c => c.emp.companyId).ThenBy(c => c.emp.departId).ThenBy(c => c.emp.joining_date).ToList());
+                // Guard null departId : évite le piège NULL == NULL en SQL qui remonte de mauvais enregistrements
+                if (user.departId == null)
+                    return View(new List<ReconciliationViewModel>());
+
+                return View(reconciliation
+                    .Where(c => c.emp.departId == user.departId && c.empId != user.Id)
+                    .OrderBy(c => c.emp.companyId).ThenBy(c => c.emp.departId).ThenBy(c => c.emp.joining_date)
+                    .ToList());
             }
             else
-			{
-				return View(reconciliation.Where(c => c.empId == employeeId)
-                    .OrderBy(c => c.emp.companyId).ThenBy(c => c.emp.departId).ThenBy(c => c.emp.joining_date).ToList());
-			}
-
+            {
+                return View(reconciliation
+                    .Where(c => c.empId == employeeId)
+                    .OrderBy(c => c.emp.companyId).ThenBy(c => c.emp.departId).ThenBy(c => c.emp.joining_date)
+                    .ToList());
+            }
 		}
 		[Authorize(Roles = "admin,HR,Viewer")]
 		public IActionResult DetailAtt(string Fromdate,string Todate,string empId,int companyId)
@@ -439,8 +452,46 @@ namespace supmtigroupe.Controllers
 			
 			DateTime currentDateTime = _timeService.GetCurrentTimeInPakistan();
 			var emp_Attend = _context.empAttendViewModels.FromSqlRaw("EXEC emp_attend @empId = '" + empId + "'").ToList();
+
+			// Fallback : si tempMonthAtts n'a pas encore été peuplé pour le mois courant (réconciliation
+			// pas encore exécutée), on calcule les présences directement depuis rawattendances.
+			if (!emp_Attend.Any(c => c.date.Month == currentDateTime.Month && c.date.Year == currentDateTime.Year))
+			{
+				var rawAtt = _context.rawattendances
+					.Where(r => r.empId == empId
+							 && r.att_datetime.Month == currentDateTime.Month
+							 && r.att_datetime.Year == currentDateTime.Year)
+					.OrderBy(r => r.att_datetime)
+					.ToList();
+
+				if (rawAtt.Any())
+				{
+					emp_Attend = rawAtt
+						.GroupBy(r => r.att_datetime.Date)
+						.Select(g =>
+						{
+							var checkins  = g.Where(r => r.AttState == "4").ToList();
+							var checkouts = g.Where(r => r.AttState == "5").ToList();
+							var checkin   = checkins.Any()  ? checkins.Min(r => r.att_datetime).TimeOfDay  : TimeSpan.Zero;
+							var checkout  = checkouts.Any() ? checkouts.Max(r => r.att_datetime).TimeOfDay : TimeSpan.Zero;
+							var actual    = checkin != TimeSpan.Zero && checkout != TimeSpan.Zero
+											? checkout - checkin : TimeSpan.Zero;
+							return new empAttendViewModel
+							{
+								date       = g.Key,
+								Day        = g.Key.DayOfWeek.ToString(),
+								Checkin    = checkin,
+								Checkout   = checkout,
+								actualhour = actual,
+								empId      = empId
+							};
+						})
+						.ToList();
+				}
+			}
+
 			TimeSpan todayin = emp_Attend.Where(c => c.date == currentDateTime.Date).Select(c => c.Checkin).FirstOrDefault();
-			TimeSpan todayout = emp_Attend.Where(c => c.date == currentDateTime.Date).Select(c => c.Checkout).FirstOrDefault();			
+			TimeSpan todayout = emp_Attend.Where(c => c.date == currentDateTime.Date).Select(c => c.Checkout).FirstOrDefault();
 			int todayintValue = 0;
 			TimeSpan todaytime = TimeSpan.Zero;
 			if (todayin != TimeSpan.Zero && todayout != TimeSpan.Zero) 

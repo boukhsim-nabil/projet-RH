@@ -550,6 +550,182 @@ builder.Services.AddTransient<IMonService, MonService>();
 
 ---
 
+## 🐛 Pépites Techniques — 4 Bugs Résolus en Conditions Réelles
+
+> Ces correctifs sont issus de la phase de débogage du projet. Chacun illustre un piège concret rencontré en développement professionnel C# / ASP.NET Core.
+
+---
+
+### Pépite 1 — Le piège du NULL en SQL via EF Core
+
+**📍 Fichier :** `Controllers/LeaveRequestController.cs` · `Controllers/AttendanceController.cs`
+
+**🔍 Symptôme :** Le HOD voyait les demandes de congés des Admins au lieu de celles des Employés de son département.
+
+**💻 Cause — la comparaison nullable en LINQ :**
+```csharp
+// EF Core traduit cette condition en SQL :
+.Where(c => c.emp.departId == user.departId)
+
+// Si user.departId est NULL (HOD non assigné à un département) :
+// → SQL généré : WHERE emp.departId IS NULL
+// → Correspond aux Admins (aussi sans département) ✅
+// → Ne correspond PAS aux Employés (qui ont un vrai departId) ❌
+```
+
+**✅ Correctif — Guard Clause avant la requête :**
+```csharp
+// On coupe court si le HOD n'a pas de département : résultat vide, pas de pollution
+if (user.departId == null)
+    return View(new List<ReconciliationViewModel>());
+
+// La requête ne s'exécute que si departId est garanti non-null
+return View(reconciliation
+    .Where(c => c.emp.departId == user.departId && c.empId != user.Id)
+    .ToList());
+```
+
+**🎙️ Discours jury :**
+> "C'est un piège classique des langages qui mappent C# vers SQL. En C#, `null == null` est `true`. En SQL, `NULL = NULL` est `false` — on doit utiliser `IS NULL`. EF Core traduit fidèlement cette sémantique SQL, ce qui peut produire des résultats inattendus quand on compare deux valeurs nullables. La solution est un **Guard Clause** : on vérifie la nullité en C# avant même de construire la requête."
+
+---
+
+### Pépite 2 — Le filtre de date silencieux dans l'API Biométrique
+
+**📍 Fichier :** `Controllers/ReceiveDataController.cs` · ligne 37
+
+**🔍 Symptôme :** Impossible d'importer des données de pointage historiques (Février, Mars 2026) via Postman — l'API répondait `200 OK` mais n'insérait rien en base.
+
+**💻 Cause — filtre caché qui rejette toute donnée passée :**
+```csharp
+// Code original : filtre silencieux sur la date du jour
+var attendanceData = lstMachineInfo
+    .Where(c => c.DateOnlyRecord.Date == DateTime.Now.Date); // ← bloque tout l'historique
+
+// Si on envoie des données du 2026-02-03 le 2026-04-21 :
+// DateTime.Now.Date = 2026-04-21
+// DateOnlyRecord    = 2026-02-03
+// → condition false → record ignoré → 0 insertion → 200 OK quand même
+```
+
+**✅ Correctif — suppression du filtre, traitement de tous les enregistrements :**
+```csharp
+// La machine biométrique est responsable de ce qu'elle envoie
+var attendanceData = lstMachineInfo; // tous les records traités
+```
+
+**🎙️ Discours jury :**
+> "Ce bug est particulièrement vicieux car le retour HTTP était `200 OK` dans tous les cas — le `catch` avalait l'information. En réalité, le `Where` agissait comme un filtre invisible : 100% des données historiques étaient silencieusement écartées avant même d'atteindre la base. L'API répondait 'succès' pour un travail qu'elle n'avait pas fait. C'est un exemple de **faux positif** qui ne se détecte qu'en inspectant la table directement."
+
+---
+
+### Pépite 3 — Le crash silencieux de la Réconciliation
+
+**📍 Fichier :** `Controllers/AttendanceController.cs` · méthode `Reconciliation`  
+**📍 Fichier :** `Views/Attendance/Reconciliation.cshtml`
+
+**🔍 Symptôme :** La page plantait au premier chargement (avant toute sélection de date), et le filtre restait bloqué sur "undefined" pour les rôles HOD.
+
+**💻 Causes combinées — 3 bugs en cascade :**
+```csharp
+// BUG 1 — Appel inconditionnel à la SP avec des dates vides
+// (le SP reçoit '' → erreur SQL silencieuse → liste vide)
+var reconciliation = _context.ReconciliationViewModels
+    .FromSqlRaw("EXEC Reconciliation @Fromdate = '" + Fromdate + "' ...")
+    .ToList(); // ← exécuté même si Fromdate est null
+
+// BUG 2 — Aucun try/catch : toute erreur SQL plante la vue entière
+
+// BUG 3 — JavaScript : variables non initialisées pour les rôles sans dropdown
+var companyIdvalue; // → undefined si le dropdown n'existe pas dans le DOM
+var url = '...&companyId=' + companyIdvalue; // → URL: &companyId=undefined
+```
+
+**✅ Correctif — Guard, try/catch, et initialisation JS :**
+```csharp
+// Guard : ne pas appeler le SP sans dates
+if (string.IsNullOrEmpty(Fromdate) || string.IsNullOrEmpty(Todate))
+    return View(new List<ReconciliationViewModel>());
+
+// try/catch : capturer et afficher l'erreur SQL
+try { reconciliation = _context.ReconciliationViewModels.FromSqlRaw(...).ToList(); }
+catch (Exception ex)
+{
+    TempData["ReconciliationError"] = "Erreur : " + ex.Message;
+    return View(new List<ReconciliationViewModel>());
+}
+```
+```javascript
+// JS : initialisation défensive avant les conditionnels
+var companyIdvalue = '';  // valeur par défaut sûre
+var empIdvalue = '';
+if (document.getElementsByClassName("companyId").length > 0)
+    companyIdvalue = document.getElementsByClassName("companyId")[0].value;
+```
+
+**🎙️ Discours jury :**
+> "Ce bug illustre l'importance de la **défense en profondeur** : trois failles indépendantes se combinaient pour rendre la page inutilisable. Le Guard Clause sur les dates préserve l'idempotence du chargement initial. Le try/catch transforme un crash silencieux en message d'erreur exploitable. L'initialisation JavaScript à `''` évite que `undefined` contamine l'URL et perturbe le parsing côté serveur."
+
+---
+
+### Pépite 4 — Le Fallback Architectural (Dashboard Employé)
+
+**📍 Fichier :** `Controllers/AttendanceController.cs` · `Controllers/HomeController.cs`
+
+**🔍 Symptôme :** Le tableau de présence et les statistiques (Cette Semaine, Ce Mois) affichaient 0h même avec des pointages biométriques présents dans le système.
+
+**💻 Cause — dépendance à une table intermédiaire non peuplée :**
+```
+rawattendances (pointages bruts)
+       ↓  EXEC tempMonthlyAttendance  ← étape manuelle RH
+  tempMonthAtts (table réconciliée)
+       ↓  EXEC emp_attend
+  Statistiques + Tableau employé       ← retourne 0 si tempMonthAtts est vide
+```
+
+**✅ Correctif — Fallback en temps réel depuis la source brute :**
+```csharp
+var emp_Attend = _context.empAttendViewModels
+    .FromSqlRaw("EXEC emp_attend @empId = '" + empId + "'").ToList();
+
+// Si tempMonthAtts n'est pas encore peuplé pour ce mois,
+// calculer directement depuis rawattendances (toujours à jour)
+if (!emp_Attend.Any(c => c.date.Month == currentDateTime.Month
+                       && c.date.Year  == currentDateTime.Year))
+{
+    var rawAtt = _context.rawattendances
+        .Where(r => r.empId == empId
+                 && r.att_datetime.Month == currentDateTime.Month
+                 && r.att_datetime.Year  == currentDateTime.Year)
+        .OrderBy(r => r.att_datetime).ToList();
+
+    if (rawAtt.Any())
+    {
+        emp_Attend = rawAtt.GroupBy(r => r.att_datetime.Date)
+            .Select(g => {
+                var checkin  = g.Where(r => r.AttState == "4").Any()
+                    ? g.Where(r => r.AttState == "4").Min(r => r.att_datetime).TimeOfDay
+                    : TimeSpan.Zero;
+                var checkout = g.Where(r => r.AttState == "5").Any()
+                    ? g.Where(r => r.AttState == "5").Max(r => r.att_datetime).TimeOfDay
+                    : TimeSpan.Zero;
+                return new empAttendViewModel {
+                    date = g.Key, Day = g.Key.DayOfWeek.ToString(),
+                    Checkin = checkin, Checkout = checkout,
+                    actualhour = (checkin != TimeSpan.Zero && checkout != TimeSpan.Zero)
+                                 ? checkout - checkin : TimeSpan.Zero,
+                    empId = empId
+                };
+            }).ToList();
+    }
+}
+```
+
+**🎙️ Discours jury :**
+> "C'est un exemple de **pattern de résilience architecturale**. Le système avait une dépendance implicite : le dashboard employé ne fonctionnait que si un RH avait préalablement déclenché la réconciliation manuelle. On a remplacé cette dépendance fragile par un fallback : si la source secondaire (table réconciliée) est vide, on remonte à la source primaire (pointages bruts) et on calcule à la volée. L'employé voit toujours ses données, indépendamment du cycle RH. C'est le principe du **graceful degradation** — on dégrade élégamment vers un mode simplifié plutôt que d'échouer complètement."
+
+---
+
 ## 📋 Tableau de référence rapide
 
 | Concept | Fichier clé | Ligne | Mot-clé à mentionner |

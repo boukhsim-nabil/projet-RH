@@ -43,6 +43,13 @@
 </script>
 
 
+@if (TempData["ModelStateErrors"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Erreurs de validation :</strong> @TempData["ModelStateErrors"]
+    </div>
+}
+
 <!-- Page Header -->
 <div class="page-header">
     <div class="row align-items-center">

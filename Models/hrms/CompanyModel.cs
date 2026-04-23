@@ -16,7 +16,7 @@ namespace supmtigroupe.Models.hrms
         [Required]
         public int LocId { get; set; }
         public LocationsModel? Loc { get; set; }
-		public ICollection<ApplicationUser> AspNetUsers { get; set; }
+		public ICollection<ApplicationUser>? AspNetUsers { get; set; }
 
 
 	}

@@ -62,8 +62,23 @@ namespace supmtigroupe.Controllers
                 ViewData["LocId"] = new SelectList(_context.locations, "Id", "name", companyModel.LocId);
                 return RedirectToAction(nameof(Index));
             }
+            var errors = ModelState
+                .Where(x => x.Value?.Errors.Count > 0)
+                .Select(x => $"{x.Key}: {string.Join(", ", x.Value!.Errors.Select(e => e.ErrorMessage))}");
+            TempData["ModelStateErrors"] = string.Join(" | ", errors);
+
             ViewData["LocId"] = new SelectList(_context.locations, "Id", "name", companyModel.LocId);
-            return View(companyModel);
+            var companys = await _context.companies.Include(c => c.Loc).ToListAsync();
+            var companyview = new CompanyViewModel
+            {
+                companyModels = companys,
+                name = companyModel.name,
+                ntn = companyModel.ntn,
+                stax = companyModel.stax,
+                address = companyModel.address,
+                LocId = companyModel.LocId
+            };
+            return View(companyview);
         }
 
 
@@ -99,7 +114,18 @@ namespace supmtigroupe.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["LocId"] = new SelectList(_context.locations, "Id", "name", companyModel.LocId);
-            return View("Index",companyModel);
+            var companys = await _context.companies.Include(c => c.Loc).ToListAsync();
+            var companyview = new CompanyViewModel
+            {
+                companyModels = companys,
+                Id = companyModel.Id,
+                name = companyModel.name,
+                ntn = companyModel.ntn,
+                stax = companyModel.stax,
+                address = companyModel.address,
+                LocId = companyModel.LocId
+            };
+            return View("Index", companyview);
         }
 
 		[Authorize(Roles = "admin,HR")]

@@ -12,6 +12,13 @@
     var companys = ViewBag.companys as List<Tuple<string, int>>;
 }
 
+@if (TempData["ReconciliationError"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Erreur :</strong> @TempData["ReconciliationError"]
+    </div>
+}
+
 <!-- Add Leave Modal -->
 <div id="add_attendance_count" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -86,27 +93,25 @@
 <script>
     $(document).ready(function () {
         $('#attdetail').on('click', function () {
-            // Get the selected date from the input field
             var FromDate = $('#Fromdate').val();
             var ToDate = $('#Todate').val();
             var role = $('#role').val();
+
+            // Défaut à chaîne vide si les dropdowns n'existent pas dans le DOM (rôles HOD/Employee)
+            var companyIdvalue = '';
+            var empIdvalue = '';
+
             var companyIdWithClass = document.getElementsByClassName("companyId");
             if (companyIdWithClass.length > 0) {
-                var companyId = companyIdWithClass[0];
-                var companyIdvalue = companyId.value;
+                companyIdvalue = companyIdWithClass[0].value;
             }
 
             var empIdWithClass = document.getElementsByClassName("empId");
-
             if (empIdWithClass.length > 0) {
-                var empId = empIdWithClass[0];
-                var empIdvalue = empId.value;
+                empIdvalue = empIdWithClass[0].value;
             }
 
-            // Construct the URL with the selected date
             var url = '/Attendance/Reconciliation?Fromdate=' + FromDate + '&Todate=' + ToDate + '&empId=' + empIdvalue + '&companyId=' + companyIdvalue + '&role=' + role;
-
-            // Redirect to the controller action with the selected date
             window.location.href = url;
         });
     });

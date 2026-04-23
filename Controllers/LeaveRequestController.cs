@@ -25,24 +25,42 @@ namespace supmtigroupe.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
-            var leaveapplies = _context.leaveApplies
-                .Include(l => l.company)
-               .Include(l => l.emp)
-            .Include(l => l.leave)
-               .Where(c =>  c.status == status && c.emp.departId == user.departId 
-               && c.empId != user.Id)
-               .OrderByDescending(c => c.from)
-               .ToList();
+
+            List<LeaveApplyModel> leaveapplies;
+
             if (role == "admin")
             {
                 leaveapplies = _context.leaveApplies
-                .Include(l => l.company)
-               .Include(l => l.emp)
-            .Include(l => l.leave)
-               .Where(c => c.status == status)
-               .OrderByDescending(c => c.Id)
-               .ToList();
+                    .Include(l => l.company)
+                    .Include(l => l.emp)
+                    .Include(l => l.leave)
+                    .Where(c => c.status == status)
+                    .OrderByDescending(c => c.Id)
+                    .ToList();
             }
+            else
+            {
+                // HOD : voit uniquement les demandes de son propre département (hors ses propres demandes).
+                // Guard sur departId null : si le HOD n'a pas de département assigné, on retourne une liste vide
+                // pour éviter que la comparaison NULL == NULL en SQL remonte les utilisateurs sans département.
+                if (user.departId == null)
+                {
+                    leaveapplies = new List<LeaveApplyModel>();
+                }
+                else
+                {
+                    leaveapplies = _context.leaveApplies
+                        .Include(l => l.company)
+                        .Include(l => l.emp)
+                        .Include(l => l.leave)
+                        .Where(c => c.status == status
+                                 && c.emp.departId == user.departId
+                                 && c.empId != user.Id)
+                        .OrderByDescending(c => c.from)
+                        .ToList();
+                }
+            }
+
             var leaveapplyview = new LeaveApplyViewModel
             {
                 leaveApply = leaveapplies,

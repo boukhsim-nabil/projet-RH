@@ -34,7 +34,9 @@ namespace supmtigroupe.Controllers
         {
             try
             {
-                var attendanceData = lstMachineInfo.Where(c => c.DateOnlyRecord.Date == DateTime.Now.Date);
+                // Le filtre sur DateTime.Now.Date est supprimé : il rejetait silencieusement
+                // tous les pointages historiques, empêchant la réconciliation de fonctionner.
+                var attendanceData = lstMachineInfo;
                 if (attendanceData != null)
                 {
                     foreach (var attData in attendanceData)
